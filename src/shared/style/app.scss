@@ -1,0 +1,44 @@
+@import "global";
+
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+// #sidebar.active 表示sidebar出現
+// #sidebar 表示sidebar隱藏
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh; // vh 表viewport height
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+
+// RWD
+@media(max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+
+    #sidebar.active {
+        margin-left: 0;
+    }
+}
+
+
+// 下拉式選單
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
