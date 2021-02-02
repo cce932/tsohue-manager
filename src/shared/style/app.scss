@@ -1,44 +1,85 @@
 @import "global";
 
-.wrapper {
-    display: flex;
-    align-items: stretch;
+* {
+  @include root;
 }
 
-// #sidebar.active 表示sidebar出現
-// #sidebar 表示sidebar隱藏
-#sidebar {
+.wrapper {
+  display: flex;
+  align-items: stretch;
+
+  // #sidebar 表示sidebar出現 (<768px 相反)
+  // #sidebar.switch 表示sidebar隱藏 (<768px 相反)
+  #sidebar {
     min-width: 250px;
     max-width: 250px;
     min-height: 100vh; // vh 表viewport height
-}
+    transition: $default-trans;
+    background-color: $prime-color;
 
-#sidebar.active {
+    .sidebar-header p {
+      @include text(700, 32px, $accent-color);
+      margin: 15px 20px;
+    }
+
+    #id {
+      @include text(700, 1.3em, #ffffff);
+      padding: 10px 20px;
+      background-color: #583e20;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      padding-inline-start: 20px !important;
+      list-style: none;
+    }
+
+    a[data-toggle="collapse"] {
+      position: relative;
+      display: block;
+
+      // 下拉小箭頭
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-left: 0.3em solid transparent;
+      }
+    }
+
+    // 下拉式選單
+    ul > li {
+      a { // 標題
+        @include text(500, 1.3em, $accent-color);
+      }
+
+      ul > li > a { // 細向
+        @include text(500, 1.1em, #ffffff);
+        display: block;
+        cursor: pointer;
+        padding: 8px 0;
+      }
+    }
+  }
+
+  // 是id=sidebar 且 class=switch
+  #sidebar.switch {
     margin-left: -250px;
-}
+  }
 
-
-// RWD
-@media(max-width: 768px) {
+  // RWD 預設是關閉
+  @media (max-width: 768px) {
     #sidebar {
-        margin-left: -250px;
+      margin-left: -250px;
     }
 
     #sidebar.active {
-        margin-left: 0;
+      margin-left: 0;
     }
-}
-
-
-// 下拉式選單
-a[data-toggle="collapse"] {
-    position: relative;
-}
-
-.dropdown-toggle::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
+  }
 }

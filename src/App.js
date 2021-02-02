@@ -20,22 +20,26 @@ const App = () => {
       <div className="wrapper">
         <nav id="sidebar">
           <div className="sidebar-header">
-            <h3>Tsohue Manager</h3>
+            <p>Tsohue Manager</p>
           </div>
 
-          <ul className="list-unstyled components">
-            <p>Dummy Heading</p>
-
-            <li className="active">
+          {currentUser ? (
+            <p id="id">Hello, {currentUser.username}</p>
+          ) : (
+            <button className="btn">登入</button>
+          )}
+          
+          <ul className={`list-unstyled components`}>
+            <li className="on-screen">
               <a
-                herf="#"
+                herf="#user-submenu"
                 data-toggle="collapse"
                 aria-expanded="false"
                 className="dropdown-toggle"
               >
                 使用者管理
               </a>
-              <ul className="collapse list-unstyled" id="userSubmenu">
+              <ul className="collapse list-unstyled" id="user-submenu">
                 <li>
                   <Link to={"/member-manager"}>會員管理</Link>
                   {/* 會員清單(基本資料 購買記錄) 會員查詢 會員新增(基本資料 角色權限) 會員刪除 會員編輯 */}
@@ -49,7 +53,7 @@ const App = () => {
 
             <li>
               <a
-                herf="#"
+                herf="#ingredients-submenu"
                 data-toggle="collapse"
                 aria-expanded="false"
                 className="dropdown-toggle"
