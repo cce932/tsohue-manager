@@ -6,26 +6,36 @@
 
 .wrapper {
   display: flex;
-  align-items: stretch;
 
   // #sidebar 表示sidebar出現 (<768px 相反)
-  // #sidebar.switch 表示sidebar隱藏 (<768px 相反)
-  #sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    min-height: 100vh; // vh 表viewport height
+  // #sidebar.switcher 表示sidebar隱藏 (<768px 相反)
+  .mCustomScrollbar {
+    width: 250px;
+    height: 100vh; // vh 表viewport height
     transition: $default-trans;
-    background-color: $prime-color;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 20px rgba(70, 70, 70, 0.15);
+  }
 
-    .sidebar-header p {
-      @include text(700, 32px, $accent-color);
-      margin: 15px 20px;
+  #sidebar {
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      height: 90px;
+
+      img {
+        max-width: 60px;
+        margin: 15px;
+      }
+      div {
+        @include text(900, 20px, $accent-color);
+        line-height: 1.3;
+      }
     }
 
     #id {
-      @include text(700, 1.3em, #ffffff);
+      @include text(400, 18px, $secondary-color);
       padding: 10px 20px;
-      background-color: #583e20;
       margin-bottom: 20px;
     }
 
@@ -34,7 +44,7 @@
       list-style: none;
     }
 
-    a[data-toggle="collapse"] {
+    a[data-bs-toggle="collapse"] {
       position: relative;
       display: block;
 
@@ -54,12 +64,17 @@
 
     // 下拉式選單
     ul > li {
-      a { // 標題
-        @include text(500, 1.3em, $accent-color);
+      .manager-title {
+        // 標題
+        @include text(400, 16px, $accent-color);
+        cursor: pointer;
+        display: block;
+        margin: 10px 0;
       }
 
-      ul > li > a { // 細向
-        @include text(500, 1.1em, #ffffff);
+      ul > li > a {
+        // 細向
+        @include text(400, 14px, $prime-color);
         display: block;
         cursor: pointer;
         padding: 8px 0;
@@ -67,8 +82,8 @@
     }
   }
 
-  // 是id=sidebar 且 class=switch
-  #sidebar.switch {
+  // 是class=mCustomScrollbar 且 class=switcher
+  .mCustomScrollbar.switcher {
     margin-left: -250px;
   }
 
@@ -82,4 +97,14 @@
       margin-left: 0;
     }
   }
+}
+
+button#sidebarCollapse {
+  background-color: $third-color;
+  border: none;
+  border-radius: 3px;
+  padding: 8px;
+  margin: 10px 0;
+  color: #ffffff;
+  cursor: pointer;
 }
