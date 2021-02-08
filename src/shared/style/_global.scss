@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&display=swap');
 
-$prime-color: #343A40;
-$secondary-color: #495057;
-$third-color: #ADB5BD;
-$forth-color: #DEE2E6;
-$accent-color: #dd6c4f;
-$accent-deeper-color: #64362b;
+$prime-color: rgb(52, 58, 64);
+$secondary-color: rgb(73, 80, 87);
+$third-color: rgb(173, 181, 189);
+$forth-color: rgb(222, 226, 230);
+$accent-color: rgb(231, 104, 69);
+$accent-lighter-color: rgb(251, 211, 101);// #dd6c4f;
+$accent-deeper-color: rgb(100, 54, 43);
 $linear: linear-gradient(90deg, $prime-color 40%, $secondary-color);
 $default-trans: all 0.3s ease 0s;
 

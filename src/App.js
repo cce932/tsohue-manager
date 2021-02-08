@@ -39,12 +39,6 @@ const App = () => {
               </div>
             </div>
 
-            {currentUser ? (
-              <p id="id">Hello, {currentUser.username}</p>
-            ) : (
-              <button className="btn">登入</button>
-            )}
-
             <ul className={`list-unstyled components`}>
               <li>
                 <a
@@ -123,6 +117,15 @@ const App = () => {
                 {/* 訂單總覽 編輯/刪除訂單 更新狀態 */}
               </li>
             </ul>
+
+            {currentUser ? (
+              <p className="identity">Hello, {currentUser.username}</p>
+            ) : (
+              <div className={`identity`}>
+                <Link to={"/login"}>登入</Link>
+                <Link to={"/register"}>註冊</Link>
+              </div>
+            )}
           </nav>
         </div>
 
@@ -133,10 +136,9 @@ const App = () => {
               <button
                 type="button"
                 id="sidebarCollapse"
-                className="btn btn-info"
                 onClick={toggleSideBar} // 如果是直接寫togglesideBar() 那就會在render時直接call 就會出現Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.
               >
-                <i className="fas fa-stream fa-lg"></i>
+                <i class="fas fa-bars"></i>
               </button>
             </div>
           </nav>
