@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Router, Link, Switch, Route } from "react-router-dom"
+import { Router, NavLink, Switch, Route } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { history } from "helpers/history"
 import { clearMessage } from "actions/message"
@@ -55,20 +55,28 @@ const App = () => {
                 </a>
                 <ul className={`collapse`} id="user-submenu">
                   <li>
-                    <Link to={"/member-manager"}>會員管理</Link>
+                    <NavLink to={"/member-manager"} activeClassName="selected">
+                      會員管理
+                    </NavLink>
                     {/* 會員清單(基本資料 購買記錄) 會員查詢 會員新增(基本資料 角色權限) 會員刪除 會員編輯 */}
                   </li>
                   <li>
-                    <Link to={"/employee-manager"}>員工管理</Link>
+                    <NavLink to={"/employee-manager"} activeClassName="selected">
+                      員工管理
+                    </NavLink>
                     {/* 員工清單(基本資料) 員工查詢 員工新增(基本資料 角色權限) 員工刪除 員工編輯 */}
                   </li>
                 </ul>
               </li>
 
               <li>
-                <Link to={"/order-manager"} className={` manager-title`}>
+                <NavLink
+                  to={"/order-manager"}
+                  className={` manager-title`}
+                  activeClassName="selected"
+                >
                   訂單管理
-                </Link>
+                </NavLink>
                 {/* 訂單總覽 編輯/刪除訂單 更新狀態 */}
               </li>
 
@@ -83,11 +91,15 @@ const App = () => {
                 </a>
                 <ul className="collapse list-unstyled" id="kitchen-submenu">
                   <li>
-                    <Link to={"/all-order"}>訂單總覽</Link>
+                    <NavLink to={"/all-order"} activeClassName="selected">
+                      訂單總覽
+                    </NavLink>
                     {/* (確認過庫存的)訂單清單/可批次列印 訂單詳細/可單筆列印(食譜 食材) */}
                   </li>
                   <li>
-                    <Link to={"/wrapper-stop"}>分裝站</Link>
+                    <NavLink to={"/wrapper-stop"} activeClassName="selected">
+                      分裝站
+                    </NavLink>
                     {/* 蔬果站 肉站 其他站 */}
                   </li>
                 </ul>
@@ -104,20 +116,31 @@ const App = () => {
                 </a>
                 <ul className="collapse list-unstyled" id="ingredients-submenu">
                   <li>
-                    <Link to={"/ingredients-stock"}>食材庫存</Link>
+                    <NavLink to={"/ingredients-stock"} activeClassName="selected">
+                      食材庫存
+                    </NavLink>
                     {/* 食材清單 食材查詢 食材詳細(食材進銷貨紀錄) 新增食材 刪除食材 */}
                   </li>
                   <li>
-                    <Link to={"/ingredients-purchase"}>進貨管理</Link>
+                    <NavLink
+                      to={"/ingredients-purchase"}
+                      activeClassName="selected"
+                    >
+                      進貨管理
+                    </NavLink>
                     {/* 進貨記錄 進貨紀錄查詢 進貨新增 刪除 */}
                   </li>
                 </ul>
               </li>
 
               <li>
-                <Link to={"/recipe-manager"} className={` manager-title`}>
+                <NavLink
+                  to={"/recipe-manager"}
+                  className={` manager-title`}
+                  activeClassName="selected"
+                >
                   食譜管理
-                </Link>
+                </NavLink>
                 {/* 食譜總覽 新增/編輯/刪除食譜 (名稱 影片網址 分類 照片 食材 編輯影片標籤)  */}
               </li>
             </ul>
@@ -126,8 +149,12 @@ const App = () => {
               <p className="identity">Hello, {currentUser.username}</p>
             ) : (
               <div className={`identity`}>
-                <Link to={"/login"}>登入</Link>
-                <Link to={"/register"}>註冊</Link>
+                <NavLink to={"/login"} activeClassName="selected">
+                  登入
+                </NavLink>
+                <NavLink to={"/register"} activeClassName="selected">
+                  註冊
+                </NavLink>
               </div>
             )}
           </nav>

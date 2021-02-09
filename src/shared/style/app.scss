@@ -38,7 +38,7 @@
       }
 
       ul.components {
-        margin-bottom: 100px; // for .identity的置底
+        margin-bottom: 30px;
       }
 
       a[data-bs-toggle="collapse"] {
@@ -67,7 +67,9 @@
           transition: $default-trans;
           cursor: pointer;
           display: block;
-          margin: 10px 0;
+          padding: 10px 20px;
+          margin-left: -20px; // selected時 全寬都有顏色
+
           &:hover {
             color: $accent-color;
           }
@@ -75,36 +77,47 @@
 
         ul > li > a {
           // 細項
-          @include text(400, 14px, $secondary-color);
+          @include text(400, 16px, $secondary-color);
           transition: $default-trans;
           display: block;
           cursor: pointer;
-          padding: 8px 0;
+          padding: 8px 40px;
+          margin-left: -40px; // selected時 全寬都有顏色
 
           &:hover {
             color: $accent-color;
           }
         }
+
+        .selected {
+          background: $linear;
+        }
       }
 
       .identity {
-        @include text(400, 14px, $secondary-color);
-        margin: 20px;
-        position: absolute;
-        bottom: 0;
+        @include text(400, 16px, $secondary-color);
+        padding: 20px;
+        width: 100%; // 讓登入、註冊按鈕 可以水平等分
+        display: flex; // 讓登入、註冊按鈕 可以水平等分
+        justify-content: space-between; // 讓登入、註冊按鈕 可以水平等分
 
         a {
-          @include text(400, 14px, $secondary-color);
+          @include text(400, 16px, $secondary-color);
           transition: $default-trans;
           border: $third-color solid 1px;
           display: inline-block;
           border-radius: 3px;
           padding: 5px 15px;
-          margin-right: 20px;
 
           &:hover {
             border: $accent-color solid 1px;
             color: $accent-color;
+          }
+
+          &.selected {
+            border: none;
+            color: #ffffff;
+            background: $accent-color;
           }
         }
       }
