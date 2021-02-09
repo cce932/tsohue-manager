@@ -1,10 +1,5 @@
 @import "global";
 
-.sub-root {
-  width: 100%;
-  height: 100vh;
-}
-
 // 至頂的標題列（不太需要 看sidebar就知道在哪頁了）
 // .header {
 //   height: 90px;
@@ -33,10 +28,10 @@
   position: relative;
 
   &::before {
-    content: "歡迎 ~";
+    content: "作伙新朋友 ~";
     @include text(900, 50px, $forth-color);
     position: absolute;
-    left: 30px;
+    left: 20px;
     top: -80px;
   }
 
@@ -63,11 +58,13 @@
       color: $third-color;
     }
   }
+  
   input ~ div {
     font-size: 14px;
     padding: 5px 0 0 7px;
     color: $accent-color;
   }
+  
   button {
     @include text(600, 16px, #ffffff);
     transition: $default-trans;

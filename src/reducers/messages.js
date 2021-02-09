@@ -7,7 +7,7 @@ const messages = (state = initialState, action) => {
 
     switch (type) {
         case SET_MESSAGE:
-            return { message: payload } // ? I guess it will save state in redux
+            return { message: payload }
         case CLEAR_MESSAGE:
             return { message: '' }
         default:

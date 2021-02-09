@@ -10,8 +10,8 @@ import CheckButton from "react-validation/build/button"
 import { isEmail, isNumeric } from "validator"
 
 import { register } from "actions/auth"
-import { history } from "helpers/history"
 import { clearMessage } from "actions/message"
+import { history } from "helpers/history"
 
 // 設定驗證
 // dispatch action
@@ -234,7 +234,7 @@ const Register = () => {
               </datalist>
               <br />
 
-              <button>{successful ? "註冊中" : "提交"}</button>
+              <button>{successful ? "註冊中" : "確定"}</button>
             </div>
           ) : (
             <Redirect to="/login" />
