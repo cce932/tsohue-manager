@@ -5,6 +5,10 @@ import { history } from "helpers/history"
 import { clearMessage } from "actions/message"
 import "shared/style/app.scss"
 
+import Home from "pages/Home"
+import Login from "pages/Login"
+import Register from "pages/Register"
+
 const App = () => {
   const { user: currentUser } = useSelector((state) => state.auth)
   const [switcher, toggleSwitcher] = useState(false)
@@ -62,24 +66,10 @@ const App = () => {
               </li>
 
               <li>
-                <a
-                  href="#ingredients-submenu"
-                  data-bs-toggle="collapse"
-                  aria-expanded="false"
-                  className={`dropdown-toggle manager-title`}
-                >
-                  食材管理
-                </a>
-                <ul className="collapse list-unstyled" id="ingredients-submenu">
-                  <li>
-                    <Link to={"/ingredients-stock"}>食材庫存</Link>
-                    {/* 食材清單 食材查詢 食材詳細(食材進銷貨紀錄) 新增食材 刪除食材 */}
-                  </li>
-                  <li>
-                    <Link to={"/ingredients-purchase"}>進貨管理</Link>
-                    {/* 進貨記錄 進貨紀錄查詢 進貨新增 刪除 */}
-                  </li>
-                </ul>
+                <Link to={"/order-manager"} className={` manager-title`}>
+                  訂單管理
+                </Link>
+                {/* 訂單總覽 編輯/刪除訂單 更新狀態 */}
               </li>
 
               <li>
@@ -104,17 +94,31 @@ const App = () => {
               </li>
 
               <li>
+                <a
+                  href="#ingredients-submenu"
+                  data-bs-toggle="collapse"
+                  aria-expanded="false"
+                  className={`dropdown-toggle manager-title`}
+                >
+                  食材管理
+                </a>
+                <ul className="collapse list-unstyled" id="ingredients-submenu">
+                  <li>
+                    <Link to={"/ingredients-stock"}>食材庫存</Link>
+                    {/* 食材清單 食材查詢 食材詳細(食材進銷貨紀錄) 新增食材 刪除食材 */}
+                  </li>
+                  <li>
+                    <Link to={"/ingredients-purchase"}>進貨管理</Link>
+                    {/* 進貨記錄 進貨紀錄查詢 進貨新增 刪除 */}
+                  </li>
+                </ul>
+              </li>
+
+              <li>
                 <Link to={"/recipe-manager"} className={` manager-title`}>
                   食譜管理
                 </Link>
                 {/* 食譜總覽 新增/編輯/刪除食譜 (名稱 影片網址 分類 照片 食材 編輯影片標籤)  */}
-              </li>
-
-              <li>
-                <Link to={"/order-manager"} className={` manager-title`}>
-                  訂單管理
-                </Link>
-                {/* 訂單總覽 編輯/刪除訂單 更新狀態 */}
               </li>
             </ul>
 
@@ -138,11 +142,16 @@ const App = () => {
                 id="sidebarCollapse"
                 onClick={toggleSideBar} // 如果是直接寫togglesideBar() 那就會在render時直接call 就會出現Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.
               >
-                <i class="fas fa-bars"></i>
+                <i className="fas fa-bars"></i>
               </button>
             </div>
           </nav>
         </div>
+        <Switch>
+          <Route exact path={["/", "/home"]} component={Home} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+        </Switch>
       </div>
     </Router>
   )
