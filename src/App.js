@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Router, NavLink, Switch, Route } from "react-router-dom"
+import { Router, Link, NavLink, Switch, Route } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { history } from "helpers/history"
 import { clearMessage } from "actions/message"
@@ -8,6 +8,7 @@ import "shared/style/app.scss"
 import Home from "pages/Home"
 import Login from "pages/Login"
 import Register from "pages/Register"
+import {logout} from "actions/auth"
 
 const App = () => {
   const { user: currentUser } = useSelector((state) => state.auth)
@@ -23,9 +24,12 @@ const App = () => {
     toggleSwitcher(!switcher)
   }
 
+  const onLogout = () => {
+    dispatch(logout())
+  }
+
   return (
     <Router history={history}>
-      <header></header>
       <div className="wrapper">
         <div
           className={
@@ -34,14 +38,14 @@ const App = () => {
           data-mcs-theme="minimal"
         >
           <nav id={`sidebar`}>
-            <div className="sidebar-header">
+            <Link to={"/"} className="sidebar-header">
               <img src="pic/logo.svg" alt="logo"></img>
               <div>
                 Tsohue
                 <br />
                 Backstage
               </div>
-            </div>
+            </Link>
 
             <ul className={`list-unstyled components`}>
               <li>
@@ -61,7 +65,10 @@ const App = () => {
                     {/* 會員清單(基本資料 購買記錄) 會員查詢 會員新增(基本資料 角色權限) 會員刪除 會員編輯 */}
                   </li>
                   <li>
-                    <NavLink to={"/employee-manager"} activeClassName="selected">
+                    <NavLink
+                      to={"/employee-manager"}
+                      activeClassName="selected"
+                    >
                       員工管理
                     </NavLink>
                     {/* 員工清單(基本資料) 員工查詢 員工新增(基本資料 角色權限) 員工刪除 員工編輯 */}
@@ -116,7 +123,10 @@ const App = () => {
                 </a>
                 <ul className="collapse list-unstyled" id="ingredients-submenu">
                   <li>
-                    <NavLink to={"/ingredients-stock"} activeClassName="selected">
+                    <NavLink
+                      to={"/ingredients-stock"}
+                      activeClassName="selected"
+                    >
                       食材庫存
                     </NavLink>
                     {/* 食材清單 食材查詢 食材詳細(食材進銷貨紀錄) 新增食材 刪除食材 */}
@@ -146,7 +156,12 @@ const App = () => {
             </ul>
 
             {currentUser ? (
-              <p className="identity">Hello, {currentUser.username}</p>
+              <div className={`identity`}>
+                <p className="identity">Hello, {currentUser.username}</p>
+                <NavLink to={"/home"} onClick={onLogout}>
+                  登出
+                </NavLink>
+              </div>
             ) : (
               <div className={`identity`}>
                 <NavLink to={"/login"} activeClassName="selected">

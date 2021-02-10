@@ -23,11 +23,13 @@
         display: flex;
         align-items: center;
         height: 90px;
+        text-decoration: none;
 
         img {
           max-width: 60px;
           margin: 15px;
         }
+        
         div {
           @include text(900, 1.5rem, $accent-color);
           line-height: 1.3;
@@ -97,11 +99,17 @@
       }
 
       .identity {
-        @include text(400, 1rem, $secondary-color);
         padding: 20px;
         width: 100%; // 讓登入、註冊按鈕 可以水平等分
         display: flex; // 讓登入、註冊按鈕 可以水平等分
         justify-content: space-between; // 讓登入、註冊按鈕 可以水平等分
+
+        p {
+          @include text(bold, 1rem, $secondary-color);
+          padding: 0;
+          width: auto;
+          margin: auto 0;
+        }
 
         a {
           @include text(400, 1rem, $secondary-color);
@@ -149,7 +157,7 @@ button#sidebarCollapse {
   transition: $default-trans;
   color: $third-color;
   border: none;
-  margin: 22px -5px 0;
+  margin-top: 25px;
   cursor: pointer;
 
   &:hover {
