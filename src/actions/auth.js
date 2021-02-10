@@ -5,7 +5,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   SET_MESSAGE,
-} from "./types"
+} from "shared/constants/types"
 import AuthService from "services/auth.service"
 
 // dispatch(action) 一定要回傳action 內容是type屬性和可省略的payload
@@ -50,7 +50,7 @@ export const register = (account, password, username, phone, email) => (
 export const login = (account, password) => (dispatch) => {
   return AuthService.login(account, password).then(
     (data) => {
-
+      
       dispatch({
         type: LOGIN_SUCCESS,
         payload: { user: data },
@@ -59,12 +59,11 @@ export const login = (account, password) => (dispatch) => {
       return Promise.resolve()
     },
     (error) => {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
+      const errMessage =
+        (error.response && error.response.data) || // data 內有 status, message, debugMessage, timestamp
+        error.message || // Request failed with status code 401
+        error.toString() // Error: Request failed with status code 401
+      const { status, message, debugMessage } = errMessage
 
       dispatch({
         type: LOGIN_FAIL,
@@ -72,7 +71,7 @@ export const login = (account, password) => (dispatch) => {
 
       dispatch({
         type: SET_MESSAGE,
-        payload: message,
+        payload: { status , message, debugMessage },
       })
 
       return Promise.reject()
