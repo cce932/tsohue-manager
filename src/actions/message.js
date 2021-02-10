@@ -1,4 +1,4 @@
-import { SET_MESSAGE, CLEAR_MESSAGE } from './types'
+import { SET_MESSAGE, CLEAR_MESSAGE } from 'shared/constants/types'
 
 export const setMessage = (message) => ({
     type: SET_MESSAGE,
