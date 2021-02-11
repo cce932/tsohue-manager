@@ -65,44 +65,42 @@ const Login = (props) => {
 
   return (
     // ref的form來自 form=useRef()
-    <div className={`container`}>
-      <div className={`login`}>
-        <Form onSubmit={handleLogin} ref={form}>
-          <label htmlFor="account">帳號</label>
-          <Input
-            type="text"
-            name="account"
-            value={account}
-            onChange={onChangeAccount}
-            validations={[required]}
-          />
-          <br />
+    <div className={`login`}>
+      <Form onSubmit={handleLogin} ref={form}>
+        <label htmlFor="account">帳號</label>
+        <Input
+          type="text"
+          name="account"
+          value={account}
+          onChange={onChangeAccount}
+          validations={[required]}
+        />
+        <br />
 
-          <label htmlFor="password">密碼</label>
-          <Input
-            type="text"
-            name="password"
-            value={password}
-            onChange={onChangePassword}
-            validations={[required]}
-          />
-          <br />
+        <label htmlFor="password">密碼</label>
+        <Input
+          type="text"
+          name="password"
+          value={password}
+          onChange={onChangePassword}
+          validations={[required]}
+        />
+        <br />
 
-          {message && <label className="message">{message}</label>}
+        {message && <label className="message">{message}</label>}
 
-          <button disabled={loading}>
-            {loading ? ( // 如果正在loading的話 那就不能按此button
-              // <span className='spinner-border spinner-border-sm'></span> // boostrape的寫法 顯示loading icon
-              <span>登入中</span>
-            ) : (
-              <span>確定</span>
-            )}
-          </button>
+        <button disabled={loading}>
+          {loading ? ( // 如果正在loading的話 那就不能按此button
+            // <span className='spinner-border spinner-border-sm'></span> // boostrape的寫法 顯示loading icon
+            <span>登入中</span>
+          ) : (
+            <span>確定</span>
+          )}
+        </button>
 
-          {/* 用來控制validation的 */}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
-      </div>
+        {/* 用來控制validation的 */}
+        <CheckButton style={{ display: "none" }} ref={checkBtn} />
+      </Form>
     </div>
   )
 }

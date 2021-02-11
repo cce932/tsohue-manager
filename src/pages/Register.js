@@ -42,7 +42,8 @@ const validPassword = (value) => {
 }
 
 const validPasswordCheck = (value, props, components) => {
-  if (value !== components["password"][0].value) { // 用components取得其他input的value
+  if (value !== components["password"][0].value) {
+    // 用components取得其他input的value
     return <div className="note">必須與密碼一致</div>
   }
 }
@@ -139,115 +140,113 @@ const Register = () => {
   }, [dispatch])
 
   return (
-    <div className={`container`}>
-      <div className={`register`}>
-        <Form onSubmit={handleRegister} ref={form}>
-          {!successful ? (
-            <div className="form">
-              <label>帳號</label>
-              <Input
-                type="text"
-                name="account"
-                onChange={onChangeAccount}
-                value={account}
-                placeholder="英數 6-20 字"
-                validations={[required, validAccount]}
-              />
-              <br />
-              <label>密碼</label>
-              <Input
-                type="text"
-                name="password"
-                onChange={onChangePassword}
-                value={password}
-                placeholder="英數 8-20 字"
-                validations={[required, validPassword]}
-              />
-              <br />
-              <label>密碼確認</label>
-              <Input
-                type="text"
-                name="passwordCheck"
-                onChange={onChangePasswordCheck}
-                value={passwordCheck}
-                placeholder="需與密碼相同"
-                validations={[required, validPasswordCheck]}
-              />
-              <br />
-              <label>姓名</label>
-              <Input
-                type="text"
-                name="username"
-                onChange={onChangeUsername}
-                value={username}
-                validations={[required]}
-              />
-              <br />
-              <label>電子信箱</label>
-              <Input
-                type="text"
-                name="email"
-                onChange={onChangeEmail}
-                value={email}
-                validations={[required, validEmail]}
-              />
-              <br />
-              <label>手機</label>
-              <Input
-                type="text"
-                name="phone"
-                onChange={onChangePhone}
-                value={phone}
-                validations={[required, validPhone]}
-              />
-              <br />
-              <label>部門</label>
-              <Input
-                type="text"
-                name="department"
-                onChange={onChangeDepartment}
-                value={department}
-                list="dptList"
-                validations={[required]}
-              />
-              <datalist id="dptList">
-                <option value="訂單" />
-                <option value="央廚" />
-                <option value="食材" />
-                <option value="食譜" />
-                <option value="物流" />
-              </datalist>
-              <br />
-              <label>職位</label>
-              <Input
-                type="text"
-                name="title"
-                onChange={onChangeTitle}
-                value={title}
-                list="titleList"
-                validations={[required]}
-              />
-              <datalist id="titleList">
-                <option value="一般員工" />
-                <option value="主管" />
-                <option value="Admin" />
-              </datalist>
-              <br />
+    <div className={`register`}>
+      <Form onSubmit={handleRegister} ref={form}>
+        {!successful ? (
+          <div className="form">
+            <label>帳號</label>
+            <Input
+              type="text"
+              name="account"
+              onChange={onChangeAccount}
+              value={account}
+              placeholder="英數 6-20 字"
+              validations={[required, validAccount]}
+            />
+            <br />
+            <label>密碼</label>
+            <Input
+              type="text"
+              name="password"
+              onChange={onChangePassword}
+              value={password}
+              placeholder="英數 8-20 字"
+              validations={[required, validPassword]}
+            />
+            <br />
+            <label>密碼確認</label>
+            <Input
+              type="text"
+              name="passwordCheck"
+              onChange={onChangePasswordCheck}
+              value={passwordCheck}
+              placeholder="需與密碼相同"
+              validations={[required, validPasswordCheck]}
+            />
+            <br />
+            <label>姓名</label>
+            <Input
+              type="text"
+              name="username"
+              onChange={onChangeUsername}
+              value={username}
+              validations={[required]}
+            />
+            <br />
+            <label>電子信箱</label>
+            <Input
+              type="text"
+              name="email"
+              onChange={onChangeEmail}
+              value={email}
+              validations={[required, validEmail]}
+            />
+            <br />
+            <label>手機</label>
+            <Input
+              type="text"
+              name="phone"
+              onChange={onChangePhone}
+              value={phone}
+              validations={[required, validPhone]}
+            />
+            <br />
+            <label>部門</label>
+            <Input
+              type="text"
+              name="department"
+              onChange={onChangeDepartment}
+              value={department}
+              list="dptList"
+              validations={[required]}
+            />
+            <datalist id="dptList">
+              <option value="訂單" />
+              <option value="央廚" />
+              <option value="食材" />
+              <option value="食譜" />
+              <option value="物流" />
+            </datalist>
+            <br />
+            <label>職位</label>
+            <Input
+              type="text"
+              name="title"
+              onChange={onChangeTitle}
+              value={title}
+              list="titleList"
+              validations={[required]}
+            />
+            <datalist id="titleList">
+              <option value="一般員工" />
+              <option value="主管" />
+              <option value="Admin" />
+            </datalist>
+            <br />
 
-              <button>{successful ? "註冊中" : "確定"}</button>
-            </div>
-          ) : (
-            <Redirect to="/login" />
-          )}
+            <button>{successful ? "註冊中" : "確定"}</button>
+          </div>
+        ) : (
+          <Redirect to="/login" />
+        )}
 
-          {message && <div className="message">{message}</div>}
+        {message && <div className="message">{message}</div>}
 
-          {/* Then CheckButton helps us to verify 
+        {/* Then CheckButton helps us to verify 
                 if the form validation is successful or not.
                 So this button will not display on the form. */}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
-      </div>
+        <CheckButton style={{ display: "none" }} ref={checkBtn} />
+      </Form>
     </div>
   )
 }
