@@ -1,0 +1,38 @@
+@import "../_global";
+
+.react-bootstrap-table {
+  padding: 20px 20px 20px 0;
+}
+
+.react-bootstrap-table-pagination {
+  // 頁數
+  .react-bootstrap-table-page-btns-ul {
+    li.active > a.page-link {
+      background-color: $accent-color;
+      border: $accent-color solid 1px;
+    }
+
+    li:not(.active) > a.page-link {
+      color: $secondary-color;
+    }
+
+    .dropdown-item > a {
+      color: $accent-color;
+    }
+  }
+
+  // 顯示幾行
+  .btn-group {
+    button {
+      border: $fifth-color solid 1px;
+    }
+    button:not(.selected) {
+      color: $secondary-color;
+    }
+    button.selected {
+      background-color: $accent-color;
+      color: #fff;
+      border: $accent-color solid 1px;
+    }
+  }
+}
