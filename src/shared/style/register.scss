@@ -6,34 +6,29 @@
 //   color: #ffffff;
 //   display: flex;
 //   align-items: center;
-//   background: $linear;
+//   background: $linear-h;
 //   margin-left: -66px;
 //   padding-left: 60px;
 //   z-index: 99999;
 // }
 
-.container {
-  display: relative;
-  align-self: center;
-}
-
 .register {
   @include text(600, 16px, $secondary-color);
-  background-color: $fifth-color;
-  width: 400px;
-  height: 600px;
+  box-shadow: $default-shadow;
+  width: 420px;
+  height: 620px;
   margin: auto;
   padding: 30px 50px;
   border-radius: 10px;
   position: relative;
 
-  &::before {
-    content: "作伙新朋友 ~";
-    @include text(900, 50px, $forth-color);
-    position: absolute;
-    left: 20px;
-    top: -80px;
-  }
+  // &::before {
+  //   content: "作伙新朋友 ~";
+  //   @include text(900, 50px, $forth-color);
+  //   position: absolute;
+  //   left: 20px;
+  //   top: -80px;
+  // }
 
   .form > label {
     width: 130px;
@@ -45,10 +40,10 @@
   }
 
   input {
-    @include text(600, 16px, $secondary-color);
+    @include text(400, 16px, $secondary-color);
     font-size: 14px;
     width: 170px;
-    border: none;
+    border: $fifth-color solid 2px;
     outline: none;
     border-radius: 5px;
     padding: 2px 6px;

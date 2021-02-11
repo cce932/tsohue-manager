@@ -1,23 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&display=swap');
 
 $prime-color: rgb(52, 58, 64);
-$secondary-color: rgb(73, 80, 87);
-$third-color: rgb(173, 181, 189);
-$forth-color: rgb(214, 215, 216);
-$fifth-color: rgb(241, 242, 243);
+$secondary-color: rgb(86, 90, 95);
+$third-color: rgb(180, 184, 189);
+$forth-color: rgb(205, 211, 216);
+$fifth-color: rgb(229, 234, 240);
 $accent-color: rgb(231, 104, 69);
 $accent-lighter-color: rgb(253, 221, 132);// #dd6c4f; // rgb(251, 211, 101)
 $accent-deeper-color: rgb(165, 90, 70);
-$linear: linear-gradient(90deg, $forth-color 10%, $fifth-color);
+$linear-h: linear-gradient(90deg, $forth-color, $fifth-color);
+$linear-v: linear-gradient(180deg, $forth-color, $accent-color);
 $default-trans: all 0.3s ease 0s;
+$default-shadow: 0px 0px 15px rgba($forth-color, 0.7);
 
-@mixin text($weight: 700, $size: 1rem, $color: $prime-color) {
+@mixin text($weight: 700, $size: 1rem, $color: $prime-color, $spacing: 1px) {
     font-family: sans-serif;
     font-weight: $weight;
     font-size: $size;
     color: $color;
     text-decoration: none;
-    letter-spacing: 0.03rem;
+    letter-spacing: $spacing;
 }
 
 @mixin root {
