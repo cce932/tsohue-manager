@@ -2,6 +2,7 @@ import BootstrapTable from "react-bootstrap-table-next"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import "shared/style/components/table.scss"
 
+// 有頁數 可選擇每頁顯示幾個
 const Table = ({ data, columns }) => {
   const selectRow = {
     mode: "checkbox",
