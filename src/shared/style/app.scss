@@ -139,8 +139,10 @@ body {
     }
   }
 
-  nav div.container-fluid {
-    padding: 0 3px;
+  div.container-fluid {
+    width: 60px;
+    display: flex;
+    justify-content: center;
   }
 
   // 是class=mCustomScrollbar 且 class=switcher
@@ -173,13 +175,13 @@ body {
 
 // sidebar關
 .page.switcher {
-  padding-left: 81px !important;
+  padding-left: 60px !important;
 }
 
 button#sidebarCollapse {
   background-color: transparent;
   transition: $default-trans;
-  color: $third-color;
+  color: $prime-color;
   border: none;
   margin-top: 25px;
   cursor: pointer;
@@ -190,7 +192,7 @@ button#sidebarCollapse {
 
   // sidebar hidden時的submenu name
   div {
-    @include text(normal, 1.4rem, #ffffff, 5px);
+    @include text(bold, 1.2rem, #ffffff, 5px);
     border-radius: 5px;
     padding: 10px 5px;
     background: $linear-v;

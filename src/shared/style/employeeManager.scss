@@ -1,0 +1,11 @@
+@import "global";
+
+.employee-manager {
+  div.react-bootstrap-table {
+    tr > th:nth-child(1) {
+      label {
+        width: 70px !important;
+      }
+    }
+  }
+}

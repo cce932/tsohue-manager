@@ -1,29 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&display=swap");
 
 $prime-color: rgb(52, 58, 64);
-$secondary-color: rgb(86, 90, 95);
-$third-color: rgb(180, 184, 189);
+$secondary-color: rgb(86, 90, 95); // #565a5f
+$third-color: rgb(179, 183, 188); // #b4b8bd
 $forth-color: rgb(205, 211, 216);
 $fifth-color: rgb(229, 234, 240);
-$accent-color: rgb(231, 104, 69);
-$accent-lighter-color: rgb(253, 221, 132);// #dd6c4f; // rgb(251, 211, 101)
+$accent-color: rgb(231, 104, 69); // #e76845
+$accent-lighter-color: rgb(253, 221, 132); // #dd6c4f; // rgb(251, 211, 101)
 $accent-deeper-color: rgb(165, 90, 70);
 $linear-h: linear-gradient(90deg, $forth-color, $fifth-color);
-$linear-v: linear-gradient(180deg, $forth-color, $accent-color);
+$linear-v: linear-gradient(160deg, $fifth-color, $accent-color);
 $default-trans: all 0.3s ease 0s;
 $default-shadow: 0px 0px 15px rgba($forth-color, 0.7);
 
 @mixin text($weight: 700, $size: 1rem, $color: $prime-color, $spacing: 1px) {
-    font-family: sans-serif;
-    font-weight: $weight;
-    font-size: $size;
-    color: $color;
-    text-decoration: none;
-    letter-spacing: $spacing;
+  font-family: sans-serif;
+  font-weight: $weight;
+  font-size: $size;
+  color: $color;
+  text-decoration: none;
+  letter-spacing: $spacing;
 }
 
 @mixin root {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+
+  .form-control:focus,
+  textarea:focus,
+  input[type="text"]:focus,
+  input[type="password"]:focus,
+  input[type="datetime"]:focus,
+  input[type="datetime-local"]:focus,
+  input[type="date"]:focus,
+  input[type="month"]:focus,
+  input[type="time"]:focus,
+  input[type="week"]:focus,
+  input[type="number"]:focus,
+  input[type="email"]:focus,
+  input[type="url"]:focus,
+  input[type="search"]:focus,
+  input[type="tel"]:focus,
+  input[type="color"]:focus,
+  .uneditable-input:focus {
+    border-color: $accent-lighter-color;
+    box-shadow: 0 0 8px rgba($accent-lighter-color, 0.5);
+    outline: 0 none;
+  }
+
+  button.btn:focus,
+  button[type="button"]:focus,
+  a[class="page-link"]:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+  }
 }

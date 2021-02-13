@@ -5,10 +5,11 @@ import "shared/style/app.scss"
 
 import { history } from "helpers/history"
 import { clearMessage } from "actions/message"
-import Home from "pages/Home"
+// import Home from "pages/Home"
 import Login from "pages/Login"
 import Register from "pages/Register"
 import MemberManager from "pages/MemberManager"
+import EmployeeManager from "pages/EmployeeManager"
 import { logout } from "actions/auth"
 import {
   allPaths,
@@ -57,7 +58,7 @@ const App = (props) => {
         >
           <nav id={`sidebar`}>
             <Link to={"/"} className="sidebar-header">
-              <img src="pic/logo.svg" alt="logo"></img>
+              <img src="/pic/logo.svg" alt="logo"></img>
               <div>
                 Tsohue
                 <br />
@@ -223,13 +224,18 @@ const App = (props) => {
       </div>
       <div className={hidden ? "page switcher" : "page"}>
         <Switch>
-          <Route exact path={["/", "/home"]} component={Home} />
+          {/* <Route exact path={["/", "/home"]} component={Home} /> */}
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route
             exact
             path={`${allPaths[allMember]}`}
             component={MemberManager}
+          />
+          <Route
+            exact
+            path={`${allPaths[allEmployee]}`}
+            component={EmployeeManager}
           />
         </Switch>
       </div>
