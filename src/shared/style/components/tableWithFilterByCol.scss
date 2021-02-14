@@ -53,17 +53,17 @@ button.clear-filter {
   // 頁數
   .react-bootstrap-table-page-btns-ul {
     li.active > a.page-link {
-      background-color: $accent-color;
-      border: $accent-color solid 1px;
+      background-color: $secondary-color;
+      border: $secondary-color solid 1px;
     }
 
     li:not(.active) > a.page-link {
       color: $secondary-color;
     }
 
-    .dropdown-item > a {
-      color: $accent-color;
-    }
+    // .dropdown-item > a {
+    //   color: $accent-color;
+    // }
   }
 
   // 顯示幾行
@@ -75,9 +75,9 @@ button.clear-filter {
       color: $secondary-color;
     }
     button.selected {
-      background-color: $accent-color;
+      background-color: $secondary-color;
       color: #fff;
-      border: $accent-color solid 1px;
+      border: $secondary-color solid 1px;
     }
   }
 }
