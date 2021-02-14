@@ -8,9 +8,7 @@ import {
   EMPTY_TOKEN,
 } from "shared/constants/messages"
 
-export const handleErrMessage = (store) => (next) => (action) => {
-  console.log(action)
-
+const handleErrMessage = (store) => (next) => (action) => {
   if (action.type === SET_MESSAGE) {
     const { type, payload } = action
     const { status, message, debugMessage } = payload
@@ -42,3 +40,4 @@ export const handleErrMessage = (store) => (next) => (action) => {
     return next(action)
   }
 }
+export default handleErrMessage
