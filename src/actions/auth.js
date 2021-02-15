@@ -7,6 +7,7 @@ import {
   SET_MESSAGE,
 } from "shared/constants/types"
 import AuthService from "services/auth.service"
+import { handleErrMsgFromFetch } from "shared/utility/common"
 
 // dispatch(action) 一定要回傳action 內容是type屬性和可省略的payload
 export const register = (account, password, username, phone, email) => (
@@ -16,6 +17,7 @@ export const register = (account, password, username, phone, email) => (
     (response) => {
       dispatch({
         type: REGISTER_SUCCESS,
+        payload: null
       })
 
       dispatch({
@@ -26,16 +28,11 @@ export const register = (account, password, username, phone, email) => (
       return Promise.resolve()
     },
     (error) => {
-      const message = 
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
-      // 如果都為ture, return error.response.data.message
+      const message = handleErrMsgFromFetch(error)
 
       dispatch({
         type: REGISTER_FAIL,
+        payload: null,
       })
 
       dispatch({
@@ -43,14 +40,13 @@ export const register = (account, password, username, phone, email) => (
         payload: message,
       })
 
-      return Promise.reject()
+      return Promise.reject(message)
     }
   )
 
 export const login = (account, password) => (dispatch) => {
   return AuthService.login(account, password).then(
     (data) => {
-      
       dispatch({
         type: LOGIN_SUCCESS,
         payload: { user: data },
@@ -59,22 +55,23 @@ export const login = (account, password) => (dispatch) => {
       return Promise.resolve()
     },
     (error) => {
-      const errMessage =
-        (error.response && error.response.data) || // data 內有 status, message, debugMessage, timestamp
-        error.message || // Request failed with status code 401
-        error.toString() // Error: Request failed with status code 401
-      const { status, message, debugMessage } = errMessage
+      const message = handleErrMsgFromFetch(error)
 
       dispatch({
         type: LOGIN_FAIL,
+        payload: null
       })
 
       dispatch({
         type: SET_MESSAGE,
-        payload: { status , message, debugMessage },
+        payload: {
+          status: message.status || null,
+          message: message.message || null,
+          debugMessage: message.debugMessage || null,
+        },
       })
 
-      return Promise.reject()
+      return Promise.reject(message)
     }
   )
 }
@@ -84,5 +81,6 @@ export const logout = () => (dispatch) => {
 
   dispatch({
     type: LOGOUT,
+    payload: null
   })
 }

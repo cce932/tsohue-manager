@@ -4,12 +4,12 @@ import {
   FETCH_ALL_MEMBERS_FAILURE,
   SET_MESSAGE,
 } from "shared/constants/types"
-import UserService from "services/user.service"
+import LoadService from "services/load.service"
+import { handleErrMsgFromFetch } from "shared/utility/common"
 
 const fetchAllMemebers = (store) => (next) => (action) => {
-  console.log("middle getAllMemebers", action)
   if (action.type === FETCH_ALL_MEMBERS) {
-    UserService.getAllMembersData().then(
+    LoadService.getAllMembersData().then(
       (data) => {
         store.dispatch({
           type: FETCH_ALL_MEMBERS_SUCCESS,
@@ -18,21 +18,17 @@ const fetchAllMemebers = (store) => (next) => (action) => {
         return Promise.resolve()
       },
       (error) => {
-        const message =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString()
-
+        const messge = handleErrMsgFromFetch(error)
         store.dispatch({
           type: FETCH_ALL_MEMBERS_FAILURE,
         })
 
         store.dispatch({
           type: SET_MESSAGE,
-          payload: message,
+          payload: messge,
         })
 
-        return Promise.reject()
+        return Promise.reject(messge)
       }
     )
   }
