@@ -9,12 +9,13 @@ const TableWithFilterByCol = ({
   data,
   columns,
   clearFilterHandler = () => null,
+  cellEdit = () => null,
 }) => {
   const selectRow = {
     mode: "checkbox",
     clickToSelect: true,
-    hideSelectColumn: true,
-    bgColor: "rgb(229, 234, 240)",
+    clickToEdit: true,
+    bgColor: "rgb(244, 245, 248)",
   }
 
   const pagination = paginationFactory({
@@ -32,19 +33,19 @@ const TableWithFilterByCol = ({
       if (!order)
         return (
           <span>
-            &nbsp;&nbsp;<i class="fas fa-sort"></i>
+            &nbsp;&nbsp;<i className="fas fa-sort"></i>
           </span>
         )
       else if (order === "asc")
         return (
           <span>
-            &nbsp;&nbsp;<i class="fas fa-sort-up"></i>
+            &nbsp;&nbsp;<i className="fas fa-sort-up"></i>
           </span>
         )
       else if (order === "desc")
         return (
           <span>
-            &nbsp;&nbsp;<i class="fas fa-sort-down"></i>
+            &nbsp;&nbsp;<i className="fas fa-sort-down"></i>
           </span>
         )
     },
@@ -65,6 +66,7 @@ const TableWithFilterByCol = ({
         pagination={pagination}
         filter={filterFactory()}
         sort={sortOption}
+        cellEdit={cellEdit}
       />
       <label className="dataLength">共 {data.length} 筆</label>
     </>

@@ -6,7 +6,7 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import TableWithFilterByCol from "shared/components/TableWithFilterByCol"
 import { memberData } from "shared/utility/fakeData"
 import { ExpandDiv } from "shared/components/styled"
-import { getAllMembers } from "actions/fetchData"
+import { getAllMembers } from "actions/loadData"
 import { changeMemberRole } from "actions/editData"
 
 const MemberManager = () => {
@@ -44,10 +44,8 @@ const MemberManager = () => {
     mode: "click",
     blurToSave: true,
     afterSaveCell: (oldValue, newValue, row, col) => {
-      
       if (oldValue !== newValue) {
-        console.log(row.id) // DOING 更改member的role，接下來在這邊發action
-        // useDispatch(changeMemberRole())
+        dispatch(changeMemberRole(row.id, newValue))
       }
     },
   })
