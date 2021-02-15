@@ -8,7 +8,7 @@ const editMemberRole = (id, role, token = authHeader()) => {
     .patch(TS_API + "/member/update/role/" + id, { role }, { headers: token })
     .then(
       (response) => {
-        return Promise.resolve()
+        return Promise.resolve(response)
       },
       (error) => {
         return Promise.reject(handleErrMsgFromFetch(error))
