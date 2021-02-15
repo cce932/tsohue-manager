@@ -11,3 +11,13 @@ export const handleErrMsgFromFetch = (error) => {
   console.error(message)
   return message
 }
+
+export const countSelectedId = (rows, isSelect, selectedList) => {
+  rows.map((row) => {
+    isSelect
+      ? selectedList.push(row.id)
+      : selectedList.splice(selectedList.indexOf(rows.id), 1)
+  })
+
+  return selectedList
+}

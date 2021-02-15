@@ -10,12 +10,14 @@ const TableWithFilterByCol = ({
   columns,
   clearFilterHandler = () => null,
   cellEdit = () => null,
+  onSelectRow = {},
 }) => {
   const selectRow = {
     mode: "checkbox",
     clickToSelect: true,
     clickToEdit: true,
     bgColor: "rgb(244, 245, 248)",
+    ...onSelectRow,
   }
 
   const pagination = paginationFactory({

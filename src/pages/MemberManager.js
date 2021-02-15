@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { textFilter, selectFilter } from "react-bootstrap-table2-filter"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
@@ -7,14 +7,16 @@ import TableWithFilterByCol from "shared/components/TableWithFilterByCol"
 import { memberData } from "shared/utility/fakeData"
 import { ExpandDiv } from "shared/components/styled"
 import { getAllMembers } from "actions/loadData"
-import { changeMemberRole } from "actions/editData"
+import { changeMemberRole, deleteMember } from "actions/editData"
+import { countSelectedId } from "shared/utility/common"
 
 const MemberManager = () => {
   const dispatch = useDispatch()
   const { allMembers } = useSelector((state) => state.members)
   const { isLoggedIn } = useSelector((state) => state.auth)
+  const [selectedId, setSelectedId] = useState([])
 
-  useEffect(()=> {
+  useEffect(() => {
     dispatch(getAllMembers())
   }, [])
 
@@ -49,6 +51,15 @@ const MemberManager = () => {
       }
     },
   })
+
+  const onSelectRow = {
+    onSelect: (row, isSelect, rowIndex, e) => {
+      setSelectedId(countSelectedId([row], isSelect, selectedId))
+    },
+    onSelectAll: (isSelect, rows, e) => {
+      setSelectedId(countSelectedId(rows, isSelect, selectedId))
+    },
+  }
 
   const columns = [
     {
@@ -130,15 +141,28 @@ const MemberManager = () => {
     },
   ]
 
+  const handleDeleteMember = () => {
+    if (selectedId.length > 0) {
+      if (window.confirm(`確定刪除會員ID: ${selectedId.toString()}？`)) {
+        dispatch(deleteMember(selectedId))
+        setSelectedId([])
+      }
+    }
+  }
+
   return isLoggedIn ? (
     allMembers ? (
       <ExpandDiv>
+        <button className="btn" onClick={handleDeleteMember}>
+          delete
+        </button>
         <TableWithFilterByCol
           keyField={keyField}
           data={allMembers}
           columns={columns}
           clearFilterHandler={clearFilterHandler}
           cellEdit={cellEdit}
+          onSelectRow={onSelectRow}
         />
       </ExpandDiv>
     ) : (
