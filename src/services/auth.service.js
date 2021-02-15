@@ -1,6 +1,6 @@
 import axios from "axios"
 import { TS_API } from "shared/constants/urls"
-import userService from "./user.service"
+import LoadService from "./load.service"
 
 const register = (account, password, username, phone, email) => {
   return axios.post(TS_API + "/employee/register", {
@@ -23,7 +23,7 @@ const login = (account, password) => {
 
       if (response.data.token) {
         const header = { Authorization: response.data.token } // Authorization 名稱不可改動
-        const memberData = await userService.getCurrentMemberData(header) // 如果沒加await 就會直接return 不等getCurrentMemberData
+        const memberData = await LoadService.getCurrentMemberData(header) // 如果沒加await 就會直接return 不等getCurrentMemberData
 
         allResponse = {
           ...allResponse,
