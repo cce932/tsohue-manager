@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { textFilter, selectFilter } from "react-bootstrap-table2-filter"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 
+import "shared/style/memberManager.scss"
 import TableWithFilterByCol from "shared/components/TableWithFilterByCol"
-import { memberData } from "shared/utility/fakeData"
-import { ExpandDiv } from "shared/components/styled"
+import { ExpandDiv, PrimaryStrokeBtn } from "shared/components/styled"
 import { getAllMembers } from "actions/loadData"
 import { changeMemberRole, deleteMember } from "actions/editData"
 import { countSelectedId } from "shared/utility/common"
@@ -153,14 +153,19 @@ const MemberManager = () => {
   return isLoggedIn ? (
     allMembers ? (
       <ExpandDiv>
-        <button className="btn" onClick={handleDeleteMember}>
-          delete
-        </button>
+        <div className="tools">
+          <PrimaryStrokeBtn onClick={handleDeleteMember}>
+            刪除員工
+          </PrimaryStrokeBtn>
+          <PrimaryStrokeBtn onClick={clearFilterHandler}>
+            清除篩選
+          </PrimaryStrokeBtn>
+        </div>
+
         <TableWithFilterByCol
           keyField={keyField}
           data={allMembers}
           columns={columns}
-          clearFilterHandler={clearFilterHandler}
           cellEdit={cellEdit}
           onSelectRow={onSelectRow}
         />

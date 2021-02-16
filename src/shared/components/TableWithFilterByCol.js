@@ -8,7 +8,6 @@ const TableWithFilterByCol = ({
   keyField,
   data,
   columns,
-  clearFilterHandler = () => null,
   cellEdit = () => null,
   onSelectRow = {},
 }) => {
@@ -22,7 +21,7 @@ const TableWithFilterByCol = ({
 
   const pagination = paginationFactory({
     sizePerPageList: [
-      { text: "少", value: 14 },
+      { text: "少", value: 13 },
       { text: "多", value: 18 },
       { text: "全部", value: data.length },
     ],
@@ -55,9 +54,6 @@ const TableWithFilterByCol = ({
 
   return (
     <>
-      <button className="clear-filter" onClick={clearFilterHandler}>
-        清除篩選
-      </button>
       <BootstrapTable
         keyField={keyField}
         data={data}

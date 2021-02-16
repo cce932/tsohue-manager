@@ -1,17 +1,5 @@
 @import "../_global";
 
-button.clear-filter {
-  @include text(normal, 1rem, #ffffff);
-  background-color: $accent-color;
-  border: none;
-  border-radius: 3px;
-  padding: 5px 15px;
-  margin: 5px;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
 .react-bootstrap-table {
   @include text(normal, 0.9rem, $accent-color);
   padding: 20px 20px 20px 0;
@@ -66,7 +54,7 @@ button.clear-filter {
     // }
   }
 
-  // 顯示幾行
+  // 每頁顯示幾row
   .btn-group {
     button {
       border: $fifth-color solid 1px;

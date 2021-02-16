@@ -168,14 +168,14 @@ body {
 .page {
   display: flex;
   height: 100vh;
-  width: 100vw;
-  padding-left: 301px;
+  width: auto;
+  padding-left: 320px;
   transition: $default-trans;
 }
 
 // sidebar關
 .page.switcher {
-  padding-left: 60px !important;
+  padding-left: 80px !important;
 }
 
 button#sidebarCollapse {
@@ -192,8 +192,8 @@ button#sidebarCollapse {
 
   // sidebar hidden時的submenu name
   div {
-    @include text(bold, 1.2rem, #ffffff, 5px);
-    border-radius: 5px;
+    @include text(500, 1.2rem, #ffffff, 4px);
+    border-radius: 3px;
     padding: 10px 5px;
     background: $linear-v;
     writing-mode: vertical-lr;
