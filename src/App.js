@@ -225,8 +225,8 @@ const App = (props) => {
       <div className={hidden ? "page switcher" : "page"}>
         <Switch>
           {/* <Route exact path={["/", "/home"]} component={Home} /> */}
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
+          <Route exact path={`${allPaths[login]}`} component={Login} />
+          <Route exact path={`${allPaths[register]}`} component={Register} />
           <Route
             exact
             path={`${allPaths[allMember]}`}

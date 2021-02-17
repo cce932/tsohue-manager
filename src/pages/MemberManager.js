@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { textFilter, selectFilter } from "react-bootstrap-table2-filter"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
+import { Redirect } from "react-router-dom"
 
 import "shared/style/memberManager.scss"
 import TableWithFilterByCol from "shared/components/TableWithFilterByCol"
 import { ExpandDiv, PrimaryStrokeBtn } from "shared/components/styled"
 import { getAllMembers } from "actions/loadData"
-import { changeMemberRole, deleteMember } from "actions/editData"
+import { changeMemberRole } from "actions/editData"
+import { deleteMember } from "actions/deleteData"
 import { countSelectedId } from "shared/utility/common"
+import { getMeunName } from "shared/utility/common"
+import { allPaths } from "shared/constants/pathname"
 
 const MemberManager = () => {
   const dispatch = useDispatch()
@@ -39,11 +43,11 @@ const MemberManager = () => {
     username_filter("")
     email_filter("")
     phone_filter("")
-    role_filter("") // roleFilter 是識別字
+    role_filter() // roleFilter 是識別字
   }
 
   const cellEdit = cellEditFactory({
-    mode: "click",
+    mode: "dbclick",
     blurToSave: true,
     afterSaveCell: (oldValue, newValue, row, col) => {
       if (oldValue !== newValue) {
@@ -52,7 +56,11 @@ const MemberManager = () => {
     },
   })
 
-  const onSelectRow = {
+  const selectRow = {
+    mode: "checkbox",
+    clickToSelect: true,
+    clickToEdit: true,
+    bgColor: "rgb(244, 245, 248)",
     onSelect: (row, isSelect, rowIndex, e) => {
       setSelectedId(countSelectedId([row], isSelect, selectedId))
     },
@@ -117,7 +125,7 @@ const MemberManager = () => {
     },
     {
       dataField: "role",
-      text: "角色",
+      text: "資格",
       formatter: (cell) => selectOptions[cell],
       filter: selectFilter({
         options: selectOptions,
@@ -144,6 +152,13 @@ const MemberManager = () => {
   const handleDeleteMember = () => {
     if (selectedId.length > 0) {
       if (window.confirm(`確定刪除會員ID: ${selectedId.toString()}？`)) {
+        id_filter("") // 解決bug: filter剩一筆時 又把那一筆刪掉 filter就會無法清空
+        account_filter("")
+        username_filter("")
+        email_filter("")
+        phone_filter("")
+        role_filter()
+        
         dispatch(deleteMember(selectedId))
         setSelectedId([])
       }
@@ -167,14 +182,22 @@ const MemberManager = () => {
           data={allMembers}
           columns={columns}
           cellEdit={cellEdit}
-          onSelectRow={onSelectRow}
+          selectRow={selectRow}
         />
       </ExpandDiv>
     ) : (
       <h1>Loading</h1>
     )
   ) : (
-    <h1>please login</h1>
+    <>
+      {window.alert(
+        `欲前往「${getMeunName(
+          allPaths,
+          window.location.pathname
+        )}」 請先登入喔`
+      )}
+      <Redirect to="/login" />
+    </>
   )
 }
 

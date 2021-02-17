@@ -5,7 +5,6 @@ import {
   SET_MESSAGE,
 } from "shared/constants/types"
 import LoadService from "services/load.service"
-import { handleErrMsgFromFetch } from "shared/utility/common"
 
 const fetchAllMemebers = (store) => (next) => (action) => {
   if (action.type === FETCH_ALL_MEMBERS) {
@@ -15,20 +14,21 @@ const fetchAllMemebers = (store) => (next) => (action) => {
           type: FETCH_ALL_MEMBERS_SUCCESS,
           payload: data,
         })
+        
         return Promise.resolve()
       },
       (error) => {
-        const messge = handleErrMsgFromFetch(error)
         store.dispatch({
           type: FETCH_ALL_MEMBERS_FAILURE,
+          payload: null,
         })
 
         store.dispatch({
           type: SET_MESSAGE,
-          payload: messge,
+          payload: error,
         })
 
-        return Promise.reject(messge)
+        return Promise.reject(error)
       }
     )
   }
