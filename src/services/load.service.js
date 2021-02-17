@@ -5,7 +5,6 @@ import { handleErrMsgFromFetch } from "shared/utility/common"
 
 // 抓取每個頁面所需的資料
 
-// member基本資料
 const getCurrentMemberData = (token = authHeader()) => {
   return axios.get(TS_API + "/employee/me", { headers: token }).then(
     (response) => {
@@ -28,8 +27,20 @@ const getAllMembersData = (token = authHeader()) => {
   )
 }
 
+const getAllEmployeesData = (token = authHeader()) => {
+  return axios
+    .get(TS_API + "/employee/allEmployees", { headers: token })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      return Promise.reject(handleErrMsgFromFetch(error))
+    })
+}
+
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   getCurrentMemberData,
   getAllMembersData,
+  getAllEmployeesData,
 }

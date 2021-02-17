@@ -1,11 +1,35 @@
 @import "global";
 
+div.tools {
+  margin: 10px 20px -10px;
+  text-align: right;
+
+  button:disabled {
+    border: $third-color solid 1px;
+    color: $secondary-color;
+  }
+
+  button:hover:not(:disabled) {
+    background-color: $accent-color;
+    color: white;
+  }
+}
+
 .employee-manager {
   div.react-bootstrap-table {
-    tr > th:nth-child(1) {
+    tr > th:nth-child(2) {
       label {
         width: 70px !important;
       }
     }
+
+    tr > th {
+      margin-bottom: auto;
+      vertical-align: baseline;
+    }
   }
+}
+
+.page:not(.switcher) {
+  overflow: auto;
 }

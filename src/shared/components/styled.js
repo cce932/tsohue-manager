@@ -33,4 +33,5 @@ export const PrimaryStrokeBtn = styled.button`
   border-radius: 3px;
   padding: 5px 15px;
   margin: 5px;
+  transition: $default-trans;
 `

@@ -8,16 +8,9 @@ const TableWithFilterByCol = ({
   keyField,
   data,
   columns,
-  cellEdit = () => null,
-  onSelectRow = {},
+  cellEdit = {},
+  selectRow = {},
 }) => {
-  const selectRow = {
-    mode: "checkbox",
-    clickToSelect: true,
-    clickToEdit: true,
-    bgColor: "rgb(244, 245, 248)",
-    ...onSelectRow,
-  }
 
   const pagination = paginationFactory({
     sizePerPageList: [
