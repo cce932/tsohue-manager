@@ -18,6 +18,24 @@ export const PrimaryBtn = styled.button`
   border-radius: 3px;
   padding: 5px 15px;
   margin: 5px;
+  transition: all 0.3s ease 0s;
+`
+
+export const SecondaryBtn = styled.button`
+  font-family: sans-serif;
+  font-weight: normal;
+  font-size: 1rem;
+  color: white;
+  text-decoration: none;
+  letter-spacing: $spacing;
+
+  height: fit-content;
+  background-color: rgb(86, 90, 95);
+  border: none;
+  border-radius: 3px;
+  padding: 5px 15px;
+  margin: 5px;
+  transition: all 0.3s ease 0s;
 `
 
 export const PrimaryStrokeBtn = styled.button`
@@ -33,5 +51,5 @@ export const PrimaryStrokeBtn = styled.button`
   border-radius: 3px;
   padding: 5px 15px;
   margin: 5px;
-  transition: $default-trans;
+  transition: all 0.3s ease 0s;
 `

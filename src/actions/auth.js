@@ -10,39 +10,48 @@ import AuthService from "services/auth.service"
 import { handleErrMsgFromFetch } from "shared/utility/common"
 
 // dispatch(action) 一定要回傳action 內容是type屬性和可省略的payload
-export const register = (account, password, username, phone, email) => (
-  dispatch
-) =>
-  AuthService.register(account, password, username, phone, email).then(
-    (response) => {
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: null
-      })
+export const register = (
+  department,
+  title,
+  account,
+  username,
+  email,
+  phone,
+  role
+) => (dispatch) =>
+    AuthService.register(
+      department,
+      title,
+      account,
+      username,
+      email,
+      phone,
+      role
+    ).then(
+      (response) => {
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: null,
+        })
 
-      dispatch({
-        type: SET_MESSAGE,
-        payload: response.data.message,
-      })
+        return Promise.resolve()
+      },
+      (error) => {
+        const message = handleErrMsgFromFetch(error)
 
-      return Promise.resolve()
-    },
-    (error) => {
-      const message = handleErrMsgFromFetch(error)
+        dispatch({
+          type: REGISTER_FAIL,
+          payload: null,
+        })
 
-      dispatch({
-        type: REGISTER_FAIL,
-        payload: null,
-      })
+        dispatch({
+          type: SET_MESSAGE,
+          payload: message,
+        })
 
-      dispatch({
-        type: SET_MESSAGE,
-        payload: message,
-      })
-
-      return Promise.reject(message)
-    }
-  )
+        return Promise.reject(message)
+      }
+    )
 
 export const login = (account, password) => (dispatch) => {
   return AuthService.login(account, password).then(
@@ -59,7 +68,7 @@ export const login = (account, password) => (dispatch) => {
 
       dispatch({
         type: LOGIN_FAIL,
-        payload: null
+        payload: null,
       })
 
       dispatch({
@@ -81,6 +90,6 @@ export const logout = () => (dispatch) => {
 
   dispatch({
     type: LOGOUT,
-    payload: null
+    payload: null,
   })
 }

@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { textFilter, selectFilter } from "react-bootstrap-table2-filter"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
+import Form from "react-validation/build/form"
+import Input from "react-validation/build/input"
+import CheckButton from "react-validation/build/button"
+import { isEmail, isNumeric } from "validator"
 
 import "shared/style/employeeManager.scss"
-import { ExpandDiv, PrimaryStrokeBtn } from "shared/components/styled"
+import {
+  ExpandDiv,
+  PrimaryStrokeBtn,
+  SecondaryBtn,
+} from "shared/components/styled"
 import TableWithFilterByCol from "shared/components/TableWithFilterByCol"
 import { getAllEmployees } from "actions/loadData"
 import { Redirect } from "react-router-dom"
@@ -13,6 +21,65 @@ import { allPaths } from "shared/constants/pathname"
 import { modifyEmployeeData } from "actions/editData"
 import { deleteEmployee } from "actions/deleteData"
 import { countSelectedId } from "shared/utility/common"
+import { register } from "actions/auth"
+
+const required = (value) => {
+  if (!value.length) {
+    return <div className="note">需輸入值</div>
+  }
+}
+
+const validEmail = (value) => {
+  if (!isEmail(value)) {
+    return <div className="note">格式不正確</div>
+  }
+}
+
+const validPhone = (value) => {
+  if (!isNumeric(value)) {
+    return <div className="note">格式不正確</div>
+  }
+}
+
+const validDpt = (value) => {
+  if (!(value in departmentSelect)) {
+    return <div className="note">非有效值</div>
+  }
+}
+
+const validTitle = (value) => {
+  if (!(value in titleSelect)) {
+    return <div className="note">非有效值</div>
+  }
+}
+
+const validRole = (value) => {
+  if (!(value in roleSelect)) {
+    return <div className="note">非有效值</div>
+  }
+}
+
+const departmentSelect = {
+  FoodManagement: "FoodManagement",
+  Sales: "Sales",
+  Transport: "Transport",
+  CustomerService: "CustomerService",
+  CenterKitchen: "CenterKitchen",
+  EmployeeManagement: "EmployeeManagement",
+}
+
+const titleSelect = {
+  銷售經理: "銷售經理",
+  執行長: "執行長",
+  主管: "主管",
+  員工: "員工",
+}
+
+const roleSelect = {
+  ADMIN: "ADMIN",
+  EMPLOYEE: "EMPLOYEE",
+  MANAGER: "MANAGER",
+}
 
 const EmployeeManager = () => {
   const dispatch = useDispatch()
@@ -26,28 +93,6 @@ const EmployeeManager = () => {
   }, [])
 
   const keyField = "id"
-
-  const roleSelect = {
-    ADMIN: "ADMIN",
-    EMPLOYEE: "EMPLOYEE",
-    MANAGER: "MANAGER",
-  }
-
-  const departmentSelect = {
-    FoodManagement: "FoodManagement",
-    Sales: "Sales",
-    Transport: "Transport",
-    CustomerService: "CustomerService",
-    CenterKitchen: "CenterKitchen",
-    EmployeeManagement: "EmployeeManagement",
-  }
-
-  const titleSelect = {
-    銷售經理: "銷售經理",
-    執行長: "執行長",
-    主管: "主管",
-    員工: "員工",
-  }
 
   let id_filter
   let department_filter
@@ -83,7 +128,7 @@ const EmployeeManager = () => {
     mode: "checkbox",
     clickToSelect: true,
     clickToEdit: true,
-    bgColor: "rgb(244, 245, 248)",
+    bgColor: "rgb(248, 249, 252)",
     onSelect: (row, isSelect) => {
       setSelectedId(countSelectedId([row], isSelect, selectedId))
     },
@@ -91,7 +136,7 @@ const EmployeeManager = () => {
       setSelectedId(countSelectedId(rows, isSelect, selectedId))
     },
     nonSelectable: [user.id],
-    nonSelectableStyle: { color: "rgb(165, 90, 70" },
+    nonSelectableStyle: { backgroundColor: "rgb(253, 221, 132)" },
   }
 
   const columns = [
@@ -200,7 +245,7 @@ const EmployeeManager = () => {
     },
     {
       dataField: "email",
-      text: "電子信箱",
+      text: "信箱",
       filter: textFilter({
         getFilter: (filter) => {
           email_filter = filter
@@ -211,7 +256,7 @@ const EmployeeManager = () => {
     },
     {
       dataField: "phone",
-      text: "電話號碼",
+      text: "電話",
       filter: textFilter({
         getFilter: (filter) => {
           phone_filter = filter
@@ -267,12 +312,81 @@ const EmployeeManager = () => {
     }
   }
 
-  return isLoggedIn ? (
+  const form = useRef()
+  const checkBtn = useRef()
+  const { message } = useSelector((state) => {
+    return state.messages
+  })
+
+  const [account, setAccount] = useState("")
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [department, setDepartment] = useState("")
+  const [title, setTitle] = useState("")
+  const [role, setRole] = useState("")
+
+  const handleRegister = (e) => {
+    e.preventDefault()
+    form.current.validateAll()
+
+    if (checkBtn.current.context._errors.length === 0) {
+      dispatch(
+        register(department, title, account, username, email, phone, role)
+      )
+      // TODO: 按下註冊時，自動生成一個密碼 並顯示出來
+    }
+  }
+
+  const onChangeAccount = (e) => {
+    const account = e.target.value
+    setAccount(account)
+  }
+
+  const onChangeUsername = (e) => {
+    const useranme = e.target.value
+    setUsername(useranme)
+  }
+
+  const onChangeEmail = (e) => {
+    const email = e.target.value
+    setEmail(email)
+  }
+
+  const onChangePhone = (e) => {
+    const phone = e.target.value
+    setPhone(phone)
+  }
+
+  const onChangeDepartment = (e) => {
+    const department = e.target.value
+    setDepartment(department)
+  }
+
+  const onChangeTitle = (e) => {
+    const title = e.target.value
+    setTitle(title)
+  }
+
+  const onChangeRole = (e) => {
+    const role = e.target.value
+    setRole(role)
+  }
+
+  return true ? (
     allEmployees ? (
       <>
         <ExpandDiv className="employee-manager">
           <div className="tools">
-            <PrimaryStrokeBtn disabled={!isAdmin()}>新增員工</PrimaryStrokeBtn>
+            <PrimaryStrokeBtn
+              disabled={!isAdmin()}
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseExample"
+              aria-expanded="true"
+            // aria-controls="collapseExample"
+            >
+              新增員工
+            </PrimaryStrokeBtn>
             <PrimaryStrokeBtn
               disabled={!isAdmin()}
               onClick={handleDeleteEmployee}
@@ -282,6 +396,102 @@ const EmployeeManager = () => {
             <PrimaryStrokeBtn onClick={clearFilterHandler}>
               清除篩選
             </PrimaryStrokeBtn>
+            <div className="collapse" id="collapseExample">
+              <Form onSubmit={handleRegister} ref={form}>
+                <div className={`row form`}>
+                  <div className={`col-11 input`}>
+                    <label>部門</label>
+                    <Input
+                      type="text"
+                      name="department"
+                      onChange={onChangeDepartment}
+                      value={department}
+                      list="dptList"
+                      validations={[required, validDpt]}
+                    />
+                    <datalist id="dptList">
+                      <option value="FoodManagement" />
+                      <option value="CustomerService" />
+                      <option value="Transport" />
+                      <option vlaue="Sales" />
+                      <option value="訂單(暫不可選)" />
+                      <option value="央廚(暫不可選)" />
+                      <option value="食譜(暫不可選)" />
+                    </datalist>
+
+                    <label>職稱</label>
+                    <Input
+                      type="text"
+                      name="title"
+                      onChange={onChangeTitle}
+                      value={title}
+                      list="titleList"
+                      validations={[required, validTitle]}
+                    />
+                    <datalist id="titleList">
+                      <option value="執行長" />
+                      <option value="主管" />
+                      <option value="員工" />
+                    </datalist>
+
+                    <label>帳號</label>
+                    <Input
+                      type="text"
+                      name="account"
+                      onChange={onChangeAccount}
+                      value={account}
+                      validations={[required]}
+                    />
+                    <label>姓名</label>
+                    <Input
+                      type="text"
+                      name="username"
+                      onChange={onChangeUsername}
+                      value={username}
+                      validations={[required]}
+                    />
+                    <label>信箱</label>
+                    <Input
+                      type="text"
+                      name="email"
+                      onChange={onChangeEmail}
+                      value={email}
+                      validations={[required, validEmail]}
+                    />
+                    <label>電話</label>
+                    <Input
+                      type="text"
+                      name="phone"
+                      onChange={onChangePhone}
+                      value={phone}
+                      validations={[required, validPhone]}
+                    />
+                    <label>角色</label>
+
+                    <Input
+                      type="text"
+                      name="role"
+                      onChange={onChangeRole}
+                      value={role}
+                      list="roleList"
+                      validations={[required, validRole]}
+                    />
+                    <datalist id="roleList">
+                      <option value="ADMIN" />
+                      <option value="EMPLOYEE" />
+                      <option value="MANAGER(暫不可選)" />
+                    </datalist>
+
+                    {message && <div className="message">{message}</div>}
+                  </div>
+
+                  <div className={`col-1 button`}>
+                    <SecondaryBtn>確定</SecondaryBtn>
+                    <CheckButton style={{ display: "none" }} ref={checkBtn} />
+                  </div>
+                </div>
+              </Form>
+            </div>
           </div>
           <TableWithFilterByCol
             keyField={keyField}
@@ -293,19 +503,19 @@ const EmployeeManager = () => {
         </ExpandDiv>
       </>
     ) : (
-      <h1>Loading</h1>
-    )
+        <h1>Loading</h1>
+      )
   ) : (
-    <>
-      {window.alert(
-        `欲前往「${getMeunName(
-          allPaths,
-          window.location.pathname
-        )}」 請先登入喔`
-      )}
-      <Redirect to="/login" />
-    </>
-  )
+      <>
+        {window.alert(
+          `欲前往「${getMeunName(
+            allPaths,
+            window.location.pathname
+          )}」 請先登入喔`
+        )}
+        <Redirect to="/login" />
+      </>
+    )
 }
 
 export default EmployeeManager

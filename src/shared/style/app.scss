@@ -12,6 +12,7 @@ body {
 .wrapper {
   display: flex;
   position: fixed;
+  z-index: 999999;
 
   // #sidebar 表示sidebar出現 (<768px 相反)
   // #sidebar.switcher 表示sidebar隱藏 (<768px 相反)

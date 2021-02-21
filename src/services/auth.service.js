@@ -1,15 +1,34 @@
 import axios from "axios"
 import { TS_API } from "shared/constants/urls"
 import LoadService from "./load.service"
+import authHeader from "./auth-header"
 
-const register = (account, password, username, phone, email) => {
-  return axios.post(TS_API + "/employee/register", {
-    account,
-    password,
-    username,
-    phone,
-    email,
-  })
+const register = (
+  department,
+  title,
+  account,
+  username,
+  email,
+  phone,
+  role,
+  token = authHeader()
+) => {
+  console.log("tokeninregister", token)
+  const password = "444"
+  return axios.post(
+    TS_API + "/employee/register",
+    {
+      department,
+      title,
+      account,
+      username,
+      email,
+      phone,
+      role,
+      password,
+    },
+    { headers: token }
+  )
 }
 
 const login = (account, password) => {
@@ -31,7 +50,7 @@ const login = (account, password) => {
         }
       }
       localStorage.setItem("user", JSON.stringify(allResponse))
-      
+
       return allResponse
     })
 }
