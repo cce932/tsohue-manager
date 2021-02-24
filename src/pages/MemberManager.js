@@ -60,7 +60,7 @@ const MemberManager = () => {
     mode: "checkbox",
     clickToSelect: true,
     clickToEdit: true,
-    bgColor: "rgb(244, 245, 248)",
+    bgColor: "rgb(248, 249, 252)",
     onSelect: (row, isSelect, rowIndex, e) => {
       setSelectedId(countSelectedId([row], isSelect, selectedId))
     },

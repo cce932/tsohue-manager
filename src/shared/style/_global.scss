@@ -5,14 +5,17 @@ $secondary-color: rgb(86, 90, 95); // #565a5f
 $third-color: rgb(179, 183, 188); // #b4b8bd
 $forth-color: rgb(205, 211, 216);
 $fifth-color: rgb(232, 235, 240);
-$sixth-color: rgb(244, 245, 248);
+$sixth-color: rgb(248, 249, 252);
 $accent-color: rgb(231, 104, 69); // #e76845
 $accent-lighter-color: rgb(253, 221, 132); // #dd6c4f; // rgb(251, 211, 101)
+$accent-lighter-color-2: rgb(247, 204, 86);
 $accent-deeper-color: rgb(165, 90, 70);
 $linear-h: linear-gradient(90deg, $forth-color, $fifth-color);
 $linear-v: linear-gradient(230deg, $forth-color, $accent-color);
 $default-trans: all 0.3s ease 0s;
-$default-shadow: 0px 0px 15px rgba($forth-color, 0.7);
+$default-shadow: 0px 0px 15px rgba($forth-color, 0.7); // offset-x | offset-y | blur-radius | color
+$shadow-deeper: 0px 0px 10px rgba($accent-deeper-color, 0.6);
+$shadow-bottom: 0 7px 5px -4px rgba($third-color, 0.5);
 
 @mixin text($weight: 700, $size: 1rem, $color: $prime-color, $spacing: 1px) {
   font-family: sans-serif;
