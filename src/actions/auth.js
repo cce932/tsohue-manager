@@ -7,7 +7,10 @@ import {
   SET_MESSAGE,
 } from "shared/constants/types"
 import AuthService from "services/auth.service"
-import { handleErrMsgFromFetch } from "shared/utility/common"
+import { generatePwd, handleErrMsgFromFetch } from "shared/utility/common"
+import { getAllEmployees } from "actions/loadData"
+import { sendPwdMail, encrypt } from "shared/utility/feature"
+import { setMessage } from "./message"
 
 // dispatch(action) 一定要回傳action 內容是type屬性和可省略的payload
 export const register = (
@@ -17,41 +20,47 @@ export const register = (
   username,
   email,
   phone,
-  role
-) => (dispatch) =>
-    AuthService.register(
-      department,
-      title,
-      account,
-      username,
-      email,
-      phone,
-      role
-    ).then(
-      (response) => {
-        dispatch({
-          type: REGISTER_SUCCESS,
-          payload: null,
-        })
+  role,
+) => (dispatch) => {
+  const password = generatePwd()
+  return AuthService.register(
+    department,
+    title,
+    account,
+    username,
+    email,
+    phone,
+    role,
+    encrypt(password)
+  ).then(
+    ({ data }) => {
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: null,
+      })
 
-        return Promise.resolve()
-      },
-      (error) => {
-        const message = handleErrMsgFromFetch(error)
+      sendPwdMail(email, username, password).catch(
+        (error) => dispatch(setMessage('註冊郵件寄送錯誤，請重新註冊。'))
+      )
 
-        dispatch({
-          type: REGISTER_FAIL,
-          payload: null,
-        })
+      dispatch(getAllEmployees())
 
-        dispatch({
-          type: SET_MESSAGE,
-          payload: message,
-        })
+      return Promise.resolve(data)
+    },
+    (error) => {
+      const message = handleErrMsgFromFetch(error)
 
-        return Promise.reject(message)
-      }
-    )
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: null,
+      })
+
+      dispatch(setMessage(error))
+
+      return Promise.reject(message)
+    }
+  )
+}
 
 export const login = (account, password) => (dispatch) => {
   return AuthService.login(account, password).then(

@@ -11,10 +11,9 @@ const register = (
   email,
   phone,
   role,
+  password,
   token = authHeader()
 ) => {
-  console.log("tokeninregister", token)
-  const password = "444"
   return axios.post(
     TS_API + "/employee/register",
     {

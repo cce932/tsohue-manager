@@ -8,6 +8,7 @@ import Input from "react-validation/build/input"
 import CheckButton from "react-validation/build/button"
 
 import { login } from "actions/auth"
+import { encrypt } from "shared/utility/feature"
 
 const required = (value) => {
   if (!value.length) {
@@ -46,7 +47,7 @@ const Login = (props) => {
     form.current.validateAll()
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(login(account, password)) // 這邊可以寫func在dispatch() 是因為有thunk
+      dispatch(login(account, encrypt(password))) // 這邊可以寫func在dispatch() 是因為有thunk
         .then(() => {
           props.history.push("/")
           window.location.reload()

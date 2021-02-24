@@ -21,3 +21,12 @@ export const countSelectedId = (rows, isSelect, selectedList) => {
 
   return selectedList
 }
+
+const keylist = "abcdefghijklmnopqrstuvwxyz123456789"
+
+export const generatePwd = (length = 8) => {
+  let temp = ""
+  for (let i = 0; i < length; i++)
+    temp += keylist.charAt(Math.floor(Math.random() * keylist.length))
+  return temp
+}
