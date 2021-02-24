@@ -1,42 +1,71 @@
 import { SET_MESSAGE } from "shared/constants/types"
 import {
+  BAD_REQUEST,
   UNEXPECTED_ERROR,
-  LOGIN_FAILURE,
-  NEED_AUTHORIZATION,
-  ACCOUNT_DUPLICATED,
   TOKEN_EXPIRED,
   EMPTY_TOKEN,
+  UNAUTHORIZED,
+  LOGIN_FAILURE,
+  FORBIDDEN,
+  NEED_AUTHORIZATION,
+  CONFLICT,
+  ACCOUNT_DUPLICATED,
+  EMAIL_DUPLICATED,
 } from "shared/constants/messages"
 
 const handleErrMessage = (store) => (next) => (action) => {
   if (action.type === SET_MESSAGE) {
-    const { type, payload } = action
+    const { payload } = action
     const { status, message, debugMessage } = payload
 
-    switch (payload.message) {
-      case UNEXPECTED_ERROR:
-        if (
-          TOKEN_EXPIRED.test(debugMessage) ||
-          EMPTY_TOKEN.test(debugMessage)
-        ) {
-          return window.alert("請重新登入喔")
+    switch (status) {
+      case BAD_REQUEST:
+        if (message === UNEXPECTED_ERROR) {
+          if (
+            TOKEN_EXPIRED.test(debugMessage) ||
+            EMPTY_TOKEN.test(debugMessage)
+          ) {
+            return window.alert("請重新登入喔")
+          }
+        }
+      case UNAUTHORIZED:
+        if (message === LOGIN_FAILURE) {
+          return next({
+            ...action,
+            payload: "帳號或密碼錯誤囉",
+          })
+        }
+      case FORBIDDEN:
+        if (message === NEED_AUTHORIZATION) {
+          return window.alert("您的權限不足喔")
+        }
+      case CONFLICT:
+        if (ACCOUNT_DUPLICATED.test(debugMessage)) {
+          return next({
+            ...action,
+            payload: "換個帳號吧 和別人重複囉",
+          })
+        } else if (EMAIL_DUPLICATED.test(debugMessage)) {
+          return next({
+            ...action,
+            payload: "換一個信箱吧 此信箱已註冊過",
+          })
+        }
+      default:
+        if (status && message && debugMessage) {
+          return window.alert(
+            "未知錯誤！！\nstatus:" +
+            status +
+            "\nmessage:" +
+            message +
+            "\ndebugMessage: " +
+            debugMessage
+          )
         } else {
           return window.alert(
-            "錯誤\nmessage:" + message + "\ndebugMessage: " + debugMessage
+            "未知錯誤！！\n" + payload
           )
         }
-      case LOGIN_FAILURE:
-        return next({
-          ...action,
-          payload: "帳號或密碼錯誤囉",
-        })
-      case NEED_AUTHORIZATION:
-        return window.alert("您的權限不足喔")
-      case ACCOUNT_DUPLICATED:
-        return next({
-          ...action,
-          payload: "帳號和其他人尬作伙囉",
-        })
     }
   } else {
     return next(action)
