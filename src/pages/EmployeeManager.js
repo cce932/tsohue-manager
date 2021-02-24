@@ -14,6 +14,7 @@ import {
   SecondaryBtn,
 } from "shared/components/styled"
 import TableWithFilterByCol from "shared/components/TableWithFilterByCol"
+import useDialogContext from "hooks/useDialogContext"
 import { getAllEmployees } from "actions/loadData"
 import { Redirect } from "react-router-dom"
 import { getMeunName } from "shared/utility/common"
@@ -157,7 +158,6 @@ const EmployeeManager = () => {
       filter: selectFilter({
         options: departmentSelect,
         getFilter: (filter) => {
-          console.log("department_filter", filter)
           department_filter = filter
         },
       }),
@@ -297,14 +297,7 @@ const EmployeeManager = () => {
   const handleDeleteEmployee = () => {
     if (selectedId.length > 0) {
       if (window.confirm(`確定刪除員工ID: ${selectedId.toString()}？`)) {
-        id_filter("")
-        department_filter()
-        title_filter()
-        account_filter("")
-        username_filter("")
-        email_filter("")
-        phone_filter("")
-        role_filter()
+        clearFilterHandler()
 
         dispatch(deleteEmployee(selectedId))
         setSelectedId([])
@@ -326,6 +319,8 @@ const EmployeeManager = () => {
   const [title, setTitle] = useState("")
   const [role, setRole] = useState("")
 
+  const addDialog = useDialogContext()
+
   const handleRegister = (e) => {
     e.preventDefault()
     form.current.validateAll()
@@ -333,9 +328,23 @@ const EmployeeManager = () => {
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(
         register(department, title, account, username, email, phone, role)
-      )
+      ).then((res) => {
+        addDialog(`註冊「${res.username}」成功`)
+        clearRegisterInput()
+      })
       // TODO: 按下註冊時，自動生成一個密碼 並顯示出來
     }
+  }
+
+  const clearRegisterInput = () => {
+    // 註冊成功後 看起來是有清空input 但是state中都沒清(清了就會觸發onChange 進而觸發error) 因為不影響 下次輸入時 onChange就會自動setState了
+    document.getElementById("account").value = ""
+    document.getElementById("username").value = ""
+    document.getElementById("email").value = ""
+    document.getElementById("phone").value = ""
+    document.getElementById("department").value = ""
+    document.getElementById("title").value = ""
+    document.getElementById("role").value = ""
   }
 
   const onChangeAccount = (e) => {
@@ -397,11 +406,12 @@ const EmployeeManager = () => {
               清除篩選
             </PrimaryStrokeBtn>
             <div className="collapse" id="collapseExample">
-              <Form onSubmit={handleRegister} ref={form}>
+              <Form id="registerForm" onSubmit={handleRegister} ref={form}>
                 <div className={`row form`}>
                   <div className={`col-11 input`}>
                     <label>部門</label>
                     <Input
+                      id="department"
                       type="text"
                       name="department"
                       onChange={onChangeDepartment}
@@ -421,6 +431,7 @@ const EmployeeManager = () => {
 
                     <label>職稱</label>
                     <Input
+                      id="title"
                       type="text"
                       name="title"
                       onChange={onChangeTitle}
@@ -436,6 +447,7 @@ const EmployeeManager = () => {
 
                     <label>帳號</label>
                     <Input
+                      id="account"
                       type="text"
                       name="account"
                       onChange={onChangeAccount}
@@ -444,6 +456,7 @@ const EmployeeManager = () => {
                     />
                     <label>姓名</label>
                     <Input
+                      id="username"
                       type="text"
                       name="username"
                       onChange={onChangeUsername}
@@ -452,6 +465,7 @@ const EmployeeManager = () => {
                     />
                     <label>信箱</label>
                     <Input
+                      id="email"
                       type="text"
                       name="email"
                       onChange={onChangeEmail}
@@ -460,6 +474,7 @@ const EmployeeManager = () => {
                     />
                     <label>電話</label>
                     <Input
+                      id="phone"
                       type="text"
                       name="phone"
                       onChange={onChangePhone}
@@ -469,6 +484,7 @@ const EmployeeManager = () => {
                     <label>角色</label>
 
                     <Input
+                      id="role"
                       type="text"
                       name="role"
                       onChange={onChangeRole}
