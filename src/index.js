@@ -6,10 +6,15 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import store from "./store"
+import { GlobalDialog } from "pages/GlobalDialog"
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <>
+      <GlobalDialog>
+        <App />
+      </GlobalDialog>
+    </>
   </Provider>,
   document.getElementById("root")
 );
