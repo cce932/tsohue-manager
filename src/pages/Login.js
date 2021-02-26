@@ -47,7 +47,7 @@ const Login = (props) => {
     form.current.validateAll()
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(login(account, encrypt(password))) // 這邊可以寫func在dispatch() 是因為有thunk
+      dispatch(login(account, encrypt(password, account))) // 這邊可以寫func在dispatch() 是因為有thunk
         .then(() => {
           props.history.push("/")
           window.location.reload()
