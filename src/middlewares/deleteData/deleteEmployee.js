@@ -1,6 +1,5 @@
 import { DELETE_EMPLOYEE } from "shared/constants/types"
 import DeleteService from "services/delete.service"
-import { getAllEmployees } from "actions/loadData"
 
 const deleteEmployee = (store) => (next) => (action) => {
   const { type, payload } = action
@@ -25,7 +24,8 @@ const deleteEmployee = (store) => (next) => (action) => {
     }).then(
       (response) => {
         console.info(`Delete employee ID: ${payload.id} successful`)
-        store.dispatch(getAllEmployees())
+        // store.dispatch(getAllEmployees())
+        window.location.reload() // 解決刪除後 "清除篩選壞掉"的bug
       },
       (error) =>
         window.alert(

@@ -1,6 +1,5 @@
 import { DELETE_MEMBER } from "shared/constants/types"
 import DeleteService from "services/delete.service"
-import { getAllMembers } from "actions/loadData"
 
 const deleteMember = (store) => (next) => (action) => {
   const { type, payload } = action
@@ -27,7 +26,8 @@ const deleteMember = (store) => (next) => (action) => {
     }).then(
       (response) => {
         console.info(`Delete member ID: ${payload.id} successful`)
-        store.dispatch(getAllMembers())
+        // store.dispatch(getAllMembers())
+        window.location.reload() // 解決刪除後 "清除篩選壞掉"的bug
       },
       (error) =>
         alert("刪除會員失敗，請再試一次。", error && "\n錯誤訊息: " + error)
