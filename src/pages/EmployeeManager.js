@@ -305,7 +305,6 @@ const EmployeeManager = () => {
   const handleDeleteEmployee = () => {
     if (selectedId.length > 0) {
       if (window.confirm(`確定刪除員工ID: ${selectedId.toString()}？`)) {
-
         dispatch(deleteEmployee(selectedId))
         setSelectedId([])
         // window.location.reload() // 不能在這寫 要在middleware寫 不然這邊不會等所有程序跑完就會重整 這樣會沒刪到
@@ -336,10 +335,13 @@ const EmployeeManager = () => {
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(
         register(department, title, account, username, email, phone, role)
-      ).then((res) => {
-        addDialog(`註冊「${res.username}」成功`)
-      })
-      // TODO: 按下註冊時，自動生成一個密碼 並顯示出來
+      ).then(
+        (res) => {
+          clearRegisterInput()
+          addDialog(`註冊「${res.username}」成功`)
+        },
+        (error) => null
+      )
     }
   }
 
