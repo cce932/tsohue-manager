@@ -12,6 +12,7 @@ import {
   ACCOUNT_DUPLICATED,
   EMAIL_DUPLICATED,
 } from "shared/constants/messages"
+import { logout } from "actions/auth"
 
 const handleErrMessage = (store) => (next) => (action) => {
   if (action.type === SET_MESSAGE) {
@@ -25,7 +26,10 @@ const handleErrMessage = (store) => (next) => (action) => {
             TOKEN_EXPIRED.test(debugMessage) ||
             EMPTY_TOKEN.test(debugMessage)
           ) {
-            return window.alert("請重新登入喔")
+            store.dispatch(logout())
+            window.location.replace("/login")
+            window.alert("請重新登入喔")
+            return
           }
         }
       case UNAUTHORIZED:
@@ -55,16 +59,14 @@ const handleErrMessage = (store) => (next) => (action) => {
         if (status && message && debugMessage) {
           return window.alert(
             "未知錯誤！！\nstatus:" +
-            status +
-            "\nmessage:" +
-            message +
-            "\ndebugMessage: " +
-            debugMessage
+              status +
+              "\nmessage:" +
+              message +
+              "\ndebugMessage: " +
+              debugMessage
           )
         } else {
-          return window.alert(
-            "未知錯誤！！\n" + payload
-          )
+          return window.alert("未知錯誤！！\n" + payload)
         }
     }
   } else {

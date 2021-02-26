@@ -1,7 +1,7 @@
 import axios from "axios"
 import authHeader from "./auth-header"
 import { TS_API } from "shared/constants/urls"
-import { handleErrMsgFromFetch } from "shared/utility/common"
+import { extractErrMsg } from "shared/utility/common"
 
 // 抓取每個頁面所需的資料
 
@@ -11,7 +11,7 @@ const getCurrentMemberData = (token = authHeader()) => {
       return response
     },
     (error) => {
-      return Promise.reject(handleErrMsgFromFetch(error))
+      return Promise.reject(extractErrMsg(error))
     }
   )
 }
@@ -22,7 +22,7 @@ const getAllMembersData = (token = authHeader()) => {
       return response.data
     },
     (error) => {
-      return Promise.reject(handleErrMsgFromFetch(error))
+      return Promise.reject(extractErrMsg(error))
     }
   )
 }
@@ -34,7 +34,7 @@ const getAllEmployeesData = (token = authHeader()) => {
       return response.data
     })
     .catch((error) => {
-      return Promise.reject(handleErrMsgFromFetch(error))
+      return Promise.reject(extractErrMsg(error))
     })
 }
 
