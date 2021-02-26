@@ -65,7 +65,7 @@ const departmentSelect = {
   Sales: "Sales",
   Transport: "Transport",
   CustomerService: "CustomerService",
-  CenterKitchen: "CenterKitchen",
+  CentralKitchen: "CentralKitchen",
   EmployeeManagement: "EmployeeManagement",
 }
 
@@ -95,14 +95,14 @@ const EmployeeManager = () => {
 
   const keyField = "id"
 
-  let id_filter
-  let department_filter
-  let title_filter
-  let account_filter
-  let username_filter
-  let email_filter
-  let phone_filter
-  let role_filter
+  let id_filter = () => null
+  let department_filter = () => null
+  let title_filter = () => null
+  let account_filter = () => null
+  let username_filter = () => null
+  let email_filter = () => null
+  let phone_filter = () => null
+  let role_filter = () => null
 
   const clearFilterHandler = () => {
     id_filter("")
@@ -148,6 +148,7 @@ const EmployeeManager = () => {
         getFilter: (filter) => {
           id_filter = filter
         },
+        placeholder: " ",
       }),
       sort: true,
     },
@@ -160,6 +161,7 @@ const EmployeeManager = () => {
         getFilter: (filter) => {
           department_filter = filter
         },
+        placeholder: " ",
       }),
       sort: true,
       editor: {
@@ -182,7 +184,7 @@ const EmployeeManager = () => {
             label: "客服",
           },
           {
-            value: "CenterKitchen",
+            value: "CentralKitchen",
             label: "中央廚房管理(暫不可選)",
           },
           {
@@ -201,6 +203,7 @@ const EmployeeManager = () => {
         getFilter: (filter) => {
           title_filter = filter
         },
+        placeholder: " ",
       }),
       sort: true,
       editor: {
@@ -228,6 +231,7 @@ const EmployeeManager = () => {
         getFilter: (filter) => {
           account_filter = filter
         },
+        placeholder: " ",
       }),
       sort: true,
       editable: false,
@@ -239,6 +243,7 @@ const EmployeeManager = () => {
         getFilter: (filter) => {
           username_filter = filter
         },
+        placeholder: " ",
       }),
       sort: true,
       editable: false,
@@ -250,6 +255,7 @@ const EmployeeManager = () => {
         getFilter: (filter) => {
           email_filter = filter
         },
+        placeholder: " ",
       }),
       sort: true,
       editable: false,
@@ -261,6 +267,7 @@ const EmployeeManager = () => {
         getFilter: (filter) => {
           phone_filter = filter
         },
+        placeholder: " ",
       }),
       editable: false,
     },
@@ -273,6 +280,7 @@ const EmployeeManager = () => {
         getFilter: (filter) => {
           role_filter = filter
         },
+        placeholder: " ",
       }),
       editor: {
         type: Type.SELECT,
@@ -297,10 +305,10 @@ const EmployeeManager = () => {
   const handleDeleteEmployee = () => {
     if (selectedId.length > 0) {
       if (window.confirm(`確定刪除員工ID: ${selectedId.toString()}？`)) {
-        clearFilterHandler()
 
         dispatch(deleteEmployee(selectedId))
         setSelectedId([])
+        // window.location.reload() // 不能在這寫 要在middleware寫 不然這邊不會等所有程序跑完就會重整 這樣會沒刪到
       }
     }
   }
@@ -330,7 +338,6 @@ const EmployeeManager = () => {
         register(department, title, account, username, email, phone, role)
       ).then((res) => {
         addDialog(`註冊「${res.username}」成功`)
-        clearRegisterInput()
       })
       // TODO: 按下註冊時，自動生成一個密碼 並顯示出來
     }
@@ -392,7 +399,7 @@ const EmployeeManager = () => {
               data-bs-toggle="collapse"
               data-bs-target="#collapseExample"
               aria-expanded="true"
-            // aria-controls="collapseExample"
+              // aria-controls="collapseExample"
             >
               新增員工
             </PrimaryStrokeBtn>
@@ -519,19 +526,19 @@ const EmployeeManager = () => {
         </ExpandDiv>
       </>
     ) : (
-        <h1>Loading</h1>
-      )
-  ) : (
-      <>
-        {window.alert(
-          `欲前往「${getMeunName(
-            allPaths,
-            window.location.pathname
-          )}」 請先登入喔`
-        )}
-        <Redirect to="/login" />
-      </>
+      <h1>Loading</h1>
     )
+  ) : (
+    <>
+      {window.alert(
+        `欲前往「${getMeunName(
+          allPaths,
+          window.location.pathname
+        )}」 請先登入喔`
+      )}
+      <Redirect to="/login" />
+    </>
+  )
 }
 
 export default EmployeeManager

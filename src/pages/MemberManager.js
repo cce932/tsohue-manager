@@ -77,6 +77,7 @@ const MemberManager = () => {
         getFilter: (filter) => {
           id_filter = filter
         },
+        placeholder: " ",
       }),
       sort: true,
     },
@@ -87,6 +88,7 @@ const MemberManager = () => {
         getFilter: (filter) => {
           account_filter = filter
         },
+        placeholder: " ",
       }),
       sort: true,
       editable: false,
@@ -98,6 +100,7 @@ const MemberManager = () => {
         getFilter: (filter) => {
           username_filter = filter
         },
+        placeholder: " ",
       }),
       sort: true,
       editable: false,
@@ -109,6 +112,7 @@ const MemberManager = () => {
         getFilter: (filter) => {
           email_filter = filter
         },
+        placeholder: " ",
       }),
       sort: true,
       editable: false,
@@ -120,6 +124,7 @@ const MemberManager = () => {
         getFilter: (filter) => {
           phone_filter = filter
         },
+        placeholder: " ",
       }),
       editable: false,
     },
@@ -132,6 +137,7 @@ const MemberManager = () => {
         getFilter: (filter) => {
           role_filter = filter
         },
+        placeholder: " ",
       }),
       editor: {
         type: Type.SELECT,
@@ -152,12 +158,6 @@ const MemberManager = () => {
   const handleDeleteMember = () => {
     if (selectedId.length > 0) {
       if (window.confirm(`確定刪除會員ID: ${selectedId.toString()}？`)) {
-        id_filter("") // 解決bug: filter剩一筆時 又把那一筆刪掉 filter就會無法清空
-        account_filter("")
-        username_filter("")
-        email_filter("")
-        phone_filter("")
-        role_filter()
         
         dispatch(deleteMember(selectedId))
         setSelectedId([])
@@ -170,7 +170,7 @@ const MemberManager = () => {
       <ExpandDiv>
         <div className="tools">
           <PrimaryStrokeBtn onClick={handleDeleteMember}>
-            刪除員工
+            刪除會員
           </PrimaryStrokeBtn>
           <PrimaryStrokeBtn onClick={clearFilterHandler}>
             清除篩選
