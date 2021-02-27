@@ -5,8 +5,6 @@ import logger from "redux-logger"
 import handleErrMessage from "middlewares/handleErrMessage"
 import fetchAllMemebers from "middlewares/loadData/fetchAllMembers"
 import fetchAllEmployees from "middlewares/loadData/fetchAllEmployees"
-import changeMemberRole from "middlewares/editData/changeMemberRole"
-import modifyEmployeeData from "middlewares/editData/modifyEmployeeData"
 import deleteMember from "middlewares/deleteData/deleteMember"
 import deleteEmployee from "middlewares/deleteData/deleteEmployee"
 
@@ -16,8 +14,6 @@ const middlewares = [
   handleErrMessage,
   fetchAllMemebers,
   fetchAllEmployees,
-  changeMemberRole,
-  modifyEmployeeData,
   deleteMember,
   deleteEmployee,
 ]
