@@ -48,18 +48,18 @@ const modifyEmployeeData = (id, colName, newValue, token = authHeader()) => {
     )
 }
 
-const resetPwd = (id, oldPassword, newPassword) => {
+const resetPwd = (id, newpassword, prepassword) => {
   const body = {
-    oldPassword,
-    newPassword,
+    newpassword,
+    prepassword,
   }
 
   return axios
     .patch(
-      TS_API + "/employee/resetPwd/" + id,
+      TS_API + "/employee/update/pwd/" + id,
       { ...body },
       { headers: authHeader() }
-    ) // 這邊等shannon做好
+    )
     .then(
       (response) => {
         return Promise.resolve(response)

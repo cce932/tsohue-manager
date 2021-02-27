@@ -12,26 +12,26 @@
 //   z-index: 99999;
 // }
 
-.register {
+.resetPwd {
   @include text(600, 16px, $secondary-color);
   box-shadow: $default-shadow;
   width: 420px;
-  height: 620px;
+  height: 300px;
   margin: auto;
   padding: 30px 50px;
   border-radius: 10px;
   position: relative;
 
-  // &::before {
-  //   content: "作伙新朋友 ~";
-  //   @include text(900, 50px, $forth-color);
-  //   position: absolute;
-  //   left: 20px;
-  //   top: -80px;
-  // }
+  &::before {
+    content: "變更密碼";
+    @include text(900, 24px, $forth-color);
+    position: absolute;
+    left: 20px;
+    top: -50px;
+  }
 
   .form > label {
-    width: 130px;
+    width: 150px;
     margin-bottom: 2.5rem;
   }
 
@@ -53,13 +53,13 @@
       color: $third-color;
     }
   }
-  
+
   input ~ div {
     font-size: 14px;
     padding: 5px 0 0 7px;
     color: $accent-color;
   }
-  
+
   button {
     @include text(600, 16px, #ffffff);
     transition: $default-trans;
@@ -73,5 +73,9 @@
     &:hover {
       background-color: $accent-color;
     }
+  }
+
+  .message {
+    color: $accent-color;
   }
 }

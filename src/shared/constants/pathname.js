@@ -7,7 +7,8 @@ export const allPaths = {
   食材庫存: "/ingredient-manager/all-stock",
   進貨管理: "/ingredient-manager/purchase",
   食譜管理: "/recipe-manager",
-  註冊: "/register",
+  個人資料: "/profile",
+  變更密碼: "/profile/reset-pwd",
   登入: "/login",
 }
 
@@ -19,5 +20,6 @@ export const wapperStop = "分裝站"
 export const ingredientStock = "食材庫存"
 export const ingredientPurchase = "進貨管理"
 export const recipeManager = "食譜管理"
-export const register = "註冊"
+export const profile = "個人資料"
+export const pwdReset = "變更密碼"
 export const login = "登入"

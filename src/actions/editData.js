@@ -49,3 +49,20 @@ export const modifyEmployeeData = (id, colName, newValue) => (dispatch) => {
     }
   )
 }
+
+export const resetPwd = (id, newPassword, oldPassword) => (dispatch) => {
+  return EditService.resetPwd(id, newPassword, oldPassword).then(
+    (response) => {
+      dispatch({ type: RESET_PWD, payload: null })
+      window.location.replace("/profile")
+
+      return Promise.resolve(response)
+    },
+    (error) => {
+      const { status, message, debugMessage } = error
+
+      dispatch(setMessage({ status, message, debugMessage }))
+      return Promise.reject(error)
+    }
+  )
+}

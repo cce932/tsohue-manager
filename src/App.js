@@ -7,9 +7,10 @@ import { history } from "helpers/history"
 import { clearMessage } from "actions/message"
 // import Home from "pages/Home"
 import Login from "pages/Login"
-import Register from "pages/Register"
+import ResetPwd from "pages/ResetPwd"
 import MemberManager from "pages/MemberManager"
 import EmployeeManager from "pages/EmployeeManager"
+import Profile from "pages/Profile"
 import { logout } from "actions/auth"
 import {
   allPaths,
@@ -21,7 +22,8 @@ import {
   ingredientStock,
   ingredientPurchase,
   recipeManager,
-  register,
+  profile,
+  pwdReset,
   login,
 } from "shared/constants/pathname"
 import { getMeunName } from "shared/utility/common"
@@ -185,7 +187,9 @@ const App = (props) => {
 
             {currentUser ? (
               <div className={`identity`}>
-                <p className="identity">Hello, {currentUser.username}</p>
+                <Link className="profile" to="/profile">
+                  你好, {currentUser.username}
+                </Link>
                 <NavLink to={"/home"} onClick={onLogout}>
                   登出
                 </NavLink>
@@ -194,12 +198,6 @@ const App = (props) => {
               <div className={`identity`}>
                 <NavLink to={`${allPaths[login]}`} activeClassName="selected">
                   {login}
-                </NavLink>
-                <NavLink
-                  to={`${allPaths[register]}`}
-                  activeClassName="selected"
-                >
-                  {register}
                 </NavLink>
               </div>
             )}
@@ -226,7 +224,8 @@ const App = (props) => {
         <Switch>
           {/* <Route exact path={["/", "/home"]} component={Home} /> */}
           <Route exact path={`${allPaths[login]}`} component={Login} />
-          <Route exact path={`${allPaths[register]}`} component={Register} />
+          <Route exact path={`${allPaths[profile]}`} component={Profile} />
+          <Route exact path={`${allPaths[pwdReset]}`} component={ResetPwd} />
           <Route
             exact
             path={`${allPaths[allMember]}`}

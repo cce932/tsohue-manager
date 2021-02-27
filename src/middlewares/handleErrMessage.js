@@ -12,6 +12,7 @@ import {
   CONFLICT,
   ACCOUNT_DUPLICATED,
   EMAIL_DUPLICATED,
+  RESET_PWD_INCORRECT,
 } from "shared/constants/messages"
 import { logout } from "actions/auth"
 
@@ -22,7 +23,7 @@ const handleErrMessage = (store) => (next) => (action) => {
 
     switch (status) {
       case BAD_REQUEST:
-        if (message === UNEXPECTED_ERROR) {
+        if (UNEXPECTED_ERROR.test(message)) {
           if (
             TOKEN_EXPIRED.test(debugMessage) ||
             EMPTY_TOKEN.test(debugMessage)
@@ -38,6 +39,11 @@ const handleErrMessage = (store) => (next) => (action) => {
             payload: `您沒有權限更新ID:${payload.id}的${
               payload.colName ? payload.colName : "角色"
             }`,
+          })
+        } else if (RESET_PWD_INCORRECT.test(message)) {
+          return next({
+            ...action,
+            payload: `密碼錯誤囉`,
           })
         }
       case UNAUTHORIZED:

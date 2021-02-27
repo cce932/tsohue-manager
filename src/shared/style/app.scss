@@ -110,20 +110,19 @@ body {
         display: flex; // 讓登入、註冊按鈕 可以水平等分
         justify-content: space-between; // 讓登入、註冊按鈕 可以水平等分
 
-        p {
-          @include text(bold, 1rem, $secondary-color);
+        .profile {
+          @include text(bold, 0.9rem, $secondary-color);
           padding: 0;
           width: auto;
           margin: auto 0;
         }
 
-        a {
-          @include text(400, 1rem, $secondary-color);
+        a:not(.profile) {
+          @include text(400, 0.9rem, $secondary-color);
           transition: $default-trans;
           border: $third-color solid 1px;
-          display: inline-block;
           border-radius: 3px;
-          padding: 5px 15px;
+          padding: 4px 10px;
 
           &:hover {
             border: $accent-color solid 1px;
