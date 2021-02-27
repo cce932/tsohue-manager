@@ -7,10 +7,10 @@ import {
   SET_MESSAGE,
 } from "shared/constants/types"
 import AuthService from "services/auth.service"
-import { generatePwd, handleErrMsgFromFetch } from "shared/utility/common"
-import { getAllEmployees } from "actions/loadData"
+import { generatePwd, extractErrMsg } from "shared/utility/common"
 import { sendPwdMail, encrypt } from "shared/utility/feature"
 import { setMessage } from "./message"
+import { getAllEmployees } from "./loadData"
 
 // dispatch(action) 一定要回傳action 內容是type屬性和可省略的payload
 export const register = (
@@ -20,7 +20,7 @@ export const register = (
   username,
   email,
   phone,
-  role,
+  role
 ) => (dispatch) => {
   const password = generatePwd()
   return AuthService.register(
@@ -31,7 +31,7 @@ export const register = (
     email,
     phone,
     role,
-    encrypt(password)
+    encrypt(password, account)
   ).then(
     ({ data }) => {
       dispatch({
@@ -39,25 +39,29 @@ export const register = (
         payload: null,
       })
 
-      sendPwdMail(email, username, password).catch(
-        (error) => dispatch(setMessage('註冊郵件寄送錯誤，請重新註冊。'))
-      )
-
       dispatch(getAllEmployees())
+
+      sendPwdMail(email, username, account, password).catch((error) =>
+        dispatch(setMessage("註冊郵件寄送錯誤，請重新註冊。"))
+      )
 
       return Promise.resolve(data)
     },
     (error) => {
-      const message = handleErrMsgFromFetch(error)
-
       dispatch({
         type: REGISTER_FAIL,
         payload: null,
       })
 
-      dispatch(setMessage(error))
+      dispatch(
+        setMessage({
+          status: error.status || null,
+          message: error.message || null,
+          debugMessage: error.debugMessage || null,
+        })
+      )
 
-      return Promise.reject(message)
+      return Promise.reject(error)
     }
   )
 }
@@ -73,8 +77,6 @@ export const login = (account, password) => (dispatch) => {
       return Promise.resolve()
     },
     (error) => {
-      const message = handleErrMsgFromFetch(error)
-
       dispatch({
         type: LOGIN_FAIL,
         payload: null,
@@ -83,13 +85,13 @@ export const login = (account, password) => (dispatch) => {
       dispatch({
         type: SET_MESSAGE,
         payload: {
-          status: message.status || null,
-          message: message.message || null,
-          debugMessage: message.debugMessage || null,
+          status: error.status || null,
+          message: error.message || null,
+          debugMessage: error.debugMessage || null,
         },
       })
 
-      return Promise.reject(message)
+      return Promise.reject(error)
     }
   )
 }

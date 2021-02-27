@@ -2,6 +2,7 @@ import axios from "axios"
 import { TS_API } from "shared/constants/urls"
 import LoadService from "./load.service"
 import authHeader from "./auth-header"
+import { extractErrMsg } from "shared/utility/common"
 
 const register = (
   department,
@@ -14,20 +15,22 @@ const register = (
   password,
   token = authHeader()
 ) => {
-  return axios.post(
-    TS_API + "/employee/register",
-    {
-      department,
-      title,
-      account,
-      username,
-      email,
-      phone,
-      role,
-      password,
-    },
-    { headers: token }
-  )
+  return axios
+    .post(
+      TS_API + "/employee/register",
+      {
+        department,
+        title,
+        account,
+        username,
+        email,
+        phone,
+        role,
+        password,
+      },
+      { headers: token }
+    )
+    .catch((error) => extractErrMsg(error))
 }
 
 const login = (account, password) => {
@@ -52,6 +55,7 @@ const login = (account, password) => {
 
       return allResponse
     })
+    .catch((error) => extractErrMsg(error))
 }
 
 const logout = () => {
