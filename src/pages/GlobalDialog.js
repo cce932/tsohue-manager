@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState, createContext } from "react"
+import { useDispatch } from "react-redux"
 import "shared/style/globalDialog.scss"
+import { clearMessage } from "actions/message"
 
 const DialogContext = createContext()
 
@@ -7,6 +9,7 @@ export default DialogContext
 
 export const GlobalDialog = ({ children }) => {
   const [dialogs, setDialogs] = useState([])
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (dialogs.length > 0) {
@@ -16,9 +19,11 @@ export const GlobalDialog = ({ children }) => {
   }, [dialogs])
 
   const addDialog = useCallback(
-    function(dialog) {
+    function (dialog) {
       setDialogs((dialogs) => [...dialogs, dialog])
-    }, [setDialogs]
+      dispatch(clearMessage())
+    },
+    [setDialogs]
   )
 
   return (

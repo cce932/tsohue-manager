@@ -4,6 +4,7 @@ import {
   UNEXPECTED_ERROR,
   TOKEN_EXPIRED,
   EMPTY_TOKEN,
+  EDIT_EMPLOYEE_DENIED,
   UNAUTHORIZED,
   LOGIN_FAILURE,
   FORBIDDEN,
@@ -31,6 +32,13 @@ const handleErrMessage = (store) => (next) => (action) => {
             window.alert("請重新登入喔")
             return
           }
+        } else if (EDIT_EMPLOYEE_DENIED.test(message)) {
+          return next({
+            ...action,
+            payload: `您沒有權限更新ID:${payload.id}的${
+              payload.colName ? payload.colName : "角色"
+            }`,
+          })
         }
       case UNAUTHORIZED:
         if (message === LOGIN_FAILURE) {

@@ -19,7 +19,7 @@ import { getAllEmployees } from "actions/loadData"
 import { Redirect } from "react-router-dom"
 import { getMeunName } from "shared/utility/common"
 import { allPaths } from "shared/constants/pathname"
-import { modifyEmployeeData } from "actions/editData"
+import { modifyEmployeeData, changeEmployeeRole } from "actions/editData"
 import { deleteEmployee } from "actions/deleteData"
 import { countSelectedId } from "shared/utility/common"
 import { register } from "actions/auth"
@@ -120,7 +120,19 @@ const EmployeeManager = () => {
     blurToSave: true,
     afterSaveCell: (oldValue, newValue, row, col) => {
       if (oldValue !== newValue) {
-        dispatch(modifyEmployeeData(row.id, col.dataField, newValue)) // 可能是dept或title或role
+        if (col.dataField === "role") {
+          dispatch(changeEmployeeRole(row.id, newValue)).then(
+            (res) => addDialog(`已更新ID: ${res.id}的角色為${res.role}`),
+            (err) => null
+          )
+        } else {
+          // 限dept或title
+          dispatch(modifyEmployeeData(row.id, col.dataField, newValue)).then(
+            (res) =>
+              addDialog(`已更新ID: ${res.id}的${col.dataField}為${res.role}`),
+            (err) => null
+          )
+        }
       }
     },
   })
@@ -507,7 +519,12 @@ const EmployeeManager = () => {
                       <option value="MANAGER(暫不可選)" />
                     </datalist>
 
-                    {message && <div className="message">{message}</div>}
+                    {message &&
+                      (/沒有權限/.test(message) ? (
+                        addDialog(message)
+                      ) : (
+                        <div className="message">{message}</div>
+                      ))}
                   </div>
 
                   <div className={`col-1 button`}>

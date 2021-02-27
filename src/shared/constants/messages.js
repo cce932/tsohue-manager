@@ -2,6 +2,7 @@ export const BAD_REQUEST = "BAD_REQUEST" // 400
 export const UNEXPECTED_ERROR = "Unexpected error" // 2
 export const TOKEN_EXPIRED = /^JWT expired/ // 3
 export const EMPTY_TOKEN = /JWT String argument cannot be null or empty/ // 3
+export const EDIT_EMPLOYEE_DENIED = /not the employee you want to update/
 
 export const UNAUTHORIZED = "UNAUTHORIZED" // 401
 export const LOGIN_FAILURE = "LOGIN FAILURE" // 2
