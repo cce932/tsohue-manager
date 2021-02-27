@@ -187,7 +187,7 @@ const App = (props) => {
 
             {currentUser ? (
               <div className={`identity`}>
-                <Link className="profile" to="/profile">
+                <Link className="profile-bar" to="/profile">
                   你好, {currentUser.username}
                 </Link>
                 <NavLink to={"/home"} onClick={onLogout}>

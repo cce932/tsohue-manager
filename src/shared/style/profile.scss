@@ -1,0 +1,20 @@
+@import "global";
+
+.profile {
+
+  a {
+    float: right;
+    margin: 15px;
+  }
+
+  .my-data {
+    margin: 75px 50px 0;
+    width: auto;
+
+    label {
+      @include text(500, 1rem, $secondary-color);
+      width: 100px;
+      margin-bottom: 10px;
+    }
+  }
+}

@@ -110,14 +110,14 @@ body {
         display: flex; // 讓登入、註冊按鈕 可以水平等分
         justify-content: space-between; // 讓登入、註冊按鈕 可以水平等分
 
-        .profile {
+        .profile-bar {
           @include text(bold, 0.9rem, $secondary-color);
           padding: 0;
           width: auto;
           margin: auto 0;
         }
 
-        a:not(.profile) {
+        a:not(.profile-bar) {
           @include text(400, 0.9rem, $secondary-color);
           transition: $default-trans;
           border: $third-color solid 1px;
