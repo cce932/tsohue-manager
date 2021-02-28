@@ -13,7 +13,7 @@ const employees = (state = initialState, action) => {
     case FETCH_ALL_EMPLOYEES: {
       return {
         ...state,
-        fetchedTimestamp: new Date(),
+        fetchTimestamp: new Date(),
       }
     }
     case FETCH_ALL_EMPLOYEES_SUCCESS:

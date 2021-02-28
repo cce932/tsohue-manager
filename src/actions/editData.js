@@ -54,7 +54,7 @@ export const resetPwd = (id, newPassword, oldPassword) => (dispatch) => {
   return EditService.resetPwd(id, newPassword, oldPassword).then(
     (response) => {
       dispatch({ type: RESET_PWD, payload: null })
-      window.location.replace("/profile")
+      window.location = "/profile"
 
       return Promise.resolve(response)
     },

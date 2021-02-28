@@ -13,7 +13,7 @@ const members = (state = initialState, action) => {
     case FETCH_ALL_MEMBERS: {
       return {
         ...state,
-        fetchedTimestamp: new Date(),
+        fetchTimestamp: new Date(),
       }
     }
     case FETCH_ALL_MEMBERS_SUCCESS:

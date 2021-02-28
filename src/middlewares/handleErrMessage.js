@@ -29,7 +29,7 @@ const handleErrMessage = (store) => (next) => (action) => {
             EMPTY_TOKEN.test(debugMessage)
           ) {
             store.dispatch(logout())
-            window.location.replace("/login")
+            window.location="/login"
             window.alert("請重新登入喔")
             return
           }

@@ -29,6 +29,10 @@ const Login = (props) => {
 
   const dispatch = useDispatch()
 
+  if (isLoggedIn) {
+    window.location = "/"
+  }
+
   const onChangeAccount = (e) => {
     const account = e.target.value
     setAccount(account)
@@ -57,10 +61,6 @@ const Login = (props) => {
         })
     } else {
       setLoading(false)
-    }
-
-    if (isLoggedIn) {
-      return <Redirect to="/" />
     }
   }
 

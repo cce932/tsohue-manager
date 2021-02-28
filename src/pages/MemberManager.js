@@ -173,7 +173,7 @@ const MemberManager = () => {
             刪除會員
           </PrimaryStrokeBtn>
           <PrimaryStrokeBtn onClick={clearFilterHandler}>
-            清除篩選
+            清除搜尋
           </PrimaryStrokeBtn>
         </div>
 

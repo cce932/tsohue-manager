@@ -424,7 +424,7 @@ const EmployeeManager = () => {
               刪除員工
             </PrimaryStrokeBtn>
             <PrimaryStrokeBtn onClick={clearFilterHandler}>
-              清除篩選
+              清除搜尋
             </PrimaryStrokeBtn>
             <div className="collapse" id="collapseExample">
               <Form id="registerForm" onSubmit={handleRegister} ref={form}>
