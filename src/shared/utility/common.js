@@ -13,13 +13,13 @@ export const extractErrMsg = (error) => {
 }
 
 export const countSelectedId = (rows, isSelect, selectedList) => {
+  let processedList = selectedList
   rows.map((row) => {
-    isSelect
-      ? selectedList.push(row.id)
-      : selectedList.splice(selectedList.indexOf(rows.id), 1)
+    processedList = isSelect
+      ? processedList.concat(row.id)
+      : processedList.filter((selected) => selected !== row.id)
   })
-
-  return selectedList
+  return processedList
 }
 
 const keylist = "abcdefghijklmnopqrstuvwxyz123456789"
