@@ -5,7 +5,7 @@
 }
 
 div.tools {
-  margin: 10px 20px 0 0;
+  margin: 10px 20px -10px 0;
   text-align: right;
 
   button:disabled {
@@ -17,54 +17,56 @@ div.tools {
     background-color: $accent-color;
     color: white;
   }
-
-  div.form {
-    margin-top: 10px;
-    width: 100%;
-    height: 100px;
-    box-shadow: $shadow-bottom;
-    padding: 25px 15px;
-    border-radius: 5px;
-    background-color: $sixth-color;
-    white-space: nowrap;
-
-    .input {
-      display: flex;
-      position: relative;
-      height: auto;
-      justify-content: space-between;
-
-      input {
-        @include text(normal, 1rem, $secondary-color);
-        max-width: 90px;
-        border: $forth-color solid 1px;
-        border-radius: 5px;
-        padding: 1px 3px;
-        margin: 0 10px 0 2px;
-
-        &:focus {
-          border: $accent-lighter-color solid 1px;
-        }
-      }
-
-      .note {
-        @include text(bold, 0.9rem, $accent-color);
-        margin: 5px 12px 0 0;
-      }
-      .message {
-        @include text(bold, 0.9rem, $accent-color);
-        position: absolute;
-        right: 23px;
-        top: 32px;
-      }
-    }
-    .button {
-      display: flex;
-    }
-  }
 }
 
 .employee-manager {
+  div.tools {
+    div.form {
+      margin-top: 10px;
+      width: 100%;
+      height: 100px;
+      box-shadow: $shadow-bottom;
+      padding: 25px 15px;
+      border-radius: 5px;
+      background-color: $sixth-color;
+      white-space: nowrap;
+
+      .input {
+        display: flex;
+        position: relative;
+        height: auto;
+        justify-content: space-between;
+
+        input {
+          @include text(normal, 1rem, $secondary-color);
+          max-width: 90px;
+          border: $forth-color solid 1px;
+          border-radius: 5px;
+          padding: 1px 3px;
+          margin: 0 10px 0 2px;
+
+          &:focus {
+            border: $accent-lighter-color solid 1px;
+          }
+        }
+
+        .note {
+          @include text(bold, 0.9rem, $accent-color);
+          margin: 5px 12px 0 0;
+        }
+        .message {
+          @include text(bold, 0.9rem, $accent-color);
+          position: absolute;
+          right: 23px;
+          top: 32px;
+        }
+      }
+      .button {
+        display: flex;
+      }
+    }
+  }
+
   div.react-bootstrap-table {
     tr > th:nth-child(2) {
       label {
@@ -78,4 +80,3 @@ div.tools {
     }
   }
 }
-
