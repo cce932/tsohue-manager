@@ -115,8 +115,14 @@ body {
           padding: 0;
           width: auto;
           margin: auto 0;
+          transition: $default-trans;
+
+          &:hover {
+            color: $accent-color;
+          }
         }
 
+        // btn樣式
         a:not(.profile-bar) {
           @include text(400, 0.9rem, $secondary-color);
           transition: $default-trans;
