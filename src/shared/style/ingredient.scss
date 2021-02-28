@@ -1,0 +1,43 @@
+@import "global";
+
+.ingredients-stock {
+  @include text(normal, 1rem, $secondary-color);
+
+  label[for="text-filter-column-id"],
+  label[for="text-filter-column-stock"] {
+    width: 80px;
+  }
+  label[for="text-filter-column-safetyStock"] {
+    width: 100px;
+  }
+
+  div.number-filter {
+    width: 130px;
+
+    label.filter-label {
+      display: inline-block;
+      width: auto;
+      margin-right: 10px;
+
+      #number-filter-comparator-price {
+        width: 35px;
+      }
+    }
+
+    label:nth-child(2) {
+      display: inline-block;
+      width: auto;
+
+      #number-filter-column-price {
+        width: 80px;
+        font-size: 12px;
+      }
+    }
+  }
+
+  // 熱量 沒有的話sort會折行
+  th:nth-child(10), th:nth-child(11) {
+    vertical-align: text-top;
+    min-width: 100px;
+  }
+}

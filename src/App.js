@@ -11,6 +11,8 @@ import ResetPwd from "pages/ResetPwd"
 import MemberManager from "pages/MemberManager"
 import EmployeeManager from "pages/EmployeeManager"
 import Profile from "pages/Profile"
+import IngredientsStock from "pages/IngredientsStock"
+import IngredientDetail from "pages/IngredientDetail"
 import { logout } from "actions/auth"
 import {
   allPaths,
@@ -19,7 +21,8 @@ import {
   orderManager,
   allRequest,
   wapperStop,
-  ingredientStock,
+  ingredientsStock,
+  ingredientDetail,
   ingredientPurchase,
   recipeManager,
   profile,
@@ -154,10 +157,10 @@ const App = (props) => {
                 <ul className="collapse list-unstyled" id="ingredients-submenu">
                   <li>
                     <NavLink
-                      to={`${allPaths[ingredientStock]}`}
+                      to={`${allPaths[ingredientsStock]}`}
                       activeClassName="selected"
                     >
-                      {ingredientStock}
+                      {ingredientsStock}
                     </NavLink>
                     {/* 食材清單 食材查詢 食材詳細(食材進銷貨紀錄) 新增食材 刪除食材 */}
                   </li>
@@ -235,6 +238,16 @@ const App = (props) => {
             exact
             path={`${allPaths[allEmployee]}`}
             component={EmployeeManager}
+          />
+          <Route
+            exact
+            path={`${allPaths[ingredientsStock]}`}
+            component={IngredientsStock}
+          />
+          <Route
+            exact
+            path={`${allPaths[ingredientDetail]}/:id`}
+            component={IngredientDetail}
           />
         </Switch>
       </div>

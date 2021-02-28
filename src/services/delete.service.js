@@ -5,13 +5,19 @@ import { extractErrMsg } from "shared/utility/common"
 
 const deleteMember = async (id, token = authHeader()) =>
   axios.delete(TS_API + "/member/delete/" + id, { headers: token }).then(
-    (response) => Promise.resolve(response),
+    (response) => Promise.resolve(response.data),
     (error) => Promise.reject(extractErrMsg(error))
   )
 
 const deleteEmployee = async (id, token = authHeader()) =>
   axios.delete(TS_API + "/employee/delete/" + id, { headers: token }).then(
-    (response) => Promise.resolve(response),
+    (response) => Promise.resolve(response.data),
+    (error) => Promise.reject(extractErrMsg(error))
+  )
+
+const deleteIngredient = async (id, token = authHeader()) =>
+  axios.delete(TS_API + "/ingredient/delete/" + id, { headers: token }).then(
+    (response) => Promise.resolve(response.data),
     (error) => Promise.reject(extractErrMsg(error))
   )
 
@@ -19,4 +25,5 @@ const deleteEmployee = async (id, token = authHeader()) =>
 export default {
   deleteMember,
   deleteEmployee,
+  deleteIngredient,
 }
