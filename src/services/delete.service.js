@@ -8,7 +8,7 @@ const deleteMember = async (id, token = authHeader()) =>
 const deleteEmployee = async (id, token = authHeader()) =>
   axios.delete(TS_API + "/employee/delete/" + id, { headers: token })
 
-const deleteIngredient = async (id, token = authHeader()) =>
+const deleteIngredient = (id, token = authHeader()) =>
   axios.delete(TS_API + "/ingredient/delete/" + id, { headers: token })
 
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */

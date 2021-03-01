@@ -13,6 +13,7 @@ import {
   ACCOUNT_DUPLICATED,
   EMAIL_DUPLICATED,
   RESET_PWD_INCORRECT,
+  USED_INGREDIENT_DELETE_ERROR,
 } from "shared/constants/messages"
 import { logout } from "actions/auth"
 
@@ -44,6 +45,12 @@ const handleErrMessage = (store) => (next) => (action) => {
           return next({
             ...action,
             payload: `密碼錯誤囉`,
+          })
+        } else if (USED_INGREDIENT_DELETE_ERROR.test(message)) {
+          const { id } = payload
+          return next({
+            ...action,
+            payload: `刪除食材ID:${id}失敗 食譜使用中`
           })
         }
       case UNAUTHORIZED:

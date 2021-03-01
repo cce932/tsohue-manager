@@ -4,6 +4,8 @@ import {
   DELETE_EMPLOYEE,
   DELETE_INGREDIENT_SUCCESS,
 } from "shared/constants/types"
+import { extractErrMsg } from "shared/utility/common"
+import { setMessage } from "actions/message"
 
 export const deleteMember = (id) => ({
   type: DELETE_MEMBER,
@@ -17,15 +19,19 @@ export const deleteEmployee = (id) => ({
 
 export const deleteIngredient = (ids) => (dispatch) => {
   new Promise((resolve, reject) => {
-    ids.map((id) =>
-      DeleteService.deleteIngredient(id).catch((error) => reject(error))
-    )
-    resolve()
-  }).then(
-    () => {
-      dispatch({ type: DELETE_INGREDIENT_SUCCESS, payload: {id: ids} })
-    },
-    (error) =>
-      alert("刪除食材失敗，請再試一次。", error && "\n錯誤訊息: " + error)
-  )
+    ids.map((id, index) => {
+      DeleteService.deleteIngredient(id).then(
+        (res) => {
+          dispatch({ type: DELETE_INGREDIENT_SUCCESS, payload: { id } })
+        },
+        (message) => {
+          reject({ message, id })
+        }
+      )
+    })
+  }).catch((error) => {
+    const message = extractErrMsg(error.message)
+
+    dispatch(setMessage({ ...message, id: error.id }))
+  })
 }

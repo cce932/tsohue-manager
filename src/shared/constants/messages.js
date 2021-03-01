@@ -4,6 +4,7 @@ export const TOKEN_EXPIRED = /^JWT expired/ // 3
 export const EMPTY_TOKEN = /JWT String argument cannot be null or empty/ // 3
 export const EDIT_EMPLOYEE_DENIED = /not the employee you want to update/ // 2,3
 export const RESET_PWD_INCORRECT = /password are not correct/ // 2,3
+export const USED_INGREDIENT_DELETE_ERROR = /this ingredient was used by recipe/ // 2,3
 
 export const UNAUTHORIZED = "UNAUTHORIZED" // 401
 export const LOGIN_FAILURE = "LOGIN FAILURE" // 2

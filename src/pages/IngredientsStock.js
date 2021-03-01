@@ -18,12 +18,15 @@ import { deleteIngredient } from "actions/deleteData"
 import { countSelectedId } from "shared/utility/common"
 import { getMeunName } from "shared/utility/common"
 import { allPaths, ingredientDetail } from "shared/constants/pathname"
+import useDialogContext from "hooks/useDialogContext"
 
 const IngredientsStock = () => {
   const dispatch = useDispatch()
   const { allIngredients } = useSelector((state) => state.ingredients)
   const { isLoggedIn } = useSelector((state) => state.auth)
+  const { message } = useSelector((state) => state.messages)
   const [selectedId, setSelectedId] = useState([])
+  const addDialog = useDialogContext()
 
   useEffect(() => {
     dispatch(getAllIngredients())
@@ -215,6 +218,7 @@ const IngredientsStock = () => {
   return isLoggedIn ? (
     allIngredients ? (
       <ExpandDiv className="ingredients-stock">
+        {message && addDialog(message)}
         <div className="tools">
           <PrimaryStrokeBtn onClick={handleDeleteIngredient}>
             刪除食材
