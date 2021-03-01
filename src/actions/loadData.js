@@ -4,6 +4,7 @@ import {
   FETCH_ALL_EMPLOYEES,
   FETCH_ALL_INGREDIENTS_SUCCESS,
 } from "shared/constants/types"
+import { extractErrMsg } from "shared/utility/common"
 import { setMessage } from "./message"
 
 export const getAllMembers = () => {
@@ -22,18 +23,20 @@ export const getAllEmployees = () => {
 
 export const getAllIngredients = () => (dispatch) => {
   return loadService.getAllIngredientsData().then(
-    (response) => {
+    ({ data }) => {
       dispatch({
         type: FETCH_ALL_INGREDIENTS_SUCCESS,
-        payload: response,
+        payload: data,
       })
 
-      return Promise.resolve(response)
+      return Promise.resolve(data)
     },
     (error) => {
-      dispatch(setMessage(error))
+      const message = extractErrMsg(error)
 
-      return Promise.reject(error)
+      dispatch(setMessage(message))
+
+      return Promise.reject(message)
     }
   )
 }

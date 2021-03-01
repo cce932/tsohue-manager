@@ -1,52 +1,23 @@
 import axios from "axios"
 import authHeader from "./auth-header"
 import { TS_API } from "shared/constants/urls"
-import { extractErrMsg } from "shared/utility/common"
 
 // 抓取每個頁面所需的資料
 
 const getCurrentMemberData = (token = authHeader()) => {
-  return axios.get(TS_API + "/employee/me", { headers: token }).then(
-    (response) => {
-      return response
-    },
-    (error) => {
-      return Promise.reject(extractErrMsg(error))
-    }
-  )
+  return axios.get(TS_API + "/employee/me", { headers: token })
 }
 
 const getAllMembersData = (token = authHeader()) => {
-  return axios.get(TS_API + "/member/allMembers", { headers: token }).then(
-    (response) => {
-      return response.data
-    },
-    (error) => {
-      return Promise.reject(extractErrMsg(error))
-    }
-  )
+  return axios.get(TS_API + "/member/allMembers", { headers: token })
 }
 
 const getAllEmployeesData = (token = authHeader()) => {
-  return axios
-    .get(TS_API + "/employee/allEmployees", { headers: token })
-    .then((response) => {
-      return response.data
-    })
-    .catch((error) => {
-      return Promise.reject(extractErrMsg(error))
-    })
+  return axios.get(TS_API + "/employee/allEmployees", { headers: token })
 }
 
 const getAllIngredientsData = (token = authHeader()) => {
-  return axios
-    .get(TS_API + "/ingredient/all", { headers: token })
-    .then((response) => {
-      return response.data
-    })
-    .catch((error) => {
-      return Promise.reject(extractErrMsg(error))
-    })
+  return axios.get(TS_API + "/ingredient/all", { headers: token })
 }
 
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */

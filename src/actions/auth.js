@@ -48,6 +48,8 @@ export const register = (
       return Promise.resolve(data)
     },
     (error) => {
+      const message = extractErrMsg(error)
+
       dispatch({
         type: REGISTER_FAIL,
         payload: null,
@@ -55,9 +57,9 @@ export const register = (
 
       dispatch(
         setMessage({
-          status: error.status || null,
-          message: error.message || null,
-          debugMessage: error.debugMessage || null,
+          status: message.status || null,
+          message: message.message || null,
+          debugMessage: message.debugMessage || null,
         })
       )
 
@@ -77,6 +79,8 @@ export const login = (account, password) => (dispatch) => {
       return Promise.resolve()
     },
     (error) => {
+      const message = extractErrMsg(error)
+
       dispatch({
         type: LOGIN_FAIL,
         payload: null,
@@ -85,9 +89,9 @@ export const login = (account, password) => (dispatch) => {
       dispatch({
         type: SET_MESSAGE,
         payload: {
-          status: error.status || null,
-          message: error.message || null,
-          debugMessage: error.debugMessage || null,
+          status: message.status || null,
+          message: message.message || null,
+          debugMessage: message.debugMessage || null,
         },
       })
 

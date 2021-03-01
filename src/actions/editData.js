@@ -7,6 +7,7 @@ import {
 import EditService from "services/edit.service"
 import { getAllEmployees } from "actions/loadData"
 import { setMessage } from "./message"
+import { extractErrMsg } from "shared/utility/common"
 
 export const changeMemberRole = (id, role) => ({
   type: CHANGE_MEMBER_ROLE,
@@ -25,7 +26,10 @@ export const changeEmployeeRole = (id, role) => (dispatch) => {
       return Promise.resolve(data)
     },
     (error) => {
-      dispatch(setMessage({ ...error, id }))
+      const message = extractErrMsg(error)
+
+      dispatch(setMessage({ ...message, id }))
+
       return Promise.reject(error)
     }
   )
@@ -43,7 +47,9 @@ export const modifyEmployeeData = (id, colName, newValue) => (dispatch) => {
       return Promise.resolve(data)
     },
     (error) => {
-      dispatch(setMessage({ ...error, id, colName }))
+      const message = extractErrMsg(error)
+
+      dispatch(setMessage({ ...message, id, colName }))
 
       return Promise.reject(error)
     }
@@ -59,9 +65,7 @@ export const resetPwd = (id, newPassword, oldPassword) => (dispatch) => {
       return Promise.resolve(response)
     },
     (error) => {
-      const { status, message, debugMessage } = error
-
-      dispatch(setMessage({ status, message, debugMessage }))
+      dispatch(setMessage(extractErrMsg(error)))
       return Promise.reject(error)
     }
   )
