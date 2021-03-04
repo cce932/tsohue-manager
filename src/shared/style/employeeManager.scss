@@ -37,13 +37,22 @@ div.tools {
         height: auto;
         justify-content: space-between;
 
+        label {
+          vertical-align: top;
+        }
+
+        // 包input和error msg的div
+        & > div > div {
+          display: inline-block;
+        }
+
         input {
           @include text(normal, 1rem, $secondary-color);
           max-width: 90px;
           border: $forth-color solid 1px;
           border-radius: 5px;
           padding: 1px 3px;
-          margin: 0 10px 0 2px;
+          margin: 0 10px 0 5px;
 
           &:focus {
             border: $accent-lighter-color solid 1px;

@@ -137,21 +137,6 @@ const EmployeeManager = () => {
     },
   })
 
-  const selectRow = {
-    mode: "checkbox",
-    clickToSelect: true,
-    clickToEdit: true,
-    bgColor: "rgb(248, 249, 252)",
-    onSelect: (row, isSelect) => {
-      setSelectedId(countSelectedId([row], isSelect, selectedId))
-    },
-    onSelectAll: (isSelect, rows) => {
-      setSelectedId(countSelectedId(rows, isSelect, selectedId))
-    },
-    nonSelectable: [user.id],
-    nonSelectableStyle: { backgroundColor: "rgb(253, 221, 132)" },
-  }
-
   const columns = [
     {
       dataField: "id",
@@ -403,7 +388,7 @@ const EmployeeManager = () => {
     setRole(role)
   }
 
-  return true ? (
+  return isLoggedIn ? (
     allEmployees ? (
       <>
         <ExpandDiv className="employee-manager">
@@ -430,94 +415,107 @@ const EmployeeManager = () => {
               <Form id="registerForm" onSubmit={handleRegister} ref={form}>
                 <div className={`row form`}>
                   <div className={`col-11 input`}>
-                    <label>部門</label>
-                    <Input
-                      id="department"
-                      type="text"
-                      name="department"
-                      onChange={onChangeDepartment}
-                      value={department}
-                      list="dptList"
-                      validations={[required, validDpt]}
-                    />
-                    <datalist id="dptList">
-                      <option value="FoodManagement" />
-                      <option value="CustomerService" />
-                      <option value="Transport" />
-                      <option vlaue="Sales" />
-                      <option value="訂單(暫不可選)" />
-                      <option value="央廚(暫不可選)" />
-                      <option value="食譜(暫不可選)" />
-                    </datalist>
+                    <div>
+                      <label>部門</label>
+                      <Input
+                        id="department"
+                        type="text"
+                        name="department"
+                        onChange={onChangeDepartment}
+                        value={department}
+                        list="dptList"
+                        validations={[required, validDpt]}
+                      />
+                      <datalist id="dptList">
+                        <option value="FoodManagement" />
+                        <option value="CustomerService" />
+                        <option value="Transport" />
+                        <option vlaue="Sales" />
+                        <option value="訂單(暫不可選)" />
+                        <option value="央廚(暫不可選)" />
+                        <option value="食譜(暫不可選)" />
+                      </datalist>
+                    </div>
 
-                    <label>職稱</label>
-                    <Input
-                      id="title"
-                      type="text"
-                      name="title"
-                      onChange={onChangeTitle}
-                      value={title}
-                      list="titleList"
-                      validations={[required, validTitle]}
-                    />
-                    <datalist id="titleList">
-                      <option value="執行長" />
-                      <option value="主管" />
-                      <option value="員工" />
-                    </datalist>
+                    <div>
+                      <label>職稱</label>
+                      <Input
+                        id="title"
+                        type="text"
+                        name="title"
+                        onChange={onChangeTitle}
+                        value={title}
+                        list="titleList"
+                        validations={[required, validTitle]}
+                      />
+                      <datalist id="titleList">
+                        <option value="執行長" />
+                        <option value="主管" />
+                        <option value="員工" />
+                      </datalist>
+                    </div>
 
-                    <label>帳號</label>
-                    <Input
-                      id="account"
-                      type="text"
-                      name="account"
-                      onChange={onChangeAccount}
-                      value={account}
-                      validations={[required]}
-                    />
-                    <label>姓名</label>
-                    <Input
-                      id="username"
-                      type="text"
-                      name="username"
-                      onChange={onChangeUsername}
-                      value={username}
-                      validations={[required]}
-                    />
-                    <label>信箱</label>
-                    <Input
-                      id="email"
-                      type="text"
-                      name="email"
-                      onChange={onChangeEmail}
-                      value={email}
-                      validations={[required, validEmail]}
-                    />
-                    <label>電話</label>
-                    <Input
-                      id="phone"
-                      type="text"
-                      name="phone"
-                      onChange={onChangePhone}
-                      value={phone}
-                      validations={[required, validPhone]}
-                    />
-                    <label>角色</label>
-
-                    <Input
-                      id="role"
-                      type="text"
-                      name="role"
-                      onChange={onChangeRole}
-                      value={role}
-                      list="roleList"
-                      validations={[required, validRole]}
-                    />
-                    <datalist id="roleList">
-                      <option value="ADMIN" />
-                      <option value="EMPLOYEE" />
-                      <option value="MANAGER(暫不可選)" />
-                    </datalist>
+                    <div>
+                      <label>帳號</label>
+                      <Input
+                        id="account"
+                        type="text"
+                        name="account"
+                        onChange={onChangeAccount}
+                        value={account}
+                        validations={[required]}
+                      />
+                    </div>
+                    <div>
+                      <label>姓名</label>
+                      <Input
+                        id="username"
+                        type="text"
+                        name="username"
+                        onChange={onChangeUsername}
+                        value={username}
+                        validations={[required]}
+                      />
+                    </div>
+                    <div>
+                      <label>信箱</label>
+                      <Input
+                        id="email"
+                        type="text"
+                        name="email"
+                        onChange={onChangeEmail}
+                        value={email}
+                        validations={[required, validEmail]}
+                      />
+                    </div>
+                    <div>
+                      <label>電話</label>
+                      <Input
+                        id="phone"
+                        type="text"
+                        name="phone"
+                        onChange={onChangePhone}
+                        value={phone}
+                        validations={[required, validPhone]}
+                      />
+                    </div>
+                    <div>
+                      <label>角色</label>
+                      <Input
+                        id="role"
+                        type="text"
+                        name="role"
+                        onChange={onChangeRole}
+                        value={role}
+                        list="roleList"
+                        validations={[required, validRole]}
+                      />
+                      <datalist id="roleList">
+                        <option value="ADMIN" />
+                        <option value="EMPLOYEE" />
+                        <option value="MANAGER(暫不可選)" />
+                      </datalist>
+                    </div>
 
                     {message &&
                       (/沒有權限/.test(message) ? (
@@ -540,7 +538,20 @@ const EmployeeManager = () => {
             data={allEmployees}
             columns={columns}
             cellEdit={isAdmin() ? cellEdit : {}}
-            selectRow={selectRow}
+            selectRow={{
+              mode: "checkbox",
+              clickToSelect: true,
+              clickToEdit: true,
+              bgColor: "rgb(248, 249, 252)",
+              onSelect: (row, isSelect) => {
+                setSelectedId(countSelectedId([row], isSelect, selectedId))
+              },
+              onSelectAll: (isSelect, rows) => {
+                setSelectedId(countSelectedId(rows, isSelect, selectedId))
+              },
+              nonSelectable: [user.id],
+              nonSelectableStyle: { backgroundColor: "rgb(253, 221, 132)" },
+            }}
           />
         </ExpandDiv>
       </>
