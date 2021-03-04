@@ -15,3 +15,4 @@ export const NEED_AUTHORIZATION = "NEED AUTHORIZATION" // 2
 export const CONFLICT = "CONFLICT" // 409
 export const ACCOUNT_DUPLICATED = /account/ // 2,3
 export const EMAIL_DUPLICATED = /email/ // 2,3
+export const INGRIDIENT_DUPLICATED = /No data!/ // 2,3

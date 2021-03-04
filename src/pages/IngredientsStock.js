@@ -11,6 +11,7 @@ import paginationFactory from "react-bootstrap-table2-paginator"
 import filterFactory, { Comparator } from "react-bootstrap-table2-filter"
 
 import "shared/style/ingredient.scss"
+import AddIngredient from "shared/components/addIngredient"
 import SizePerPageRenderer from "shared/components/SizePerPageRenderer"
 import { ExpandDiv, PrimaryStrokeBtn } from "shared/components/styled"
 import { getAllIngredients } from "actions/loadData"
@@ -220,12 +221,21 @@ const IngredientsStock = () => {
       <ExpandDiv className="ingredients-stock">
         {message && addDialog(message)}
         <div className="tools">
+          <PrimaryStrokeBtn
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            aria-expanded="true"
+          >
+            新增食材
+          </PrimaryStrokeBtn>
           <PrimaryStrokeBtn onClick={handleDeleteIngredient}>
             刪除食材
           </PrimaryStrokeBtn>
           <PrimaryStrokeBtn onClick={clearFilterHandler}>
             清除搜尋
           </PrimaryStrokeBtn>
+
+          <AddIngredient />
         </div>
 
         <BootstrapTable

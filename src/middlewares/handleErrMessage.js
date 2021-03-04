@@ -14,6 +14,7 @@ import {
   EMAIL_DUPLICATED,
   RESET_PWD_INCORRECT,
   USED_INGREDIENT_DELETE_ERROR,
+  INGRIDIENT_DUPLICATED,
 } from "shared/constants/messages"
 import { logout } from "actions/auth"
 
@@ -30,8 +31,6 @@ const handleErrMessage = (store) => (next) => (action) => {
             EMPTY_TOKEN.test(debugMessage)
           ) {
             store.dispatch(logout())
-            window.location="/login"
-            window.alert("請重新登入喔")
             return
           }
         } else if (EDIT_EMPLOYEE_DENIED.test(message)) {
@@ -44,7 +43,7 @@ const handleErrMessage = (store) => (next) => (action) => {
         } else if (RESET_PWD_INCORRECT.test(message)) {
           return next({
             ...action,
-            payload: `密碼錯誤囉`,
+            payload: `舊密碼錯誤囉`,
           })
         } else if (USED_INGREDIENT_DELETE_ERROR.test(message)) {
           const { id } = payload
@@ -75,6 +74,8 @@ const handleErrMessage = (store) => (next) => (action) => {
             ...action,
             payload: "換一個信箱吧 此信箱已註冊過",
           })
+        } else if (INGRIDIENT_DUPLICATED.test(debugMessage)) {
+          return window.alert("此食材名稱已經存在囉 請換一個吧")
         }
       default:
         if (status && message && debugMessage) {

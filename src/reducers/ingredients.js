@@ -1,6 +1,7 @@
 const {
   DELETE_INGREDIENT_SUCCESS,
   FETCH_ALL_INGREDIENTS_SUCCESS,
+  ADD_INGREDIENT_SUCCESS,
 } = require("shared/constants/types")
 
 const initialState = {}
@@ -21,6 +22,11 @@ const ingredients = (state = initialState, action) => {
         allIngredients: state.allIngredients.filter(
           (ingredient) => id !== ingredient.id
         ),
+      }
+    case ADD_INGREDIENT_SUCCESS:
+      return {
+        ...state,
+        allIngredients: state.allIngredients.concat(payload)
       }
     default:
       return state

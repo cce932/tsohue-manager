@@ -1,0 +1,54 @@
+@import "global";
+
+div.add-ingredient {
+  div.form {
+    margin-top: 10px;
+    width: 100%;
+    height: auto;
+    box-shadow: $shadow-bottom;
+    padding: 30px 5% 30px 10%;
+    border-radius: 5px;
+    background-color: $sixth-color;
+    // white-space: nowrap;
+
+    .input {
+      text-align: left;
+
+      input {
+        @include text(normal, 1rem, $secondary-color);
+        max-width: 150px;
+        border: $forth-color solid 1px;
+        border-radius: 5px;
+        padding: 1px 3px;
+        margin: 5px 0 10px;
+
+        &:focus {
+          border: $accent-lighter-color solid 1px;
+        }
+      }
+
+      .note {
+        @include text(bold, 0.9rem, $accent-color);
+        margin-left: 8px;
+        display: inline-block;
+      }
+
+      .message {
+        @include text(bold, 1rem, $accent-color);
+        margin-top: 8px;
+      }
+
+      button {
+        display: inline-block;
+      }
+      .col-2 {
+        position: relative;
+
+        .right {
+          position: absolute;
+          bottom: 0;
+        }
+      }
+    }
+  }
+}
