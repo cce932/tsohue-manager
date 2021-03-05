@@ -11,9 +11,13 @@ const deleteEmployee = async (id, token = authHeader()) =>
 const deleteIngredient = (id, token = authHeader()) =>
   axios.delete(TS_API + "/ingredient/delete/" + id, { headers: token })
 
+const deleteRecipe = (id, token = authHeader()) =>
+  axios.delete(TS_API + "/recipe/delete/" + id, { headers: token })
+
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   deleteMember,
   deleteEmployee,
   deleteIngredient,
+  deleteRecipe,
 }

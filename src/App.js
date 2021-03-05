@@ -30,6 +30,7 @@ import {
   login,
 } from "shared/constants/pathname"
 import { getMeunName } from "shared/utility/common"
+import RecipeManager from "pages/RecipeManager"
 
 const App = (props) => {
   const { user: currentUser } = useSelector((state) => state.auth)
@@ -248,6 +249,11 @@ const App = (props) => {
             exact
             path={`${allPaths[ingredientDetail]}/:id`}
             component={IngredientDetail}
+          />
+          <Route
+            exact
+            path={`${allPaths[recipeManager]}`}
+            component={RecipeManager}
           />
         </Switch>
       </div>
