@@ -1,0 +1,29 @@
+@import "global";
+
+div.recipe-manager {
+  div.detail {
+    display: flex;
+
+    & > div {
+      width: 50%;
+      background-color: rgb(244, 245, 247);
+      margin-left: 20px;
+      border-radius: 5px;
+      padding: 15px;
+
+      // 步驟/食材 標題
+      & > div {
+        font-weight: bold;
+        width: fit-content;
+        padding: 0 3px 5px;
+        border-bottom: 3px solid $accent-lighter-color-2;
+      }
+
+      // 步驟/食材 內容
+      tr > td {
+        padding-top: 12px;
+        padding-right: 20px;
+      }
+    }
+  }
+}

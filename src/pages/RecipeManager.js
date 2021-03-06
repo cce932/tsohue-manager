@@ -34,6 +34,47 @@ const RecipeManager = () => {
     likeCount_filter("")
   }
 
+  const expandRow = {
+    renderer: (row) => {
+      const styledIi = row.recipeIngredients.map((ingredient, index) => {
+        return (
+          <tr key={index}>
+            <td>{ingredient.ingredient.name}</td>
+            <td>
+              {ingredient.quantityrequired} {ingredient.ingredient.unit}
+            </td>
+          </tr>
+        )
+      })
+
+      const styledStep = row.recipeSteps.map((step, index) => (
+        <tr key={index}>
+          <td>第{index}步</td>
+          <td>{step.note}</td>
+          <td>{step.startTime}</td>
+        </tr>
+      ))
+      return (
+        <div className="detail">
+          <div className="step">
+            <div>步驟</div>
+            <table>
+              <tbody>{styledStep}</tbody>
+            </table>
+          </div>
+          <div className="ingredients">
+            <div>食材</div>
+            <table>
+              <tbody>{styledIi}</tbody>
+            </table>
+          </div>
+        </div>
+      )
+    },
+    showExpandColumn: true,
+    expandByColumnOnly: true,
+  }
+
   const selectRow = {
     mode: "checkbox",
     clickToSelect: true,
@@ -94,7 +135,7 @@ const RecipeManager = () => {
 
   return isLoggedIn ? (
     allRecipes ? (
-      <ExpandDiv>
+      <ExpandDiv className="recipe-manager">
         <div className="tools">
           <PrimaryStrokeBtn onClick={handleDeleteMember}>
             刪除食譜
@@ -109,6 +150,7 @@ const RecipeManager = () => {
           data={allRecipes}
           columns={columns}
           selectRow={selectRow}
+          expandRow={expandRow}
         />
       </ExpandDiv>
     ) : (
