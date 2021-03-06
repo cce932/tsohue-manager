@@ -6,14 +6,6 @@
 
   th {
     outline: 0;
-
-    i.fa-sort {
-      color: $third-color;
-    }
-    i.fa-sort-up,
-    i.fa-sort-down {
-      color: $accent-color;
-    }
   }
 
   .filter-label {
@@ -28,12 +20,19 @@
         font-size: 0.85rem;
       }
     }
-
+    .expandd {
+      transition: $default-trans;
+    }
     select {
       margin-top: 5px;
       height: 32px;
       font-size: 0.85rem;
     }
+  }
+
+  // info icon
+  tr > td > svg {
+    width: 34px;
   }
 }
 

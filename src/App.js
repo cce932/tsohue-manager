@@ -5,6 +5,7 @@ import "shared/style/app.scss"
 
 import { history } from "helpers/history"
 import { clearMessage } from "actions/message"
+import { VscThreeBars } from "react-icons/vsc"
 // import Home from "pages/Home"
 import Login from "pages/Login"
 import ResetPwd from "pages/ResetPwd"
@@ -217,7 +218,7 @@ const App = (props) => {
                 id="sidebarCollapse"
                 onClick={toggleSideBar} // 如果是直接寫togglesideBar() 那就會在render時直接call 就會出現Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.
               >
-                <i className="fas fa-bars"></i>
+                <VscThreeBars />
                 {locating && <div>{locating}</div>}
               </button>
             </div>

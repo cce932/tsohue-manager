@@ -20,6 +20,7 @@ import { countSelectedId } from "shared/utility/common"
 import { getMeunName } from "shared/utility/common"
 import { allPaths, ingredientDetail } from "shared/constants/pathname"
 import useDialogContext from "hooks/useDialogContext"
+import { FaSortDown, FaSortUp, FaSort } from "react-icons/fa"
 
 const IngredientsStock = () => {
   const dispatch = useDispatch()
@@ -40,19 +41,22 @@ const IngredientsStock = () => {
       if (!order)
         return (
           <span>
-            &nbsp;&nbsp;<i className="fas fa-sort"></i>
+            &nbsp;&nbsp;
+            <FaSort fill="#b4b8bd" />
           </span>
         )
       else if (order === "asc")
         return (
           <span>
-            &nbsp;&nbsp;<i className="fas fa-sort-up"></i>
+            &nbsp;&nbsp;
+            <FaSortUp fill="#e76845" />
           </span>
         )
       else if (order === "desc")
         return (
           <span>
-            &nbsp;&nbsp;<i className="fas fa-sort-down"></i>
+            &nbsp;&nbsp;
+            <FaSortDown fill="#e76845" />
           </span>
         )
     },
