@@ -4,8 +4,18 @@
   @include text(normal, 0.9rem, $accent-color);
   padding: 20px 20px 20px 0;
 
+  .sr-only {
+    display: none; // 連位置也不會留
+    // visibility: hidden; // 會留位置 但不會顯示文字
+  }
+
   th {
     outline: 0;
+  }
+
+  th.expand-cell-header:hover {
+      color: $accent-color;
+      transition: $default-trans;
   }
 
   .filter-label {
@@ -20,9 +30,7 @@
         font-size: 0.85rem;
       }
     }
-    .expandd {
-      transition: $default-trans;
-    }
+
     select {
       margin-top: 5px;
       height: 32px;
