@@ -1,59 +1,51 @@
-import BootstrapTable from "react-bootstrap-table-next"
-import paginationFactory from "react-bootstrap-table2-paginator"
+import { AiOutlineDelete } from "react-icons/ai"
 import "shared/style/components/table.scss"
 
-// 有頁數 可選擇每頁顯示幾個
-const Table = ({ data, columns }) => {
-  const selectRow = {
-    mode: "checkbox",
-    clickToSelect: true,
-    hideSelectColumn: true,
-    bgColor: "rgb(229, 234, 240)",
-  }
+export const Row = ({ id, category, name, quantityRequired, remove }) => (
+  <tr>
+    <td>{id}</td>
+    <td>{category}</td>
+    <td>{name}</td>
+    <td>{quantityRequired}</td>
+    <td className="remove">
+      <a href="#" onClick={() => remove(id)}>
+        &ensp;
+        <AiOutlineDelete fill="rgb(231, 104, 69)" />
+      </a>
+    </td>
+  </tr>
+)
 
-  const pagination = paginationFactory({
-    sizePerPageList: [
-      { text: "15", value: 15 },
-      { text: "20", value: 20 },
-      { text: "All", value: data.length },
-    ],
-    hidePageListOnlyOnePage: true,
-    sizePerPageRenderer,
-  })
-
+const Table = ({ data, sortBy, remove }) => {
+  console.log("table type", !!data, data)
   return (
-    <BootstrapTable
-      keyField="account"
-      data={data}
-      columns={columns}
-      selectRow={selectRow}
-      bordered={false}
-      noDataIndication="空空如也 ~"
-      pagination={pagination}
-    />
+    <table className="table">
+      <thead>
+        <tr>
+          <th onClick={() => sortBy("id", data)}>ID</th>
+          <th onClick={() => sortBy("category", data)}>種類</th>
+          <th onClick={() => sortBy("name", data)}>名稱</th>
+          <th onClick={() => sortBy("quantityRequired", data)}>數量</th>
+          <th className="remove">刪除</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.length ? (
+          data.map((item, index) => (
+            <Row key={index} {...item} remove={remove} />
+          ))
+        ) : (
+          <tr>
+            <td>您尚未加入食材～</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        )}
+      </tbody>
+    </table>
   )
 }
-
-const sizePerPageRenderer = ({
-  options,
-  currSizePerPage,
-  onSizePerPageChange,
-}) => (
-  <div className="btn-group" role="group">
-    {options.map((option) => {
-      const isSelect = currSizePerPage === `${option.page}`
-      return (
-        <button
-          key={option.text}
-          type="button"
-          onClick={() => onSizePerPageChange(option.page)}
-          className={`btn ${isSelect ? "selected" : ""}`}
-        >
-          {option.text}
-        </button>
-      )
-    })}
-  </div>
-)
 
 export default Table
