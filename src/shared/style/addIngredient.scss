@@ -15,21 +15,11 @@ div.add-ingredient {
       text-align: left;
 
       input {
-        @include text(normal, 1rem, $secondary-color);
-        max-width: 150px;
-        border: $forth-color solid 1px;
-        border-radius: 5px;
-        padding: 1px 3px;
-        margin: 5px 0 10px;
-
-        &:focus {
-          border: $accent-lighter-color solid 1px;
-        }
+        @include default-input();
+        margin: 5px 8px 10px 0;
       }
 
       .note {
-        @include text(bold, 0.9rem, $accent-color);
-        margin-left: 8px;
         display: inline-block;
       }
 

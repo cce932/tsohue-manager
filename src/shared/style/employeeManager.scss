@@ -19,6 +19,10 @@ div.tools {
   }
 }
 
+.note {
+  @include text(bold, 0.9rem, $accent-color);
+}
+
 .employee-manager {
   div.tools {
     div.form {
@@ -44,25 +48,19 @@ div.tools {
         // 包input和error msg的div
         & > div > div {
           display: inline-block;
+          margin-right: 10px;
         }
 
         input {
-          @include text(normal, 1rem, $secondary-color);
-          max-width: 90px;
-          border: $forth-color solid 1px;
-          border-radius: 5px;
-          padding: 1px 3px;
-          margin: 0 10px 0 5px;
+          @include default-input(90px);
+          margin-bottom: 5px;
+          margin-left: 5px;
 
           &:focus {
             border: $accent-lighter-color solid 1px;
           }
         }
 
-        .note {
-          @include text(bold, 0.9rem, $accent-color);
-          margin: 5px 12px 0 0;
-        }
         .message {
           @include text(bold, 0.9rem, $accent-color);
           position: absolute;
