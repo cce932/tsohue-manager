@@ -21,6 +21,7 @@ import { getMeunName } from "shared/utility/common"
 import { allPaths, ingredientDetail } from "shared/constants/pathname"
 import useDialogContext from "hooks/useDialogContext"
 import { FaSortDown, FaSortUp, FaSort } from "react-icons/fa"
+import { ingredientCategoryOptions as categoryOptions } from "shared/constants/options"
 
 const IngredientsStock = () => {
   const dispatch = useDispatch()
@@ -60,13 +61,6 @@ const IngredientsStock = () => {
           </span>
         )
     },
-  }
-
-  const categoryOptions = {
-    VEGETABLE: "VEGETABLE",
-    MEET: "MEET",
-    SPICE: "SPICE",
-    OTHER: "OTHER",
   }
 
   let id_filter
@@ -216,7 +210,7 @@ const IngredientsStock = () => {
 
   const rowEvents = {
     onDoubleClick: (e, row, rowIndex) => {
-      window.location = `${allPaths[ingredientDetail]}/${row.id}`
+      window.location = `${allPaths[ingredientDetail]}${row.id}`
     },
   }
 
