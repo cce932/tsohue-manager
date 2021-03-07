@@ -1,0 +1,76 @@
+@import "global";
+
+.recipe-creator {
+  @include text(normal, 1rem, $secondary-color);
+
+  input {
+    @include default-input();
+  }
+
+  & > div {
+    box-shadow: $shadow-lighter;
+    border-radius: 5px;
+    width: auto;
+    padding: 20px 40px;
+    margin: 15px;
+    margin-left: 0;
+
+    // 大標
+    & > p {
+      @include text(bold, 1.1rem, $secondary-color);
+      border-bottom: 3px solid $accent-lighter-color;
+      width: fit-content;
+      margin-bottom: 15px;
+    }
+
+    p.sub-title {
+      font-size: 1rem;
+      margin: 10px;
+      font-weight: bold;
+    }
+
+    div.content {
+      margin-left: 10px;
+
+      form {
+        min-height: 70px;
+
+        // input外
+        > div {
+          display: inline-block;
+          position: relative;
+          margin-left: 8px;
+          margin-right: 20px;
+        }
+
+        div.note {
+          position: absolute;
+          bottom: -30px;
+          right: 0;
+        }
+      }
+    }
+
+    input#link {
+      width: 320px;
+    }
+
+    input[type="number"] {
+      width: 80px;
+    }
+  }
+
+  form > button {
+    @include default-btn();
+    float: right;
+    margin-top: -5px;
+
+    &:disabled {
+      background-color: $forth-color;
+    }
+  }
+
+  button.save-all {
+    background-color: $accent-color;
+  }
+}

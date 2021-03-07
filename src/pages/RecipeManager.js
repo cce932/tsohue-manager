@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { textFilter } from "react-bootstrap-table2-filter"
-import { Redirect } from "react-router-dom"
+import { Redirect, Link } from "react-router-dom"
 
 import "shared/style/recipeManager.scss"
 import TableWithFilterByCol from "shared/components/TableWithFilterByCol"
 import { getMeunName } from "shared/utility/common"
-import { allPaths } from "shared/constants/pathname"
+import { allPaths, recipeCreator } from "shared/constants/pathname"
 import { ExpandDiv, PrimaryStrokeBtn } from "shared/components/styled"
 import { getAllRecipes } from "actions/loadData"
 import { deleteRecipe } from "actions/deleteData"
@@ -41,7 +41,7 @@ const RecipeManager = () => {
           <tr key={index}>
             <td>{ingredient.ingredient.name}</td>
             <td>
-              {ingredient.quantityrequired} {ingredient.ingredient.unit}
+              <b>{ingredient.quantityRequired}</b> {ingredient.ingredient.unit}
             </td>
           </tr>
         )
@@ -49,7 +49,7 @@ const RecipeManager = () => {
 
       const styledStep = row.recipeSteps.map((step, index) => (
         <tr key={index}>
-          <td>第{index}步</td>
+          <td>第{index + 1}步</td>
           <td>{step.note}</td>
           <td>{step.startTime}</td>
         </tr>
@@ -137,6 +137,9 @@ const RecipeManager = () => {
     allRecipes ? (
       <ExpandDiv className="recipe-manager">
         <div className="tools">
+          <Link to={`${allPaths[recipeCreator]}`}>
+            <PrimaryStrokeBtn>新增食譜</PrimaryStrokeBtn>
+          </Link>
           <PrimaryStrokeBtn onClick={handleDeleteMember}>
             刪除食譜
           </PrimaryStrokeBtn>

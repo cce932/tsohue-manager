@@ -12,6 +12,16 @@ export const extractErrMsg = (error) => {
   return message
 }
 
+export const extractKeyFromArray = (array, key = "id") => {
+  const newObject = {}
+  array.map((item) => {
+    newObject[item[key]] = { ...item }
+    delete newObject[item[key]][key]
+  })
+
+  return newObject
+}
+
 export const countSelectedId = (rows, isSelect, selectedList) => {
   let processedList = selectedList
   rows.map((row) => {
