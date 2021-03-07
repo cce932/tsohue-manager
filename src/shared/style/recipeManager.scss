@@ -4,12 +4,24 @@ div.recipe-manager {
   div.detail {
     display: flex;
 
+    .step {
+      flex: 2 1 auto; // flex-grow shink basis
+
+      tr > td:nth-child(1) {
+        width: 100px;
+      }
+    }
+
+    .ingredients {
+      flex: 1 1 auto;
+    }
+
     & > div {
-      width: 50%;
+      width: auto;
       background-color: rgb(244, 245, 247);
       margin-left: 20px;
       border-radius: 5px;
-      padding: 15px;
+      padding: 15px 20px;
 
       // 步驟/食材 標題
       & > div {
@@ -22,7 +34,12 @@ div.recipe-manager {
       // 步驟/食材 內容
       tr > td {
         padding-top: 12px;
-        padding-right: 20px;
+        padding-right: 40px;
+        vertical-align: top;
+      }
+
+      tr > td:last-child {
+        padding-right: 0;
       }
     }
   }
