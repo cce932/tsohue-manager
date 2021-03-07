@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { isNumeric } from "validator"
+import React, { useState, useRef } from "react"
+import { useDispatch } from "react-redux"
 import Form from "react-validation/build/form"
 import Input from "react-validation/build/input"
 import CheckButton from "react-validation/build/button"
@@ -9,6 +8,7 @@ import useDialogContext from "hooks/useDialogContext"
 import "shared/style/addIngredient.scss"
 import { SecondaryBtn } from "shared/components/styled"
 import { addIngredient } from "actions/addData"
+import { ingredientCategoryOptions as categoryOptions } from "shared/constants/options"
 
 const required = (value) => {
   if (!value.length) {
@@ -22,43 +22,11 @@ const validCategory = (value) => {
   }
 }
 
-const validPrice = (value) => {
-  if (!isNumeric(value)) {
-    return <div className="note">需為數字</div>
-  }
-}
-
-const validKcal = (value) => {
-  if (!isNumeric(value)) {
-    return <div className="note">需為數字</div>
-  }
-}
-
-const validStock = (value) => {
-  if (!isNumeric(value)) {
-    return <div className="note">需為數字</div>
-  }
-}
-
-const validSafetyStock = (value) => {
-  if (!isNumeric(value)) {
-    return <div className="note">需為數字</div>
-  }
-}
-
-const categoryOptions = {
-  VEGETABLE: "VEGETABLE",
-  MEET: "MEET",
-  SPICE: "SPICE",
-  OTHER: "OTHER",
-}
-
 const AddIngredient = () => {
   const form = useRef()
   const checkBtn = useRef()
   const dispatch = useDispatch()
   const addDialog = useDialogContext()
-  const { message } = useSelector((state) => state.messages)
 
   const [category, setCategory] = useState("")
   const [name, setName] = useState("")
@@ -115,9 +83,8 @@ const AddIngredient = () => {
     form.current.validateAll()
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(addIngredient(category, name, price, country, city, stock, safetyStock, unit, kcal)).then(
+      dispatch(addIngredient(category, name, price, country.toUpperCase(), city.toUpperCase(), stock, safetyStock, unit, kcal)).then(
         (res) => {
-          console.log("res", res)
           clearInputs()
           addDialog(`新增「${res.name}」成功`)
         },
@@ -143,10 +110,7 @@ const AddIngredient = () => {
                 validations={[required, validCategory]}
               />
               <datalist id="categoryList">
-                <option value="VEGETABLE" />
-                <option value="MEET" />
-                <option value="SPICE" />
-                <option value="OTHER" />
+                {Object.keys(categoryOptions).map((opt, index) => <option key={index} value={opt} />)}
               </datalist>
 
               <label>名稱</label>
@@ -162,11 +126,11 @@ const AddIngredient = () => {
               <label>價格</label>
               <Input
                 id="price"
-                type="text"
+                type="number"
                 name="price"
                 onChange={onChangePrice}
                 value={price}
-                validations={[required, validPrice]}
+                validations={[required]}
               />
             </div>
             <div className={`col`}>
@@ -193,22 +157,22 @@ const AddIngredient = () => {
               <label>熱量</label>
               <Input
                 id="kcal"
-                type="text"
+                type="number"
                 name="kcal"
                 onChange={onChangeKcal}
                 value={kcal}
-                validations={[required, validKcal]}
+                validations={[required]}
               />
             </div>
             <div className={`col`}>
               <label>安全存量</label>
               <Input
                 id="safetyStock"
-                type="text"
+                type="number"
                 name="safetyStock"
                 onChange={onChangeSafetyStock}
                 value={safetyStock}
-                validations={[required, validSafetyStock]}
+                validations={[required]}
               />
 
               <label>單位</label>
@@ -224,11 +188,11 @@ const AddIngredient = () => {
               <label>庫存</label>
               <Input
                 id="stock"
-                type="text"
+                type="number"
                 name="stock"
                 onChange={onChangeStock}
                 value={stock}
-                validations={[required, validStock]}
+                validations={[required]}
               />
             </div>
             <div className={`col-2`}>
