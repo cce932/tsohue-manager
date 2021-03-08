@@ -12,7 +12,7 @@
     width: auto;
 
     label {
-      @include text(500, 1rem, $secondary-color);
+      @include text(normal, 1rem, $secondary-color);
       width: 100px;
       margin-bottom: 10px;
     }

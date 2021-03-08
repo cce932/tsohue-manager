@@ -37,7 +37,7 @@ body {
         }
 
         div {
-          @include text(900, 1.5rem, $accent-color);
+          @include text(bold, 1.5rem, $accent-color);
           line-height: 1.3;
         }
       }
@@ -73,7 +73,7 @@ body {
       ul > li {
         .manager-title {
           // 標題
-          @include text(400, 1rem, $secondary-color);
+          @include text(normal, 1rem, $secondary-color);
           transition: $default-trans;
           cursor: pointer;
           display: block;
@@ -87,7 +87,7 @@ body {
 
         ul > li > a {
           // 細項
-          @include text(400, 1rem, $secondary-color);
+          @include text(normal, 1rem, $secondary-color);
           transition: $default-trans;
           display: block;
           cursor: pointer;
@@ -124,7 +124,7 @@ body {
 
         // btn樣式
         a:not(.profile-bar) {
-          @include text(400, 0.9rem, $secondary-color);
+          @include text(normal, 0.9rem, $secondary-color);
           transition: $default-trans;
           border: $third-color solid 1px;
           border-radius: 3px;
@@ -199,7 +199,7 @@ button#sidebarCollapse {
 
   // sidebar hidden時的submenu name
   div {
-    @include text(500, 1.2rem, #ffffff, 4px);
+    @include text(normal, 1.2rem, #ffffff, 4px);
     border-radius: 3px;
     padding: 10px 5px;
     background: $linear-v;

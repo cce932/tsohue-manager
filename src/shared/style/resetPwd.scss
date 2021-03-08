@@ -13,7 +13,7 @@
 // }
 
 .resetPwd {
-  @include text(600, 16px, $secondary-color);
+  @include text(normal, 1rem, $secondary-color);
   box-shadow: $default-shadow;
   width: 420px;
   height: 300px;
@@ -24,7 +24,7 @@
 
   &::before {
     content: "變更密碼";
-    @include text(900, 24px, $forth-color);
+    @include text(bold, 1.8rem, $forth-color);
     position: absolute;
     left: 20px;
     top: -50px;
@@ -40,7 +40,7 @@
   }
 
   input {
-    @include text(400, 16px, $secondary-color);
+    @include text(normal, 1rem, $secondary-color);
     font-size: 14px;
     width: 170px;
     border: $fifth-color solid 2px;
@@ -61,7 +61,7 @@
   }
 
   button {
-    @include text(600, 16px, #ffffff);
+    @include text(normal, 1rem, #ffffff);
     transition: $default-trans;
     border: none;
     background-color: $secondary-color;
