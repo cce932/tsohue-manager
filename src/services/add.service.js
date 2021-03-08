@@ -31,6 +31,18 @@ const addIngredient = (
   )
 }
 
+const addRecipeImage = (file, id, onUploadProgress, token = authHeader()) => {
+  let formData = new FormData()
+  formData.append("file", file)
+
+  return axios.post(
+    TS_API + "/recipe/images/upload/" + id,
+    formData,
+    { headers: token, onUploadProgress },
+  )
+}
+
 export default {
   addIngredient,
+  addRecipeImage,
 }

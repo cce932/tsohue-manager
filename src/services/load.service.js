@@ -24,6 +24,9 @@ const getAllRecipesData = (token = authHeader()) => {
   return axios.get(TS_API + "/recipe/all", { headers: token })
 }
 
+const getRecipeImages = (recipeId, token = authHeader()) =>
+  axios.get(TS_API + "/recipe/images/all/" + recipeId)
+
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   getCurrentMemberData,
@@ -31,4 +34,5 @@ export default {
   getAllEmployeesData,
   getAllIngredientsData,
   getAllRecipesData,
+  getRecipeImages,
 }

@@ -1,6 +1,7 @@
 import AddService from "services/add.service"
 import {
   ADD_INGREDIENT_SUCCESS,
+  FETCH_RECIPE_IMAGES_SUCCESS,
 } from "shared/constants/types"
 import { extractErrMsg } from "shared/utility/common"
 import { setMessage } from "./message"
@@ -43,4 +44,14 @@ export const addIngredient = (
       return Promise.reject(message)
     }
   )
+}
+
+export const addRecipeImages = (file, id, onUploadProgress) => dispatch=> {
+  return AddService.addRecipeImage(file, id, onUploadProgress).then((response) => {
+    dispatch({
+      type: FETCH_RECIPE_IMAGES_SUCCESS,
+      payload: null
+    })
+    return response
+  })
 }
