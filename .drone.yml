@@ -1,0 +1,33 @@
+kind: pipeline
+type: docker
+name: Staging
+
+steps:
+  - name: build
+    image: node
+    commands:
+    - yarn install
+
+  - name: Build docker image
+    image: docker/compose:1.23.2
+    volumes:
+      - name: docker_socket
+        path: /var/run/docker.sock
+    commands:
+      - cd /drone/src
+      - docker build -t tsohue-manager-front-end:latest .
+
+  - name: Create service
+    image: docker/compose
+    volumes:
+      - name: docker_socket
+        path: /var/run/docker.sock
+    commands:
+      - docker-compose -f /drone/src/docker-compose.yml -p tsohue_manager down
+      - docker-compose -f /drone/src/docker-compose.yml -p tsohue_manager up -d
+      - docker rmi --force $(docker images -f "dangling=true" -q)
+
+volumes:
+  - name: docker_socket
+    host:
+      path: /var/run/docker.sock

@@ -1,0 +1,7 @@
+version: '3.7'
+services: 
+  tsohue-manager-front-end: 
+    image: tsohue-manager-front-end
+    build: .
+    ports:
+      - '8989:3000' # 這邊一定要3000
