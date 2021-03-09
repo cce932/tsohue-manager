@@ -5,7 +5,8 @@ import Form from "react-validation/build/form"
 import Input from "react-validation/build/input"
 import Button from "react-validation/build/button"
 
-import { allPaths } from "shared/constants/pathname"
+import UploadImages from "shared/components/UploadImages"
+import { allPaths, recipeImageCreator } from "shared/constants/pathname"
 import { getMeunName } from "shared/utility/common"
 import CheckButton from "react-validation/build/button"
 
@@ -39,6 +40,7 @@ const RecipeCreator = () => {
   const { allIngredients } = useSelector((state) => state.ingredients)
   const { isLoggedIn } = useSelector((state) => state.auth)
   const [name, setName] = useState("")
+  const [description, setDescription] = useState("")
   const [IIId, setIIId] = useState("")
   const [IICategory, setIICategory] = useState("")
   const [IIName, setIIName] = useState("")
@@ -57,6 +59,17 @@ const RecipeCreator = () => {
     dispatch(getAllIngredients())
   }, [])
 
+  const onNameChange = (e) => {
+    setName(e.target.value)
+  }
+
+  const onDescriptionChange = (e) => {
+    setDescription(e.target.value)
+  }
+
+  const onLinkChange = (e) => {
+    setLink(e.target.value)
+  }
   const IIIdOnChange = (e) => {
     const id = e.target.value.trim()
 
@@ -143,11 +156,9 @@ const RecipeCreator = () => {
     }
   }
 
-  const handleLoadVideo = (e) => {
-    e.preventDefault()
-  }
   const handleAddRecipe = (e) => {
     e.preventDefault()
+    window.location = allPaths[recipeImageCreator]
   }
 
   const IITableCompareBy = (key) => {
@@ -172,27 +183,53 @@ const RecipeCreator = () => {
   return isLoggedIn ? (
     allIngredients && idExtractedIngredients ? (
       <ExpandDiv className="recipe-creator">
-        <div>
-          <p>食譜名稱</p>
-          <div className="content">
-            <Form name="all" id="all" onSubmit={handleAddRecipe} ref={form}>
+        <Form name="all" id="all" onSubmit={handleAddRecipe} ref={form}>
+          <div>
+            <p>食譜名稱</p>
+            <div className="content">
               <Input
                 id="name"
                 type="text"
                 value={name}
                 validations={[required]}
+                onChange={onNameChange}
               />
-              <Button className="save-all">儲存食譜</Button>
-              <CheckButton style={{ display: "none" }} ref={checkBtn} />
-            </Form>
+            </div>
           </div>
-        </div>
 
-        <div>
-          <p>照片</p>
-          <div className="content"></div>
-        </div>
-        {/* <p>分類</p> */}
+          <div>
+            <p>描述</p>
+            <div className="content">
+              <input
+                id="description"
+                type="name"
+                value={description}
+                validations={[required]}
+                onChange={onDescriptionChange}
+              />
+            </div>
+          </div>
+
+          <div>
+            <p>影片</p>
+            <div className="content">
+              <input
+                id="link"
+                type="text"
+                value={link}
+                validations={[required]}
+                placeholder="請貼上影片網址"
+                onChange={onLinkChange}
+              />
+            </div>
+          </div>
+
+          <p className="next">
+            <Button className="save-all">儲存食譜</Button>
+            <CheckButton style={{ display: "none" }} ref={checkBtn} />
+          </p>
+        </Form>
+
         <div>
           <p>食材</p>
           <div className="content">
@@ -269,33 +306,7 @@ const RecipeCreator = () => {
               <CheckButton style={{ display: "none" }} ref={IICheckBtn} />
             </Form>
 
-            <div className="added">
-              <Table data={II} sortBy={IITableSortBy} remove={removeII} />
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <p>影片</p>
-          <div className="content">
-            <Form
-              name="addIIForm"
-              id="addIIForm"
-              onSubmit={handleLoadVideo}
-              ref={videoForm}
-            >
-              <p className="sub-title">網址</p>
-              <Input
-                id="link"
-                type="text"
-                value={link}
-                validations={[required]}
-                placeholder="影片格式限制 .mov .mp4"
-              />
-              <Button>載入影片</Button>
-              <CheckButton style={{ display: "none" }} ref={videoCheckBtn} />
-              <p className="sub-title">標籤</p>
-            </Form>
+            <Table data={II} sortBy={IITableSortBy} remove={removeII} />
           </div>
         </div>
       </ExpandDiv>

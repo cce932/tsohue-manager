@@ -2,11 +2,13 @@
 
 .recipe-creator {
   @include text(normal, 1rem, $secondary-color);
+  position: relative;
 
   input {
     @include default-input();
   }
 
+  & > form > div,
   & > div {
     box-shadow: $shadow-lighter;
     border-radius: 5px;
@@ -29,25 +31,23 @@
       font-weight: bold;
     }
 
-    div.content {
+    div.content,
+    div.content > form {
       margin-left: 10px;
+      min-height: 70px;
 
-      form {
-        min-height: 70px;
+      // input外
+      > div {
+        display: inline-block;
+        position: relative;
+        margin-left: 8px;
+        margin-right: 20px;
+      }
 
-        // input外
-        > div {
-          display: inline-block;
-          position: relative;
-          margin-left: 8px;
-          margin-right: 20px;
-        }
-
-        div.note {
-          position: absolute;
-          bottom: -30px;
-          right: 0;
-        }
+      div.note {
+        position: absolute;
+        bottom: -30px;
+        right: 0;
       }
     }
 
@@ -60,7 +60,7 @@
     }
   }
 
-  form > button {
+  button {
     @include default-btn();
     float: right;
     margin-top: -5px;
@@ -70,7 +70,17 @@
     }
   }
 
-  button.save-all {
-    background-color: $accent-color;
+  p.next {
+    position: absolute;
+    height: 100px;
+    right: 55px;
+    bottom: -100px;
+
+    button.save-all {
+      margin-top: 40%;
+      &:not([disabled]) {
+        background-color: $accent-color;
+      }
+    }
   }
 }
