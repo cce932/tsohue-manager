@@ -17,7 +17,6 @@ export const Row = ({ id, category, name, quantityRequired, remove }) => (
 )
 
 const Table = ({ data, sortBy, remove }) => {
-  console.log("table type", !!data, data)
   return (
     <table className="table">
       <thead>

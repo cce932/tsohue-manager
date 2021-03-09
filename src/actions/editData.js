@@ -8,6 +8,7 @@ import EditService from "services/edit.service"
 import { getAllEmployees } from "actions/loadData"
 import { setMessage } from "./message"
 import { extractErrMsg } from "shared/utility/common"
+import { allPaths, profile } from "shared/constants/pathname"
 
 export const changeMemberRole = (id, role) => ({
   type: CHANGE_MEMBER_ROLE,
@@ -60,7 +61,7 @@ export const resetPwd = (id, newPassword, oldPassword) => (dispatch) => {
   return EditService.resetPwd(id, newPassword, oldPassword).then(
     (response) => {
       dispatch({ type: RESET_PWD, payload: null })
-      window.location = "/profile"
+      window.location = allPaths[profile]
 
       return Promise.resolve(response)
     },
