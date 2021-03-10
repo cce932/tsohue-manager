@@ -225,7 +225,7 @@ const RecipeCreator = () => {
           </div>
 
           <p className="next">
-            <Button className="save-all">儲存食譜</Button>
+            <Button className="save-all">下一步</Button>
             <CheckButton style={{ display: "none" }} ref={checkBtn} />
           </p>
         </Form>

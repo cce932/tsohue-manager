@@ -1,0 +1,42 @@
+@import "../_global";
+
+.upload-images {
+  button.upload-image {
+    @include default-btn();
+  }
+
+  input[type="file"] {
+    width: auto;
+    outline: 0;
+    border: 0;
+  }
+
+  div.progress-group {
+    width: 100%;
+
+    div.progress {
+      height: 30px;
+      width: 700px;
+      margin-top: 15px;
+
+      & > .progress-bar {
+        background-color: $accent-color;
+        height: 30px;
+      }
+    }
+  }
+
+  div#carouselExampleIndicators {
+    max-width: 700px;
+    max-height: 700px;
+    min-width: 700px;
+    min-height: 700px;
+    margin-top: 15px;
+
+    button > span {
+      background-color: black;
+      border-radius: 5px;
+      border: black solid 8px;
+    }
+  }
+}

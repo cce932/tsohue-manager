@@ -60,7 +60,7 @@
     }
   }
 
-  button {
+  button:not(.carousel-control-prev, .carousel-control-next) {
     @include default-btn();
     float: right;
     margin-top: -5px;
@@ -82,5 +82,12 @@
         background-color: $accent-color;
       }
     }
+  }
+
+  a.next {
+    @include default-btn();
+    margin: 20px 60px;
+    color: white;
+    float: right;
   }
 }

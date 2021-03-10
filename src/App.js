@@ -14,6 +14,10 @@ import EmployeeManager from "pages/EmployeeManager"
 import Profile from "pages/Profile"
 import IngredientsStock from "pages/IngredientsStock"
 import IngredientDetail from "pages/IngredientDetail"
+import RecipeManager from "pages/RecipeManager"
+import RecipeCreator from "pages/RecipeCreator"
+import RecipeImageCreator from "pages/RecipeImageCreator"
+import RecipeStepCreator from "pages/RecipeStepCreator"
 import { logout } from "actions/auth"
 import {
   allPaths,
@@ -30,10 +34,10 @@ import {
   pwdReset,
   login,
   recipeCreator,
+  recipeImageCreator,
+  recipeStepCreator
 } from "shared/constants/pathname"
 import { getMeunName } from "shared/utility/common"
-import RecipeManager from "pages/RecipeManager"
-import RecipeCreator from "pages/RecipeCreator"
 
 const App = (props) => {
   const { user: currentUser } = useSelector((state) => state.auth)
@@ -262,6 +266,16 @@ const App = (props) => {
             exact
             path={`${allPaths[recipeCreator]}`}
             component={RecipeCreator}
+          />
+          <Route
+            exact
+            path={`${allPaths[recipeStepCreator]}`}
+            component={RecipeStepCreator}
+          />
+          <Route
+            exact
+            path={`${allPaths[recipeImageCreator]}`}
+            component={RecipeImageCreator}
           />
         </Switch>
       </div>

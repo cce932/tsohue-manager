@@ -2,6 +2,7 @@ import useDialogContext from "hooks/useDialogContext"
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import { addRecipeImages } from "actions/addData"
+import "shared/style/components/uploadImages.scss"
 
 const UploadImages = () => {
   const dispatch = useDispatch()
@@ -24,7 +25,8 @@ const UploadImages = () => {
       _progressInfos.push({ percentage: 0 })
 
       await dispatch(
-        addRecipeImages(selectedFiles[i], "3", (e) => { // ! id要改
+        addRecipeImages(selectedFiles[i], "3", (e) => {
+          // ! id要改
           _progressInfos[i].percentage = Math.round((100 * e.loaded) / e.total)
           setProgressInfos(_progressInfos)
         })
@@ -46,52 +48,91 @@ const UploadImages = () => {
   }
 
   return (
-    <div>
-      <div>
+    <div className="upload-images">
+      <p>上傳圖片</p>
+      <div className="content">
         <input type="file" multiple accept="image/*" onChange={selectFiles} />
         <button
           className="upload-image"
           disabled={!selectedFiles}
           onClick={upload}
         >
-          上傳圖片
+          上傳
         </button>
-      </div>
 
-      {progressInfos &&
-        progressInfos.map((progressInfo, index) => (
-          <div className="mb-2" key={index}>
-            <div className="progress">
-              <div
-                className="progress-bar progress-bar-info"
-                role="progressbar"
-                aria-valuenow={progressInfo.percentage}
-                aria-valuemin="0"
-                aria-valuemax="100"
-                style={{ width: progressInfo.percentage + "%" }}
-              >
-                {progressInfo.percentage}%
+        <div className="progress-group">
+          {progressInfos &&
+            progressInfos.map((progressInfo, index) => (
+              <div className="progress" key={index}>
+                <div
+                  className="progress-bar progress-bar-info"
+                  role="progressbar"
+                  aria-valuenow={progressInfo.percentage}
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  style={{ width: progressInfo.percentage + "%" }}
+                >
+                  {progressInfo.percentage}%
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
+            ))}
+        </div>
 
-      <div className="card mt-3">
-        <div className="card-header">List of Files</div>
-        <ul className="list-group list-group-flush">
-          {previewResults &&
-            previewResults.map((img, i) => {
-              return (
-                <img
-                  className="preview"
-                  src={img}
-                  alt={"image-" + i}
-                  key={i}
-                  style={{ width: "200px" }}
-                />
-              )
-            })}
-        </ul>
+        {previewResults.length ? (
+          <div
+            id="carouselExampleIndicators"
+            className="carousel slide"
+            data-bs-ride="carousel"
+          >
+            <div className="carousel-inner">
+              {previewResults.map((img, i) => {
+                console.log("imgggg", img)
+                return (
+                  <div
+                    className={
+                      i == previewResults.length - 1
+                        ? "carousel-item active"
+                        : "carousel-item"
+                    }
+                    key={i}
+                  >
+                    <img
+                      className="d-block w-100"
+                      src={img}
+                      alt={"image-" + i}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+            <button
+              className="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="prev"
+            >
+              <span
+                className="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span className="visually-hidden">Previous</span>
+            </button>
+            <button
+              className="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="next"
+            >
+              <span
+                className="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span className="visually-hidden">Next</span>
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   )
