@@ -26,16 +26,14 @@
     }
   }
 
-  div#carouselExampleIndicators {
+  div.carousel {
     max-width: 700px;
     max-height: 700px;
-    min-width: 700px;
-    min-height: 700px;
     margin-top: 15px;
 
     button > span {
       background-color: black;
-      border-radius: 5px;
+      border-radius: 3px;
       border: black solid 8px;
     }
   }

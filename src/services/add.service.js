@@ -31,18 +31,35 @@ const addIngredient = (
   )
 }
 
-const addRecipeImage = (file, id, onUploadProgress, token = authHeader()) => {
+const createRecipe = (token = authHeader()) => {
+  const emptyRecipe = {
+    name: "creating",
+    link: "",
+    description: "",
+    recipeSteps: [],
+    recipeIngredients: [],
+  }
+  return axios.post(TS_API + "/recipe/create", emptyRecipe, {
+    headers: token,
+  })
+}
+
+const uploadRecipeImage = (
+  file,
+  id,
+  onUploadProgress,
+  token = authHeader()
+) => {
   let formData = new FormData()
   formData.append("file", file)
-
-  return axios.post(
-    TS_API + "/recipe/images/upload/" + id,
-    formData,
-    { headers: token, onUploadProgress },
-  )
+  return axios.post(TS_API + "/recipe/images/upload/" + id, formData, {
+    headers: token,
+    onUploadProgress,
+  })
 }
 
 export default {
   addIngredient,
-  addRecipeImage,
+  createRecipe,
+  uploadRecipeImage,
 }

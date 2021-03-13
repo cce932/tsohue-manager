@@ -6,11 +6,12 @@ import { Redirect, Link } from "react-router-dom"
 import "shared/style/recipeManager.scss"
 import TableWithFilterByCol from "shared/components/TableWithFilterByCol"
 import { getMeunName } from "shared/utility/common"
-import { allPaths, recipeCreator } from "shared/constants/pathname"
+import { allPaths, recipeEditor } from "shared/constants/pathname"
 import { ExpandDiv, PrimaryStrokeBtn } from "shared/components/styled"
 import { getAllRecipes } from "actions/loadData"
 import { deleteRecipe } from "actions/deleteData"
 import { countSelectedId } from "shared/utility/common"
+import { createRecipe } from "actions/addData"
 
 const RecipeManager = () => {
   const dispatch = useDispatch()
@@ -133,13 +134,19 @@ const RecipeManager = () => {
     }
   }
 
+  const handleCreateRecipe = () => {
+    dispatch(createRecipe()).then((data) => {
+      window.location = `${allPaths[recipeEditor]}${data.id}`
+    })
+  }
+
   return isLoggedIn ? (
     allRecipes ? (
       <ExpandDiv className="recipe-manager">
         <div className="tools">
-          <Link to={`${allPaths[recipeCreator]}`}>
-            <PrimaryStrokeBtn>新增食譜</PrimaryStrokeBtn>
-          </Link>
+          <PrimaryStrokeBtn onClick={handleCreateRecipe}>
+            新增食譜
+          </PrimaryStrokeBtn>
           <PrimaryStrokeBtn onClick={handleDeleteMember}>
             刪除食譜
           </PrimaryStrokeBtn>

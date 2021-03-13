@@ -1,7 +1,8 @@
 import AddService from "services/add.service"
 import {
   ADD_INGREDIENT_SUCCESS,
-  FETCH_RECIPE_IMAGES_SUCCESS,
+  CREATE_RECIPE_SUCCESS,
+  UPLOAD_IMAGE_SUCCESS,
 } from "shared/constants/types"
 import { extractErrMsg } from "shared/utility/common"
 import { setMessage } from "./message"
@@ -46,12 +47,24 @@ export const addIngredient = (
   )
 }
 
-export const addRecipeImages = (file, id, onUploadProgress) => dispatch=> {
-  return AddService.addRecipeImage(file, id, onUploadProgress).then((response) => {
+export const createRecipe = () => (dispatch) => {
+  return AddService.createRecipe().then(({ data }) => {
     dispatch({
-      type: FETCH_RECIPE_IMAGES_SUCCESS,
-      payload: null
+      type: CREATE_RECIPE_SUCCESS,
+      payload: data,
     })
-    return response
+    return Promise.resolve(data)
   })
+}
+
+export const uploadRecipeImage = (file, id, onUploadProgress) => (dispatch) => {
+  return AddService.uploadRecipeImage(file, id, onUploadProgress).then(
+    ({ data }) => {
+      dispatch({
+        type: UPLOAD_IMAGE_SUCCESS,
+        payload: null,
+      })
+      return Promise.resolve(data)
+    }
+  )
 }
