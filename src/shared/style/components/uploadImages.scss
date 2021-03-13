@@ -1,8 +1,12 @@
 @import "../_global";
 
 .upload-images {
-  button.upload-image {
+  button {
     @include default-btn();
+  }
+
+  button.upload-btn {
+    background-color: $accent-lighter-color-2;
   }
 
   input[type="file"] {
@@ -15,26 +19,25 @@
     width: 100%;
 
     div.progress {
-      height: 30px;
-      width: 700px;
-      margin-top: 15px;
+      background-color: transparent;
+      height: auto;
+      width: 900px;
 
       & > .progress-bar {
         background-color: $accent-color;
+        margin-top: 15px;
         height: 30px;
       }
     }
   }
 
   div.carousel {
-    max-width: 700px;
-    max-height: 700px;
-    margin-top: 15px;
+    max-width: 900px;
+    max-height: 900px;
+    margin: 15px 0;
+  }
 
-    button > span {
-      background-color: black;
-      border-radius: 3px;
-      border: black solid 8px;
-    }
+  div.file-name {
+    line-height: 2;
   }
 }

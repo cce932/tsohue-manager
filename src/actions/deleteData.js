@@ -55,3 +55,12 @@ export const deleteRecipe = (ids) => (dispatch) => {
     dispatch(setMessage({ ...message, id: error.id }))
   })
 }
+
+export const deleteRecipeImage = (id) => (dispatch) => {
+  return DeleteService.deleteRecipeImage(id).catch((error) => {
+    const message = extractErrMsg(error)
+
+    dispatch(setMessage({ ...message }))
+    return Promise.reject()
+  })
+}

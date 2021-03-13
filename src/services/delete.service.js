@@ -14,10 +14,14 @@ const deleteIngredient = (id, token = authHeader()) =>
 const deleteRecipe = (id, token = authHeader()) =>
   axios.delete(TS_API + "/recipe/delete/" + id, { headers: token })
 
+const deleteRecipeImage = (id, token = authHeader()) =>
+  axios.delete(TS_API + "/recipe/images/delete/" + id, { headers: token })
+
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   deleteMember,
   deleteEmployee,
   deleteIngredient,
   deleteRecipe,
+  deleteRecipeImage,
 }

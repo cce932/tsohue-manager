@@ -68,6 +68,10 @@
     &:disabled {
       background-color: $forth-color;
     }
+
+    &:not(:disabled):hover {
+      background-color: black;
+    }
   }
 
   p.next {
@@ -89,5 +93,6 @@
     margin: 20px 60px;
     color: white;
     float: right;
+    background-color: $accent-color;
   }
 }

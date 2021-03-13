@@ -5,25 +5,26 @@ import { uploadRecipeImage } from "actions/addData"
 import { getRecipeById } from "actions/loadData"
 import Carousel from "react-bootstrap/Carousel"
 import "shared/style/components/uploadImages.scss"
+import { deleteRecipeImage } from "actions/deleteData"
 
 const UploadImages = (props) => {
   const dispatch = useDispatch()
   const [selectedFiles, setSelectedFiles] = useState(undefined) // 需要useState 不然無法disable上傳button
-  const [progressInfos, setProgressInfos] = useState([])
-  const [previewResults, setPreviewResults] = useState([])
+  const [progress, setProgress] = useState([])
+  const [images, setImages] = useState([])
   const [index, setIndex] = useState(0)
   const addDialog = useDialogContext()
   const id = props.id
 
   useEffect(() => {
     dispatch(getRecipeById(id)).then((res) => {
-      setPreviewResults(res.photos)
+      setImages(res.photos)
     })
   }, [])
 
   const selectFiles = (e) => {
     setSelectedFiles(e.target.files)
-    setProgressInfos([])
+    setProgress([])
   }
 
   const upload = () => {
@@ -36,7 +37,7 @@ const UploadImages = (props) => {
       dispatch(
         uploadRecipeImage(selectedFiles[i], id, (e) => {
           _progressInfos[i].percentage = Math.round((100 * e.loaded) / e.total)
-          setProgressInfos(_progressInfos)
+          setProgress(_progressInfos)
         })
       )
         .then((data) => {
@@ -44,20 +45,42 @@ const UploadImages = (props) => {
         })
         .catch(() => {
           _progressInfos[i].percentage = 0
-          setProgressInfos(_progressInfos)
+          setProgress(_progressInfos)
           addDialog(`新增照片「${selectedFiles[i].name}」失敗`)
         })
         .then(() => {
           if (i === selectedFiles.length - 1) {
             setTimeout(() => {
               dispatch(getRecipeById(id)).then((res) => {
-                const _previewLength = previewResults.length
-                setPreviewResults(res.photos)
+                const _previewLength = images.length
+                setImages(res.photos)
                 setIndex(_previewLength + selectFiles.length - 1)
                 setSelectedFiles(undefined)
               })
             }, 1000) // getImages after waiting 1 sec because of the time of uploading
           }
+        })
+    }
+  }
+
+  const remove = () => {
+    if (
+      window.confirm(
+        `確認刪除相片「${images[index].id}: ${images[index].name}」？`
+      )
+    ) {
+      dispatch(deleteRecipeImage(images[index].id))
+        .then(({ data }) => {
+          setIndex(index - 1 > 0 ? index - 1 : images.length - 2)
+          addDialog(`成功刪除「${data.id} :${data.name}」`)
+          dispatch(getRecipeById(id)).then((res) => {
+            setImages(res.photos)
+          })
+        })
+        .catch(() => {
+          addDialog(
+            `刪除相片失敗「${images[index].id}: ${images[index].name}」`
+          )
         })
     }
   }
@@ -71,8 +94,9 @@ const UploadImages = (props) => {
       <p>上傳圖片</p>
       <div className="content">
         <input type="file" multiple accept="image/*" onChange={selectFiles} />
+        <button onClick={remove}>刪除</button>
         <button
-          className="upload-image"
+          className="upload-btn"
           disabled={!selectedFiles}
           onClick={upload}
         >
@@ -80,8 +104,8 @@ const UploadImages = (props) => {
         </button>
 
         <div className="progress-group">
-          {progressInfos &&
-            progressInfos.map((progressInfo, index) => (
+          {progress &&
+            progress.map((progressInfo, index) => (
               <div className="progress" key={index}>
                 <div
                   className="progress-bar progress-bar-info"
@@ -98,8 +122,8 @@ const UploadImages = (props) => {
         </div>
 
         <Carousel activeIndex={index} onSelect={handleSelect} interval={null}>
-          {previewResults.length ? (
-            previewResults.map((img, i) => {
+          {images.length ? (
+            images.map((img, i) => {
               return (
                 <Carousel.Item key={i}>
                   <img
@@ -120,6 +144,21 @@ const UploadImages = (props) => {
             </Carousel.Item>
           )}
         </Carousel>
+
+        <br />
+        <div className="file-info">
+          {images.length ? (
+            <>
+              <b>ID:&nbsp;</b>
+              {`${images[index].id}`}
+              &emsp;&emsp;
+              <b>檔名:&nbsp;</b>
+              {`${images[index].name}`}
+            </>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     </div>
   )
