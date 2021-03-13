@@ -5,14 +5,13 @@ import Form from "react-validation/build/form"
 import Input from "react-validation/build/input"
 import Button from "react-validation/build/button"
 
-import UploadImages from "shared/components/UploadImages"
-import { allPaths, recipeImageCreator } from "shared/constants/pathname"
+import { allPaths, recipeImageEditor } from "shared/constants/pathname"
 import { getMeunName } from "shared/utility/common"
 import CheckButton from "react-validation/build/button"
 
-import "shared/style/recipeCreator.scss"
+import "shared/style/recipeEditor.scss"
 import { ExpandDiv } from "shared/components/styled"
-import { getAllIngredients } from "actions/loadData"
+import { getAllIngredients, getRecipeById } from "actions/loadData"
 import { extractKeyFromArray } from "shared/utility/common"
 import { ingredientCategoryOptions as categoryOptions } from "shared/constants/options"
 import Table from "shared/components/Table"
@@ -29,14 +28,12 @@ const isPositive = (value) => {
   }
 }
 
-const RecipeCreator = () => {
+const RecipeEditor = (props) => {
   const dispatch = useDispatch()
   const IIForm = useRef()
-  const videoForm = useRef()
   const form = useRef()
   const checkBtn = useRef()
   const IICheckBtn = useRef()
-  const videoCheckBtn = useRef()
   const { allIngredients } = useSelector((state) => state.ingredients)
   const { isLoggedIn } = useSelector((state) => state.auth)
   const [name, setName] = useState("")
@@ -48,6 +45,7 @@ const RecipeCreator = () => {
   const [II, setII] = useState([])
   const [link, setLink] = useState("")
   const [idExtractedIngredients, setIdExtractedIngredients] = useState()
+  const id = props.match.params.id
 
   useEffect(() => {
     if (allIngredients) {
@@ -57,6 +55,20 @@ const RecipeCreator = () => {
 
   useEffect(() => {
     dispatch(getAllIngredients())
+    let _II = []
+    dispatch(getRecipeById(id)).then((data) => {
+
+      data.recipeIngredients.map((recipeIngredient) => {
+        _II.push({
+          id: recipeIngredient.ingredient.id,
+          category: recipeIngredient.ingredient.category,
+          name: recipeIngredient.ingredient.name,
+          quantityRequired: recipeIngredient.quantityRequired,
+        })
+      })
+
+      setII(_II)
+    })
   }, [])
 
   const onNameChange = (e) => {
@@ -131,19 +143,19 @@ const RecipeCreator = () => {
     e.preventDefault()
 
     if (IICheckBtn.current.context._errors.length === 0) {
-      let isChanged = false
+      let isDuplicated = false
 
       const IICopy = [...II]
       for (const [index, ii] of IICopy.entries()) {
         if (ii.id === IIId) {
-          isChanged = true
+          isDuplicated = true
           IICopy[index].quantityRequired =
             parseInt(IICopy[index].quantityRequired) + parseInt(IIQuentity)
           break
         }
       }
 
-      isChanged
+      isDuplicated
         ? setII(IICopy)
         : setII(
             II.concat({
@@ -156,9 +168,10 @@ const RecipeCreator = () => {
     }
   }
 
-  const handleAddRecipe = (e) => {
+  const handleEditRecipe = (e) => {
     e.preventDefault()
-    window.location = allPaths[recipeImageCreator]
+    // dispatch() // 正在這邊/recipe/update有問題
+    window.location = allPaths[recipeImageEditor] + id
   }
 
   const IITableCompareBy = (key) => {
@@ -182,10 +195,10 @@ const RecipeCreator = () => {
 
   return isLoggedIn ? (
     allIngredients && idExtractedIngredients ? (
-      <ExpandDiv className="recipe-creator">
-        <Form name="all" id="all" onSubmit={handleAddRecipe} ref={form}>
+      <ExpandDiv className="recipe-editor">
+        <Form name="all" id="all" onSubmit={handleEditRecipe} ref={form}>
           <div>
-            <p>食譜名稱</p>
+            <p>食譜名稱{id}</p>
             <div className="content">
               <Input
                 id="name"
@@ -326,4 +339,4 @@ const RecipeCreator = () => {
   )
 }
 
-export default RecipeCreator
+export default RecipeEditor

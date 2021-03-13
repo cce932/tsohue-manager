@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Router, Link, NavLink, Switch, Route } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
+import "bootstrap/dist/css/bootstrap.min.css"
 import "shared/style/app.scss"
 
 import { history } from "helpers/history"
@@ -15,9 +16,9 @@ import Profile from "pages/Profile"
 import IngredientsStock from "pages/IngredientsStock"
 import IngredientDetail from "pages/IngredientDetail"
 import RecipeManager from "pages/RecipeManager"
-import RecipeCreator from "pages/RecipeCreator"
-import RecipeImageCreator from "pages/RecipeImageCreator"
-import RecipeStepCreator from "pages/RecipeStepCreator"
+import RecipeEditor from "pages/RecipeEditor"
+import RecipeImageEditor from "pages/RecipeImageEditor"
+import RecipeStepEditor from "pages/RecipeStepEditor"
 import { logout } from "actions/auth"
 import {
   allPaths,
@@ -33,9 +34,9 @@ import {
   profile,
   pwdReset,
   login,
-  recipeCreator,
-  recipeImageCreator,
-  recipeStepCreator
+  recipeStepEditor,
+  recipeEditor,
+  recipeImageEditor
 } from "shared/constants/pathname"
 import { getMeunName } from "shared/utility/common"
 
@@ -264,18 +265,18 @@ const App = (props) => {
           />
           <Route
             exact
-            path={`${allPaths[recipeCreator]}`}
-            component={RecipeCreator}
+            path={`${allPaths[recipeEditor]}:id`}
+            component={RecipeEditor}
           />
           <Route
             exact
-            path={`${allPaths[recipeStepCreator]}`}
-            component={RecipeStepCreator}
+            path={`${allPaths[recipeStepEditor]}:id`}
+            component={RecipeStepEditor}
           />
           <Route
             exact
-            path={`${allPaths[recipeImageCreator]}`}
-            component={RecipeImageCreator}
+            path={`${allPaths[recipeImageEditor]}:id`}
+            component={RecipeImageEditor}
           />
         </Switch>
       </div>

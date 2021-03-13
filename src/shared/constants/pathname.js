@@ -8,9 +8,9 @@ export const allPaths = {
   食材資訊: "/ingredient-manager/detail/",
   進貨管理: "/ingredient-manager/purchase",
   食譜管理: "/recipe-manager",
-  新增食譜: "/recipe-manager/create",
-  新增食譜步驟: "/recipe-manager/create-steps",
-  新增食譜相片: "/recipe-manager/create-images",
+  編輯食譜: "/recipe-manager/editor/",
+  編輯食譜步驟: "/recipe-manager/step-editor/",
+  編輯食譜相片: "/recipe-manager/image-editor/",
   個人資料: "/profile",
   變更密碼: "/profile/reset-pwd",
   登入: "/login",
@@ -25,9 +25,9 @@ export const ingredientsStock = "食材庫存"
 export const ingredientDetail = "食材資訊"
 export const ingredientPurchase = "進貨管理"
 export const recipeManager = "食譜管理"
-export const recipeCreator = "新增食譜"
-export const recipeStepCreator = "新增食譜步驟"
-export const recipeImageCreator = "新增食譜相片"
+export const recipeEditor = "編輯食譜"
+export const recipeStepEditor = "編輯食譜步驟"
+export const recipeImageEditor = "編輯食譜相片"
 export const profile = "個人資料"
 export const pwdReset = "變更密碼"
 export const login = "登入"
