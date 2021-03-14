@@ -1,11 +1,11 @@
 import useDialogContext from "hooks/useDialogContext"
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { uploadRecipeImage } from "actions/addData"
-import { getRecipeById } from "actions/loadData"
 import Carousel from "react-bootstrap/Carousel"
-import "shared/style/components/uploadImages.scss"
+import { getRecipeById } from "actions/loadData"
+import { uploadRecipeImage } from "actions/addData"
 import { deleteRecipeImage } from "actions/deleteData"
+import "shared/style/components/uploadImages.scss"
 
 const UploadImages = (props) => {
   const dispatch = useDispatch()
@@ -71,7 +71,8 @@ const UploadImages = (props) => {
     ) {
       dispatch(deleteRecipeImage(images[index].id))
         .then(({ data }) => {
-          setIndex(index - 1 > 0 ? index - 1 : images.length - 2)
+          images.length > 1 &&
+            setIndex(index - 1 > 0 ? index - 1 : images.length - 2)
           addDialog(`成功刪除「${data.id} :${data.name}」`)
           dispatch(getRecipeById(id)).then((res) => {
             setImages(res.photos)
@@ -94,9 +95,11 @@ const UploadImages = (props) => {
       <p>上傳圖片</p>
       <div className="content">
         <input type="file" multiple accept="image/*" onChange={selectFiles} />
-        <button onClick={remove}>刪除</button>
+        <button className="ts-default right" onClick={remove}>
+          刪除
+        </button>
         <button
-          className="upload-btn"
+          className="upload-btn ts-default right"
           disabled={!selectedFiles}
           onClick={upload}
         >
