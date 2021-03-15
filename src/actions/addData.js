@@ -30,7 +30,6 @@ export const addIngredient = (
     kcal
   ).then(
     ({ data }) => {
-      console.log("add ingredient", data)
       dispatch({
         type: ADD_INGREDIENT_SUCCESS,
         payload: data,
@@ -48,13 +47,21 @@ export const addIngredient = (
 }
 
 export const createRecipe = () => (dispatch) => {
-  return AddService.createRecipe().then(({ data }) => {
-    dispatch({
-      type: CREATE_RECIPE_SUCCESS,
-      payload: data,
-    })
-    return Promise.resolve(data)
-  })
+  return AddService.createRecipe().then(
+    ({ data }) => {
+      dispatch({
+        type: CREATE_RECIPE_SUCCESS,
+        payload: data,
+      })
+      return Promise.resolve(data)
+    },
+    (error) => {
+      const message = extractErrMsg(error)
+      dispatch(setMessage(message))
+
+      return Promise.reject(message)
+    }
+  )
 }
 
 export const uploadRecipeImage = (file, id, onUploadProgress) => (dispatch) => {
@@ -65,6 +72,12 @@ export const uploadRecipeImage = (file, id, onUploadProgress) => (dispatch) => {
         payload: null,
       })
       return Promise.resolve(data)
+    },
+    (error) => {
+      const message = extractErrMsg(error)
+      dispatch(setMessage(message))
+
+      return Promise.reject(message)
     }
   )
 }
