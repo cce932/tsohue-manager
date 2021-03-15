@@ -1,0 +1,27 @@
+@import "global";
+@import "~video-react/styles/scss/video-react";
+
+div.recipe-step-editor {
+  div.video-react {
+    margin: 20px 0 50px;
+  }
+
+  div.step-adder {
+    width: 100%;
+    margin: 0 0 30px !important; // 會受到recipeEditor.scss內的包input的div style影響
+
+    div.step-note {
+      margin: 10px 0;
+      width: 100%;
+
+      // 步驟說明sub-title
+      label {
+        vertical-align: top;
+      }
+
+      textarea {
+        @include default-input(auto);
+      }
+    }
+  }
+}

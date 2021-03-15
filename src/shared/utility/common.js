@@ -12,6 +12,8 @@ export const extractErrMsg = (error) => {
   return message
 }
 
+// [{ id: 213, name: "dena" }, { id: 10, name: "jerry" }]
+// { 213: { name: "dena" }, 10: { name: "jerry" } }
 export const extractKeyFromArray = (array, key = "id") => {
   const newObject = {}
   array.map((item) => {
@@ -20,6 +22,12 @@ export const extractKeyFromArray = (array, key = "id") => {
   })
 
   return newObject
+}
+
+export const insertIndexToArray = (array) => {
+  return array.map((item, index) => {
+    return { id: index + 1, ...item }
+  })
 }
 
 export const countSelectedId = (rows, isSelect, selectedList) => {
@@ -39,4 +47,14 @@ export const generatePwd = (length = 8) => {
   for (let i = 0; i < length; i++)
     temp += keylist.charAt(Math.floor(Math.random() * keylist.length))
   return temp
+}
+
+const addPrefix = (string, pad, length) => {
+  return (new Array(length + 1).join(pad) + string).slice(-length)
+}
+
+export const transSecToMin = (totalSeconds) => {
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds - minutes * 60
+  return addPrefix(minutes, "0", 2) + ":" + addPrefix(seconds, "0", 2)
 }

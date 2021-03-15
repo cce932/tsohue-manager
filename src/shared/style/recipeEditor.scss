@@ -25,9 +25,8 @@
       margin-bottom: 15px;
     }
 
-    p.sub-title {
-      font-size: 1rem;
-      margin: 10px;
+    label.sub-title {
+      width: 120px;
       font-weight: bold;
     }
 
@@ -60,10 +59,13 @@
     }
   }
 
-  button:not(.carousel-control-prev, .carousel-control-next) {
+  button.ts-default {
     @include default-btn();
-    float: right;
     margin-top: -5px;
+
+    &.right {
+      float: right;
+    }
 
     &:disabled {
       background-color: $forth-color;
