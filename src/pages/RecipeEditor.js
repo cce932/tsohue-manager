@@ -182,8 +182,8 @@ const RecipeEditor = (props) => {
     }
   }
 
-  const IITableSortBy = (key, data) => {
-    let arrayCopy = [...data]
+  const IITableSortBy = (key) => {
+    let arrayCopy = [...II]
     arrayCopy.sort(IITableCompareBy(key))
     setII(arrayCopy)
   }
@@ -191,6 +191,13 @@ const RecipeEditor = (props) => {
   const removeII = (rowId, data = II) => {
     const arrayCopy = data.filter((row) => row.id !== rowId)
     setII(arrayCopy)
+  }
+
+  const IITableColumns = {
+    id: "ID",
+    category: "種類",
+    name: "名稱",
+    quantityRequired: "數量",
   }
 
   return isLoggedIn ? (
@@ -238,7 +245,7 @@ const RecipeEditor = (props) => {
           </div>
 
           <p className="next">
-            <Button className="save-all">下一步</Button>
+            <Button className="save-all ts-default">下一步</Button>
             <CheckButton style={{ display: "none" }} ref={checkBtn} />
           </p>
         </Form>
@@ -315,11 +322,16 @@ const RecipeEditor = (props) => {
                 validations={[required, isPositive]}
                 onChange={IIQuentityOnChange}
               />
-              <Button>加入</Button>
+              <Button className={"ts-default right"}>加入</Button>
               <CheckButton style={{ display: "none" }} ref={IICheckBtn} />
             </Form>
 
-            <Table data={II} sortBy={IITableSortBy} remove={removeII} />
+            <Table
+              data={II}
+              columns={IITableColumns}
+              sortBy={IITableSortBy}
+              remove={removeII}
+            />
           </div>
         </div>
       </ExpandDiv>
