@@ -9,6 +9,7 @@
     "axios": "^0.21.1",
     "bootstrap": "4.6",
     "emailjs-com": "2.6.4",
+    "lodash.isempty": "^4.4.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.2",
     "react-bootstrap-table-next": "^4.0.3",

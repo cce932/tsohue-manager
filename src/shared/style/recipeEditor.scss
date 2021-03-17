@@ -5,7 +5,11 @@
   position: relative;
 
   input {
-    @include default-input();
+    @include default-input(200px);
+  }
+
+  textarea {
+    @include default-input(auto);
   }
 
   & > form > div,
@@ -51,11 +55,17 @@
     }
 
     input#link {
-      width: 320px;
+      width: 420px;
     }
+  }
 
-    input[type="number"] {
-      width: 80px;
+  div.ii-version {
+    margin-bottom: 20px;
+    width: 225px;
+
+    select {
+      display: inline-block;
+      background-color: $accent-lighter-color;
     }
   }
 
@@ -73,6 +83,23 @@
 
     &:not(:disabled):hover {
       background-color: black;
+    }
+  }
+
+  div.add-version {
+    text-align: center;
+
+    button.add-version {
+      margin: 0 12px 0 0;
+      background-color: $accent-lighter-color-2;
+      font-weight: bold;
+      font-size: 1.1rem;
+      width: 120px;
+      height: 40px;
+
+      &:hover {
+        background-color: $accent-lighter-color;
+      }
     }
   }
 
