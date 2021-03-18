@@ -4,12 +4,10 @@ import Form from "react-validation/build/form"
 import Input from "react-validation/build/input"
 import Button from "react-validation/build/button"
 import CheckButton from "react-validation/build/button"
-import { Form as BSForm } from "react-bootstrap"
 
 import Table from "shared/components/Table"
 import { getAllIngredients } from "actions/loadData"
 import { ingredientCategoryOptions as categoryOptions } from "shared/constants/options"
-import { recipeVersionOptions } from "shared/constants/options"
 import { extractKeyFromArray } from "shared/utility/common"
 
 const isPositive = (value) => {
@@ -192,15 +190,6 @@ const IngredientEditor = (props) => {
     <div>
       <p>食材</p>
       <div className="content">
-        <div className="ii-version">
-          <BSForm.Control as="select" custom>
-            {Object.keys(recipeVersionOptions).map((version) => {
-              return (
-                <option key={version}>{recipeVersionOptions[version]}</option>
-              )
-            })}
-          </BSForm.Control>
-        </div>
         <Form
           name="addIngredient"
           id="addIngredient"

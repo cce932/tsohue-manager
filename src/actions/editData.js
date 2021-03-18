@@ -71,3 +71,15 @@ export const resetPwd = (id, newPassword, oldPassword) => (dispatch) => {
     }
   )
 }
+
+export const updateRecipe = (id, recipe) => (dispatch) => {
+  return (
+    EditService.updateRecipe(id, recipe).then(({ data }) => {
+      return Promise.resolve(data.id)
+    }),
+    (error) => {
+      dispatch(setMessage(extractErrMsg(error)))
+      return Promise.reject(error)
+    }
+  )
+}

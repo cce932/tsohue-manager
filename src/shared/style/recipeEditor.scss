@@ -52,6 +52,12 @@
         bottom: -30px;
         right: 0;
       }
+
+      form#addIngredient {
+        input {
+          width: 150px;
+        }
+      }
     }
 
     input#link {
@@ -65,7 +71,6 @@
 
     select {
       display: inline-block;
-      background-color: $accent-lighter-color;
     }
   }
 

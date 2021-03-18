@@ -4,13 +4,14 @@ import { Redirect } from "react-router-dom"
 import Form from "react-validation/build/form"
 import Input from "react-validation/build/input"
 import Button from "react-validation/build/button"
+import { Form as BSForm } from "react-bootstrap"
 
 import {
   allPaths,
   recipeImageEditor,
   recipeEditor,
 } from "shared/constants/pathname"
-import { getMeunName } from "shared/utility/common"
+import { getMeunName, transRecipeToAddVersionData } from "shared/utility/common"
 import CheckButton from "react-validation/build/button"
 import isEmpty from "lodash.isempty"
 
@@ -19,6 +20,8 @@ import { ExpandDiv } from "shared/components/styled"
 import { getRecipeById } from "actions/loadData"
 import IngredientEditor from "shared/components/IngredientEditor"
 import { createRecipe } from "actions/addData"
+import { recipeVersionOptions } from "shared/constants/options"
+import { updateRecipe } from "actions/editData"
 
 const required = (value) => {
   if (!value.length) {
@@ -32,6 +35,7 @@ const RecipeEditor = (props) => {
   const checkBtn = useRef()
   const { isLoggedIn } = useSelector((state) => state.auth)
   const [name, setName] = useState("")
+  const [version, setVersion] = useState("")
   const [description, setDescription] = useState("")
   const [price, setPrice] = useState(undefined)
   const [link, setLink] = useState("")
@@ -41,15 +45,24 @@ const RecipeEditor = (props) => {
   useEffect(() => {
     dispatch(getRecipeById(id)).then((data) => {
       setRecipe(data)
+      setVersion(recipeVersionOptions[data.version])
       setName(data.name)
       setDescription(data.description)
       setPrice(data.price)
       setLink(data.link)
     })
+
+    return () => {
+      setRecipe({})
+    }
   }, [])
 
   const onNameChange = (e) => {
     setName(e.target.value)
+  }
+
+  const onVersionChange = (e) => {
+    setVersion(e.target.value)
   }
 
   const onDescriptionChange = (e) => {
@@ -64,14 +77,33 @@ const RecipeEditor = (props) => {
     setPrice(e.target.value)
   }
 
-  const handleEditRecipe = (e) => {
+  const handleUpdateRecipe = (e) => {
     e.preventDefault()
-    // dispatch() // 正在這邊/recipe/update有問題
-    window.location = allPaths[recipeImageEditor] + id
+    if (
+      recipe.name !== name ||
+      recipe.version !== version ||
+      recipe.description !== description ||
+      recipe.link !== link
+    ) {
+      let _recipe = Object.assign({}, recipe)
+      _recipe = {
+        ..._recipe,
+        name,
+        version: Object.keys(recipeVersionOptions).find(
+          (key) => recipeVersionOptions[key] === version
+        ),
+        description,
+        link,
+        price: parseInt(price),
+      }
+      delete _recipe["id"]
+      dispatch(updateRecipe(id, _recipe))
+    }
+    // window.location = allPaths[recipeImageEditor] + id
   }
 
   const handleAddVersion = () => {
-    dispatch(createRecipe()).then((data) => {
+    dispatch(createRecipe(transRecipeToAddVersionData(recipe))).then((data) => {
       window.open(`${allPaths[recipeEditor]}${data.id}`)
     })
   }
@@ -79,7 +111,7 @@ const RecipeEditor = (props) => {
   return isLoggedIn ? (
     !isEmpty(recipe) ? (
       <ExpandDiv className="recipe-editor">
-        <Form name="all" id="all" onSubmit={handleEditRecipe} ref={form}>
+        <Form name="all" id="all" onSubmit={handleUpdateRecipe} ref={form}>
           <div>
             <p>食譜名稱</p>
             <div className="content">
@@ -90,6 +122,26 @@ const RecipeEditor = (props) => {
                 validations={[required]}
                 onChange={onNameChange}
               />
+            </div>
+          </div>
+
+          <div>
+            <p>版本</p>
+            <div className="content ii-version">
+              <BSForm.Control
+                as="select"
+                custom
+                value={version}
+                onChange={onVersionChange}
+              >
+                {Object.keys(recipeVersionOptions).map((version) => {
+                  return (
+                    <option key={version}>
+                      {recipeVersionOptions[version]}
+                    </option>
+                  )
+                })}
+              </BSForm.Control>
             </div>
           </div>
 
