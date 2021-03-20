@@ -64,3 +64,15 @@ export const deleteRecipeImage = (id) => (dispatch) => {
     return Promise.reject()
   })
 }
+
+export const deleteRecipeStep = (recipeId, stepId) => (dispatch) => {
+  return DeleteService.deleteRecipeStep(recipeId, stepId).then(
+    ({ data }) => Promise.resolve(data),
+    (error) => {
+      const message = extractErrMsg(error)
+
+      dispatch(setMessage({ ...message }))
+      return Promise.reject()
+    }
+  )
+}

@@ -81,3 +81,19 @@ export const uploadRecipeImage = (file, id, onUploadProgress) => (dispatch) => {
     }
   )
 }
+
+export const createRecipeStep = (recipeId, startTime, timer, note) => (
+  dispatch
+) => {
+  return AddService.createRecipeStep(recipeId, startTime, timer, note).then(
+    ({ data }) => {
+      return Promise.resolve(data)
+    },
+    (error) => {
+      const message = extractErrMsg(error)
+      dispatch(setMessage(message))
+
+      return Promise.reject(message)
+    }
+  )
+}

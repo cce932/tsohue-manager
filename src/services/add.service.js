@@ -1,6 +1,7 @@
 import axios from "axios"
 import authHeader from "./auth-header"
 import { TS_API } from "shared/constants/urls"
+import _ from "lodash"
 
 const addIngredient = (
   category,
@@ -52,14 +53,29 @@ const uploadRecipeImage = (
 ) => {
   let formData = new FormData()
   formData.append("file", file)
-  return axios.post(TS_API + "/recipe/images/upload/" + id, formData, {
+  return axios.post(TS_API + "/recipe/images/upload/blob/" + id, formData, {
     headers: token,
     onUploadProgress,
   })
 }
 
+const createRecipeStep = (
+  recipeId,
+  startTime,
+  timer,
+  note,
+  token = authHeader()
+) =>
+  axios.post(
+    TS_API + `/recipe/${recipeId}/step/create`,
+    { startTime, timer, note },
+    { headers: token }
+  )
+
 export default {
   addIngredient,
   createRecipe,
   uploadRecipeImage,
+  createRecipeIngredient,
+  createRecipeStep,
 }

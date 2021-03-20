@@ -2,12 +2,24 @@ import React, { useEffect, useRef, useState } from "react"
 import { Player, BigPlayButton, ControlBar } from "video-react"
 import { Link } from "react-router-dom"
 import "shared/style/recipeStepEditor.scss"
+import _ from "lodash"
+
 import { ExpandDiv } from "shared/components/styled"
 import { useDispatch } from "react-redux"
-import { transSecToMin, insertIndexToArray } from "shared/utility/common"
+import { transMSecToMin, insertIndexToArray } from "shared/utility/common"
 import "shared/style/recipeStepEditor.scss"
 import Table from "shared/components/Table"
 import { allPaths, recipeManager } from "shared/constants/pathname"
+import { getRecipeById } from "actions/loadData"
+import { createRecipeStep } from "actions/addData"
+import { deleteRecipeStep } from "actions/deleteData"
+
+const transStartTimeToMinInSteps = (steps) =>
+  steps.map((step) => ({
+    ...step,
+    startTime: transMSecToMin(step.startTime),
+    timer: step.timer / 1000,
+  }))
 
 const RecipeStepEditor = (props) => {
   const dispatch = useDispatch()
@@ -16,16 +28,21 @@ const RecipeStepEditor = (props) => {
   const [note, setNote] = useState("")
   const [timer, setTimer] = useState(0)
   const [player, setPlayer] = useState(undefined)
+  const [recipe, setRecipe] = useState({})
   const id = props.match.params.id
   const tableColumns = {
-    id: "順序",
-    startTime: "起始時間 (秒)",
+    index: "順序",
+    startTime: "起始時間",
     note: "說明",
     timer: "計時 (秒)",
   }
 
   useEffect(() => {
     videoRef.current.subscribeToStateChange(handleStateChange)
+    dispatch(getRecipeById(id)).then((res) => {
+      setRecipe(res)
+      setSteps(res.recipeSteps)
+    })
   }, [])
 
   const handleStateChange = (state) => {
@@ -34,14 +51,23 @@ const RecipeStepEditor = (props) => {
   }
 
   const handleAddStep = () => {
-    setSteps([
-      ...steps,
-      {
-        startTime: timer > 0 ? null : Math.floor(player.currentTime, 0),
-        note,
-        timer,
-      },
-    ])
+    const startTime = timer > 0 ? null : _.floor(player.currentTime, 3) * 1000 // pass millisecond to back-end
+
+    dispatch(createRecipeStep(id, startTime, timer * 1000, note)).then(
+      (res) => {
+        setSteps([
+          ...steps,
+          {
+            id: res.id,
+            startTime: res.startTime,
+            timer: res.timer,
+            note: res.note,
+          },
+        ])
+      }
+    )
+
+    setTimer(0)
   }
 
   const noteOnChange = (e) => {
@@ -52,29 +78,28 @@ const RecipeStepEditor = (props) => {
     setTimer(e.target.value)
   }
 
-  const removeTableItem = (rowId, data = steps) => {
-    data.splice(rowId - 1, 1)
-    setSteps(data)
+  const removeTableItem = (rowData, e, data = steps) => {
+    e.preventDefault()
+
+    dispatch(deleteRecipeStep(id, rowData.id)).then((data) => {
+      setRecipe(data)
+      setSteps(data.recipeSteps)
+    })
   }
 
-  return (
+  return steps && recipe ? (
     <ExpandDiv className={`recipe-editor recipe-step-editor`}>
       <div>
         <p>標注食譜步驟</p>
         <div className="content">
-          <Player
-            src="http://media.w3.org/2010/05/video/movie_300.webm"
-            fluid={false}
-            ref={videoRef}
-            width={700}
-          >
+          <Player src={recipe.link} fluid={false} ref={videoRef} width={700}>
             <BigPlayButton position="center" />
             <ControlBar autoHide={false} />
           </Player>
 
           <div className="step-adder">
             <label className="sub-title">第{steps.length + 1}步驟時間</label>
-            {player && transSecToMin(Math.floor(player.currentTime, 0))}
+            {player && transMSecToMin(_.floor(player.currentTime, 3) * 1000)}
 
             <div className="step-note">
               <label className="sub-title">步驟說明</label>
@@ -85,7 +110,6 @@ const RecipeStepEditor = (props) => {
                 onChange={noteOnChange}
               />
             </div>
-
             <label className="sub-title">計時 (秒)</label>
             <input value={timer} onChange={timerOnChange} type="number"></input>
             <button className="ts-default right" onClick={handleAddStep}>
@@ -94,7 +118,7 @@ const RecipeStepEditor = (props) => {
           </div>
 
           <Table
-            data={insertIndexToArray(steps)}
+            data={insertIndexToArray(transStartTimeToMinInSteps(steps))}
             columns={tableColumns}
             remove={removeTableItem}
           />
@@ -104,6 +128,8 @@ const RecipeStepEditor = (props) => {
         儲存
       </Link>
     </ExpandDiv>
+  ) : (
+    <h1>Loading</h1>
   )
 }
 

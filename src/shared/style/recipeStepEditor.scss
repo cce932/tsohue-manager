@@ -18,10 +18,6 @@ div.recipe-step-editor {
       label {
         vertical-align: top;
       }
-
-      textarea {
-        @include default-input(auto);
-      }
     }
   }
 }

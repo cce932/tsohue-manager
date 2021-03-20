@@ -1,3 +1,5 @@
+import _ from "lodash"
+
 export const getMeunName = (allPaths, nowAt) => {
   return Object.keys(allPaths).find((path) => allPaths[path] === nowAt)
 }
@@ -26,7 +28,7 @@ export const extractKeyFromArray = (array, key = "id") => {
 
 export const insertIndexToArray = (array) => {
   return array.map((item, index) => {
-    return { id: index + 1, ...item }
+    return { index: index + 1, ...item }
   })
 }
 
@@ -45,7 +47,7 @@ const keylist = "abcdefghijklmnopqrstuvwxyz123456789"
 export const generatePwd = (length = 8) => {
   let temp = ""
   for (let i = 0; i < length; i++)
-    temp += keylist.charAt(Math.floor(Math.random() * keylist.length))
+    temp += keylist.charAt(_.floor(_.random() * keylist.length))
   return temp
 }
 
@@ -53,8 +55,9 @@ const addPrefix = (string, pad, length) => {
   return (new Array(length + 1).join(pad) + string).slice(-length)
 }
 
-export const transSecToMin = (totalSeconds) => {
-  const minutes = Math.floor(totalSeconds / 60)
-  const seconds = totalSeconds - minutes * 60
+export const transMSecToMin = (totalMSec) => {
+  const totalSec = _.floor(totalMSec / 1000)
+  const minutes = _.floor(totalSec / 60)
+  const seconds = totalSec - minutes * 60
   return addPrefix(minutes, "0", 2) + ":" + addPrefix(seconds, "0", 2)
 }
