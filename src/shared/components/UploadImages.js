@@ -2,7 +2,7 @@ import useDialogContext from "hooks/useDialogContext"
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import Carousel from "react-bootstrap/Carousel"
-import { getRecipeById } from "actions/loadData"
+import { getImagesByRecipeId, getImagesByName } from "actions/loadData"
 import { uploadRecipeImage } from "actions/addData"
 import { deleteRecipeImage } from "actions/deleteData"
 import "shared/style/components/uploadImages.scss"
@@ -17,8 +17,8 @@ const UploadImages = (props) => {
   const id = props.id
 
   useEffect(() => {
-    dispatch(getRecipeById(id)).then((res) => {
-      setImages(res.photos)
+    dispatch(getImagesByRecipeId(id)).then((res) => {
+      setImages(res)
     })
   }, [])
 
@@ -51,9 +51,9 @@ const UploadImages = (props) => {
         .then(() => {
           if (i === selectedFiles.length - 1) {
             setTimeout(() => {
-              dispatch(getRecipeById(id)).then((res) => {
+              dispatch(getImagesByRecipeId(id)).then((res) => {
                 const _previewLength = images.length
-                setImages(res.photos)
+                setImages(res)
                 setIndex(_previewLength + selectFiles.length - 1)
                 setSelectedFiles(undefined)
               })
@@ -74,8 +74,8 @@ const UploadImages = (props) => {
           images.length > 1 &&
             setIndex(index - 1 > 0 ? index - 1 : images.length - 2)
           addDialog(`成功刪除「${data.id} :${data.name}」`)
-          dispatch(getRecipeById(id)).then((res) => {
-            setImages(res.photos)
+          dispatch(getImagesByRecipeId(id)).then((res) => {
+            setImages(res)
           })
         })
         .catch(() => {

@@ -27,13 +27,14 @@ const getAllRecipesData = (token = authHeader()) => {
 // no need to add token in headers
 const getRecipeById = (id) => axios.get(TS_API + "/recipe/" + id)
 
-// use `getRecipeById` to substitute it now
-// const getImagesByRecipeId = (id) => {
-//   return axios.get(TS_API + "/recipe/images/all/" + id)
-// }
+const getImagesByRecipeId = (id) => {
+  return axios.get(TS_API + "/recipe/images/all/" + id)
+}
 
-// const getImagefromId = (id) =>
-//   axios.get(TS_API + "/recipe/images/" + id, { responseType: "arraybuffer" })
+const getImageByName = (name) =>
+  axios.get(TS_API + "/recipe/images/blob/" + name, {
+    responseType: "arraybuffer",
+  })
 
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
@@ -43,4 +44,6 @@ export default {
   getAllIngredientsData,
   getAllRecipesData,
   getRecipeById,
+  getImagesByRecipeId,
+  getImageByName,
 }

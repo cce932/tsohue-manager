@@ -83,31 +83,56 @@ export const getRecipeById = (id) => (dispatch, getState) => {
   )
 }
 
-// use `getRecipeById` to substitute it now
-// export const getImagesByRecipeId = (recipeId) => (dispatch) => {
-//   let images = []
-//   return LoadService.getImagesByRecipeId(recipeId).then(({data}) => {
-//     data.map((image) => {
-//       LoadService.getImagefromId(image.id).then(() => {
-//         images.push({ ... })
-//       })
-//     })
-//   })
-// }
+export const getImagesByRecipeId = (recipeId) => (dispatch) => {
+  let images = []
 
-// export const getImagefromId = (id) => (dispatch) => {
-//   return LoadService.getImagefromId(id).then(
-//     ({ data }) => {
-//       // dispatch({ type: FETCH_RECIPE_IMAGE_SUCCESS, payload: data }) // because we don't need to add data to redux state
+  return LoadService.getImagesByRecipeId(recipeId).then(({ data }) => {
+    let _image = {}
 
-//       return Promise.resolve(Buffer.from(data, "binary").toString("base64"))
-//     },
-//     (error) => {
-//       const message = extractErrMsg(error)
+    return Promise.all(
+      data.map((image) => {
+        return LoadService.getImageByName(image.name)
+          .then((res) => {
+            _image = {
+              picByte: Buffer.from(res.data, "binary").toString("base64"),
+              name: image.name,
+              id: image.id,
+            }
+            return _image
+          })
+          .catch((error) => {
+            const message = extractErrMsg(error)
 
-//       dispatch(setMessage(message))
+            dispatch(setMessage(message))
 
-//       return Promise.reject(message)
-//     }
-//   )
-// }
+            return Promise.reject(message)
+          })
+      })
+    )
+  })
+}
+
+export const getImagesByName = (images) => (dispatch) => {
+  let _image = {}
+
+  return images.map((image) => {
+    _image = {}
+    LoadService.getImageByName(image.name).then(
+      ({ data }) => {
+        _image = {
+          picByte: Buffer.from(data, "binary").toString("base64"),
+          name: image.name,
+          id: image.id,
+        }
+      },
+      (error) => {
+        const message = extractErrMsg(error)
+
+        dispatch(setMessage(message))
+
+        return Promise.reject(message)
+      }
+    )
+    return Promise.resolve(_image)
+  })
+}
