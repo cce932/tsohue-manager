@@ -46,8 +46,12 @@ export const addIngredient = (
   )
 }
 
-export const createRecipe = () => (dispatch) => {
-  return AddService.createRecipe().then(
+export const createRecipe = (recipeData) => (dispatch, getState) => {
+  const recipesLength = getState().recipes.allRecipes
+    ? getState().recipes.allRecipes.lenght
+    : undefined
+
+  return AddService.createRecipe(recipeData, recipesLength).then(
     ({ data }) => {
       dispatch({
         type: CREATE_RECIPE_SUCCESS,

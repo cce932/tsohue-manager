@@ -32,17 +32,24 @@ const addIngredient = (
   )
 }
 
-const createRecipe = (token = authHeader()) => {
+const createRecipe = (recipeData = {}, recipesLength, token = authHeader()) => {
   const emptyRecipe = {
-    name: "creating",
+    name: `食譜 - ${recipesLength}`,
+    version: "NORMAL",
     link: "",
     description: "",
+    price: 0,
     recipeSteps: [],
     recipeIngredients: [],
   }
-  return axios.post(TS_API + "/recipe/create", emptyRecipe, {
-    headers: token,
-  })
+
+  return axios.post(
+    TS_API + "/recipe/create",
+    _.isEmpty(recipeData) ? emptyRecipe : recipeData,
+    {
+      headers: token,
+    }
+  )
 }
 
 const uploadRecipeImage = (

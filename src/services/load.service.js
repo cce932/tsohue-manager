@@ -27,6 +27,9 @@ const getAllRecipesData = (token = authHeader()) => {
 // no need to add token in headers
 const getRecipeById = (id) => axios.get(TS_API + "/recipe/" + id)
 
+const getVersionAndRecipeById = (id) =>
+  axios.get(TS_API + "/recipe/version/" + id)
+
 const getImagesByRecipeId = (id) => {
   return axios.get(TS_API + "/recipe/images/all/" + id)
 }
@@ -44,6 +47,7 @@ export default {
   getAllIngredientsData,
   getAllRecipesData,
   getRecipeById,
+  getVersionAndRecipeById,
   getImagesByRecipeId,
   getImageByName,
 }

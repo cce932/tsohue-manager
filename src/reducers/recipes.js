@@ -1,7 +1,7 @@
 const {
   DELETE_RECIPES_SUCCESS,
   FETCH_ALL_RECIPES_SUCCESS,
-  // ADD_RECIPES_SUCCESS,
+  CREATE_RECIPE_SUCCESS,
 } = require("shared/constants/types")
 
 const initialState = {}
@@ -21,11 +21,11 @@ const recipes = (state = initialState, action) => {
         ...state,
         allRecipes: state.allRecipes.filter((recipe) => id !== recipe.id),
       }
-    // case ADD_RECIPES_SUCCESS:
-    //   return {
-    //     ...state,
-    //     allRecipes: state.allRecipes.concat(payload),
-    //   }
+    case CREATE_RECIPE_SUCCESS:
+      return {
+        ...state,
+        allRecipes: [state.allRecipes, payload],
+      }
     default:
       return state
   }

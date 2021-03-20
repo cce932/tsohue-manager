@@ -83,6 +83,19 @@ export const getRecipeById = (id) => (dispatch, getState) => {
   )
 }
 
+export const getVersionAndRecipeById = (id) => (dispatch) => {
+  return LoadService.getVersionAndRecipeById(id).then(
+    ({ data }) => Promise.resolve(data),
+    (error) => {
+      const message = extractErrMsg(error)
+
+      dispatch(setMessage(message))
+
+      return Promise.reject(message)
+    }
+  )
+}
+
 export const getImagesByRecipeId = (recipeId) => (dispatch) => {
   let images = []
 
