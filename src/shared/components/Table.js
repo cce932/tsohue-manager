@@ -9,7 +9,7 @@ export const Row = ({ rowData, columns, remove }) => {
         return <td key={index}>{rowData[col]}</td>
       })}
       <td className="remove">
-        <a href="#" onClick={(e) => remove(rowData["id"], e)}>
+        <a href="#" onClick={(e) => remove(rowData, e)}>
           &ensp;
           <AiOutlineDelete fill="rgb(231, 104, 69)" />
         </a>
