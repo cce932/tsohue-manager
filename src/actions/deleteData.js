@@ -56,6 +56,23 @@ export const deleteRecipe = (ids) => (dispatch) => {
   })
 }
 
+export const deleteRecipeIngredient = (recipeId, recipeIngredientId) => (
+  dispatch
+) => {
+  return DeleteService.deleteRecipeIngredient(
+    recipeId,
+    recipeIngredientId
+  ).then(
+    ({ data }) => Promise.resolve(data),
+    (error) => {
+      const message = extractErrMsg(error)
+
+      dispatch(setMessage({ ...message }))
+      return Promise.reject()
+    }
+  )
+}
+
 export const deleteRecipeImage = (id) => (dispatch) => {
   return DeleteService.deleteRecipeImage(id).catch((error) => {
     const message = extractErrMsg(error)

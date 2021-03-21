@@ -52,6 +52,23 @@ const createRecipe = (recipeData = {}, recipesLength, token = authHeader()) => {
   )
 }
 
+const createRecipeIngredient = (
+  recipeId,
+  ingredientId,
+  quantityRequired,
+  token = authHeader()
+) =>
+  axios.post(
+    TS_API + `/recipe/${recipeId}/ingredient/create`,
+    {
+      ingredient: { id: ingredientId },
+      quantityRequired,
+    },
+    {
+      headers: token,
+    }
+  )
+
 const uploadRecipeImage = (
   file,
   id,

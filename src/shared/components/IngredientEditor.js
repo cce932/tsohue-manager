@@ -9,6 +9,8 @@ import Table from "shared/components/Table"
 import { getAllIngredients } from "actions/loadData"
 import { ingredientCategoryOptions as categoryOptions } from "shared/constants/options"
 import { extractKeyFromArray } from "shared/utility/common"
+import { createRecipeIngredient } from "actions/addData"
+import { deleteRecipeIngredient } from "actions/deleteData"
 
 const isPositive = (value) => {
   if (value < 1) {
@@ -27,14 +29,16 @@ const IngredientEditor = (props) => {
   const { allIngredients } = useSelector((state) => state.ingredients)
   const form = useRef()
   const checkBtn = useRef()
-  const [id, setId] = useState("")
-  const [category, setCategory] = useState("")
-  const [name, setName] = useState("")
-  const [quentity, setQuentity] = useState("")
-  const [recipeIngredients, setRecipeIngredients] = useState([])
+  const [id, setId] = useState("") // 需是controlled field 因為在選擇新增食材的時候 需要連動
+  const [category, setCategory] = useState("") // 需是controlled field
+  const [name, setName] = useState("") // 需是controlled field
+  const [quantityRequired, setQuantityRequired] = useState("")
+  const [tableIngredients, setTableIngredients] = useState([])
   const [idExtractedIngredients, setIdExtractedIngredients] = useState(
     undefined
   )
+  const passIngredientToEditor = props.passIngredientToEditor // 傳最新的tableIngredients至recipeEditor，以供更新
+  const recipeId = props.recipeId
 
   useEffect(() => {
     if (allIngredients) {
@@ -45,10 +49,11 @@ const IngredientEditor = (props) => {
   useEffect(() => {
     dispatch(getAllIngredients())
 
-    let _recipeIngredients = []
+    let _tableIngredients = []
 
-    props.recipe.recipeIngredients.map((recipeIngredient) => {
-      _recipeIngredients.push({
+    props.recipeIngredients.map((recipeIngredient) => {
+      _tableIngredients.push({
+        recipeIngredientId: recipeIngredient.id,
         id: recipeIngredient.ingredient.id,
         category: recipeIngredient.ingredient.category,
         name: recipeIngredient.ingredient.name,
@@ -56,11 +61,11 @@ const IngredientEditor = (props) => {
       })
     })
 
-    setRecipeIngredients(_recipeIngredients)
+    setTableIngredients(_tableIngredients)
 
     return () => {
       setIdExtractedIngredients(undefined)
-      setRecipeIngredients([])
+      setTableIngredients([])
     }
   }, [])
 
@@ -125,7 +130,7 @@ const IngredientEditor = (props) => {
   }
 
   const quentityOnChange = (e) => {
-    setQuentity(e.target.value)
+    setQuantityRequired(e.target.value)
   }
 
   const tableCompareBy = (key) => {
@@ -137,16 +142,19 @@ const IngredientEditor = (props) => {
   }
 
   const tableSortBy = (key) => {
-    let arrayCopy = [...recipeIngredients]
+    let arrayCopy = [...tableIngredients]
     arrayCopy.sort(tableCompareBy(key))
-    setRecipeIngredients(arrayCopy)
+    setTableIngredients(arrayCopy)
   }
 
-  const remove = (rowId, e, data = recipeIngredients) => {
+  const remove = (rowData, e, data = tableIngredients) => {
     e.preventDefault()
+    const _tableIngredients = data.filter((row) => row.recipeIngredientId !== rowData.recipeIngredientId)
 
-    const arrayCopy = data.filter((row) => row.id !== rowId)
-    setRecipeIngredients(arrayCopy)
+    dispatch(deleteRecipeIngredient(recipeId, rowData.recipeIngredientId))
+
+    setTableIngredients(_tableIngredients)
+    passIngredientToEditor(_tableIngredients)
   }
 
   const tableColumns = {
@@ -162,27 +170,36 @@ const IngredientEditor = (props) => {
     if (checkBtn.current.context._errors.length === 0) {
       let isDuplicated = false
 
-      const _recipeIngredients = [...recipeIngredients]
-      for (const [index, ingredient] of _recipeIngredients.entries()) {
+      let _tableIngredients = [...tableIngredients]
+      for (const [index, ingredient] of _tableIngredients.entries()) {
         if (ingredient.id.toString() === id) {
           isDuplicated = true
-          _recipeIngredients[index].quantityRequired =
-            parseInt(_recipeIngredients[index].quantityRequired) +
-            parseInt(quentity)
+          _tableIngredients[index].quantityRequired =
+            parseInt(_tableIngredients[index].quantityRequired) +
+            parseInt(quantityRequired)
           break
         }
       }
 
-      isDuplicated
-        ? setRecipeIngredients(_recipeIngredients)
-        : setRecipeIngredients(
-            recipeIngredients.concat({
-              id: id,
-              category: category,
-              name: name,
-              quantityRequired: quentity,
+      if (isDuplicated) {
+        setTableIngredients(_tableIngredients)
+        passIngredientToEditor(_tableIngredients)
+      } else {
+        dispatch(createRecipeIngredient(recipeId, id, quantityRequired)).then(
+          (res) => {
+            _tableIngredients = tableIngredients.concat({
+              recipeIngredientId: res.id,
+              id: res.ingredient.id,
+              category: res.ingredient.category,
+              name: res.ingredient.name,
+              quantityRequired: res.quantityRequired,
             })
-          )
+
+            setTableIngredients(_tableIngredients)
+            passIngredientToEditor(_tableIngredients)
+          }
+        )
+      }
     }
   }
 
@@ -255,7 +272,7 @@ const IngredientEditor = (props) => {
             id="ingredient-quentity"
             type="number"
             name="quentity"
-            value={quentity}
+            value={quantityRequired}
             validations={[required, isPositive]}
             onChange={quentityOnChange}
           />
@@ -264,7 +281,7 @@ const IngredientEditor = (props) => {
         </Form>
 
         <Table
-          data={recipeIngredients}
+          data={tableIngredients}
           columns={tableColumns}
           sortBy={tableSortBy}
           remove={remove}

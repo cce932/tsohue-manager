@@ -5,19 +5,19 @@ import Form from "react-validation/build/form"
 import Input from "react-validation/build/input"
 import Button from "react-validation/build/button"
 import { Form as BSForm } from "react-bootstrap"
+import _ from "lodash"
 
 import {
   allPaths,
-  recipeImageEditor,
   recipeEditor,
+  recipeImageEditor,
 } from "shared/constants/pathname"
-import { getMeunName, transRecipeToAddVersionData } from "shared/utility/common"
+import { getMeunName } from "shared/utility/common"
 import CheckButton from "react-validation/build/button"
-import isEmpty from "lodash.isempty"
 
 import "shared/style/recipeEditor.scss"
 import { ExpandDiv } from "shared/components/styled"
-import { getRecipeById } from "actions/loadData"
+import { getVersionAndRecipeById } from "actions/loadData"
 import IngredientEditor from "shared/components/IngredientEditor"
 import { createRecipe } from "actions/addData"
 import { recipeVersionOptions } from "shared/constants/options"
@@ -29,6 +29,21 @@ const required = (value) => {
   }
 }
 
+const transRecipeToAddVersionData = (oldRecipe, newVersion) => {
+  const _oldRecipe = Object.assign({}, oldRecipe)
+
+  delete _oldRecipe["id"]
+  _oldRecipe["recipeSteps"].map((step) => {
+    delete step.id
+  })
+  _oldRecipe["recipeIngredients"].map((ingredient) => {
+    delete ingredient.id
+  })
+  _oldRecipe["version"] = _.invert(recipeVersionOptions)[newVersion]
+
+  return _oldRecipe
+}
+
 const RecipeEditor = (props) => {
   const dispatch = useDispatch()
   const form = useRef()
@@ -36,20 +51,33 @@ const RecipeEditor = (props) => {
   const { isLoggedIn } = useSelector((state) => state.auth)
   const [name, setName] = useState("")
   const [version, setVersion] = useState("")
+  const [newVersion, setNewVersion] = useState("")
   const [description, setDescription] = useState("")
-  const [price, setPrice] = useState(undefined)
+  const [price, setPrice] = useState(0)
   const [link, setLink] = useState("")
   const [recipe, setRecipe] = useState({})
+  const [enabledVersionOptions, setEnabledVersionOptions] = useState([]) // 雖只需初始化一次，不影響後續畫面，但不能用let，因為render時會多次執行此行，所以在useEffect內的init的值會被洗掉。
   const id = props.match.params.id
+  let recipeIngredients = []
 
   useEffect(() => {
-    dispatch(getRecipeById(id)).then((data) => {
-      setRecipe(data)
-      setVersion(recipeVersionOptions[data.version])
-      setName(data.name)
-      setDescription(data.description)
-      setPrice(data.price)
-      setLink(data.link)
+    dispatch(getVersionAndRecipeById(id)).then((data) => {
+      const currentRecipe = data.currentRecipe
+
+      setRecipe(currentRecipe)
+      setVersion(recipeVersionOptions[currentRecipe.version])
+      setName(currentRecipe.name)
+      setDescription(currentRecipe.description)
+      setPrice(currentRecipe.price)
+      setLink(currentRecipe.link)
+      recipeIngredients = currentRecipe.recipeIngredients
+
+      const _enabledVersionOptions = _.omit(
+        recipeVersionOptions,
+        data.existedVersions.map((item) => item.version)
+      )
+      setEnabledVersionOptions(_enabledVersionOptions)
+      setNewVersion(Object.values(_enabledVersionOptions)[0])
     })
 
     return () => {
@@ -77,39 +105,51 @@ const RecipeEditor = (props) => {
     setPrice(e.target.value)
   }
 
+  const onNewVersionChange = (e) => {
+    setNewVersion(e.target.value)
+  }
+
   const handleUpdateRecipe = (e) => {
     e.preventDefault()
-    if (
-      recipe.name !== name ||
-      recipe.version !== version ||
-      recipe.description !== description ||
-      recipe.link !== link
-    ) {
-      let _recipe = Object.assign({}, recipe)
-      _recipe = {
-        ..._recipe,
-        name,
-        version: Object.keys(recipeVersionOptions).find(
-          (key) => recipeVersionOptions[key] === version
-        ),
-        description,
-        link,
-        price: parseInt(price),
-      }
-      delete _recipe["id"]
-      dispatch(updateRecipe(id, _recipe))
+
+    const _recipe = {
+      ...recipe,
+      name,
+      version: Object.keys(recipeVersionOptions).find(
+        (key) => recipeVersionOptions[key] === version
+      ),
+      description,
+      link,
+      price: parseInt(price),
+      recipeIngredients,
     }
-    // window.location = allPaths[recipeImageEditor] + id
+
+    delete _recipe["id"] // no difference between deleted it or not, backend doesn't care
+
+    dispatch(updateRecipe(id, _recipe))
+    window.location = allPaths[recipeImageEditor] + id.toString()
   }
 
   const handleAddVersion = () => {
-    dispatch(createRecipe(transRecipeToAddVersionData(recipe))).then((data) => {
+    dispatch(
+      createRecipe(transRecipeToAddVersionData(recipe, newVersion))
+    ).then((data) => {
       window.open(`${allPaths[recipeEditor]}${data.id}`)
     })
   }
 
+  const passIngredientToEditor = (_tableIngredients) => {
+    recipeIngredients = _tableIngredients.map((ingredient) => {
+      return {
+        id: ingredient.recipeIngredientId,
+        ingredient: { id: ingredient.id },
+        quantityRequired: ingredient.quantityRequired,
+      }
+    })
+  }
+
   return isLoggedIn ? (
-    !isEmpty(recipe) ? (
+    !_.isEmpty(recipe) ? (
       <ExpandDiv className="recipe-editor">
         <Form name="all" id="all" onSubmit={handleUpdateRecipe} ref={form}>
           <div>
@@ -127,7 +167,7 @@ const RecipeEditor = (props) => {
 
           <div>
             <p>版本</p>
-            <div className="content ii-version">
+            <div className="content dropdown">
               <BSForm.Control
                 as="select"
                 custom
@@ -194,10 +234,35 @@ const RecipeEditor = (props) => {
           </p>
         </Form>
 
-        <IngredientEditor recipe={recipe} />
+        <IngredientEditor
+          recipeId={id}
+          recipeIngredients={recipe.recipeIngredients}
+          passIngredientToEditor={passIngredientToEditor}
+        />
         <div className="add-version">
+          <div className="dropdown">
+            <BSForm.Control
+              as="select"
+              id="newVersion"
+              custom
+              value={newVersion}
+              onChange={onNewVersionChange}
+            >
+              {Object.keys(enabledVersionOptions).map((version) => {
+                return (
+                  <option key={version}>
+                    {enabledVersionOptions[version]}
+                  </option>
+                )
+              })}
+            </BSForm.Control>
+          </div>
           <button
-            className={"ts-default add-version"}
+            className={
+              _.isEmpty(enabledVersionOptions)
+                ? "ts-default add-version disable"
+                : "ts-default add-version"
+            }
             onClick={handleAddVersion}
           >
             新增版本

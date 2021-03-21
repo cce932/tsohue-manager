@@ -68,6 +68,28 @@ export const createRecipe = (recipeData) => (dispatch, getState) => {
   )
 }
 
+export const createRecipeIngredient = (
+  recipeId,
+  ingredientId,
+  quantityRequired
+) => (dispatch) => {
+  return AddService.createRecipeIngredient(
+    recipeId,
+    ingredientId,
+    quantityRequired
+  ).then(
+    ({ data }) => {
+      return Promise.resolve(data)
+    },
+    (error) => {
+      const message = extractErrMsg(error)
+      dispatch(setMessage(message))
+
+      return Promise.reject(message)
+    }
+  )
+}
+
 export const uploadRecipeImage = (file, id, onUploadProgress) => (dispatch) => {
   return AddService.uploadRecipeImage(file, id, onUploadProgress).then(
     ({ data }) => {
