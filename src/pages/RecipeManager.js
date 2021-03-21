@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { textFilter } from "react-bootstrap-table2-filter"
+import { selectFilter, textFilter } from "react-bootstrap-table2-filter"
 import { Redirect, Link } from "react-router-dom"
 
 import "shared/style/recipeManager.scss"
@@ -12,6 +12,7 @@ import { getAllRecipes } from "actions/loadData"
 import { deleteRecipe } from "actions/deleteData"
 import { countSelectedId } from "shared/utility/common"
 import { createRecipe } from "actions/addData"
+import { recipeVersionOptions } from "shared/constants/options"
 
 const RecipeManager = () => {
   const dispatch = useDispatch()
@@ -27,11 +28,13 @@ const RecipeManager = () => {
 
   let id_filter = () => null
   let name_filter = () => null
+  let version_filter = () => null
   let likeCount_filter = () => null
 
   const clearFilterHandler = () => {
     id_filter("")
     name_filter("")
+    version_filter()
     likeCount_filter("")
   }
 
@@ -113,6 +116,18 @@ const RecipeManager = () => {
       sort: true,
     },
     {
+      dataField: "version",
+      text: "版本",
+      filter: selectFilter({
+        options: recipeVersionOptions,
+        getFilter: (filter) => {
+          name_filter = filter
+        },
+        placeholder: " ",
+      }),
+      sort: true,
+    },
+    {
       dataField: "likesCount",
       text: "收藏數",
       filter: textFilter({
@@ -125,7 +140,7 @@ const RecipeManager = () => {
     },
   ]
 
-  const handleDeleteMember = () => {
+  const handleDeleteRecipe = () => {
     if (selectedId.length > 0) {
       if (window.confirm(`確定刪除會員ID: ${selectedId.toString()}？`)) {
         dispatch(deleteRecipe(selectedId))
@@ -140,6 +155,12 @@ const RecipeManager = () => {
     })
   }
 
+  const rowEvents = {
+    onDoubleClick: (e, row, rowIndex) => {
+      window.location = `${allPaths[recipeEditor]}${row.id}`
+    },
+  }
+
   return isLoggedIn ? (
     allRecipes ? (
       <ExpandDiv className="recipe-manager">
@@ -147,7 +168,7 @@ const RecipeManager = () => {
           <PrimaryStrokeBtn onClick={handleCreateRecipe}>
             新增食譜
           </PrimaryStrokeBtn>
-          <PrimaryStrokeBtn onClick={handleDeleteMember}>
+          <PrimaryStrokeBtn onClick={handleDeleteRecipe}>
             刪除食譜
           </PrimaryStrokeBtn>
           <PrimaryStrokeBtn onClick={clearFilterHandler}>
@@ -161,6 +182,7 @@ const RecipeManager = () => {
           columns={columns}
           selectRow={selectRow}
           expandRow={expandRow}
+          rowEvents={rowEvents}
         />
       </ExpandDiv>
     ) : (

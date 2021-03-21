@@ -14,6 +14,7 @@ const TableWithFilterByCol = ({
   cellEdit = {},
   selectRow = {},
   expandRow = {},
+  rowEvents = {},
 }) => {
   const pagination = paginationFactory({
     sizePerPageList: [
@@ -85,6 +86,7 @@ const TableWithFilterByCol = ({
         sort={sortOption}
         cellEdit={cellEdit}
         expandRow={expandRow}
+        rowEvents={rowEvents}
       />
       <label className="dataLength">共 {data.length} 筆</label>
     </>
