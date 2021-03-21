@@ -34,8 +34,8 @@ const getImagesByRecipeId = (id) => {
   return axios.get(TS_API + "/recipe/images/all/" + id)
 }
 
-const getImageByName = (name) =>
-  axios.get(TS_API + "/recipe/images/blob/" + name, {
+const getImageById = (id) =>
+  axios.get(TS_API + "/recipe/images/blob/" + id, {
     responseType: "arraybuffer",
   })
 
@@ -49,5 +49,5 @@ export default {
   getRecipeById,
   getVersionAndRecipeById,
   getImagesByRecipeId,
-  getImageByName,
+  getImageById: getImageById,
 }

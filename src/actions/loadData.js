@@ -97,14 +97,11 @@ export const getVersionAndRecipeById = (id) => (dispatch) => {
 }
 
 export const getImagesByRecipeId = (recipeId) => (dispatch) => {
-  let images = []
-
   return LoadService.getImagesByRecipeId(recipeId).then(({ data }) => {
     let _image = {}
-
     return Promise.all(
       data.map((image) => {
-        return LoadService.getImageByName(image.name)
+        return LoadService.getImageById(image.id)
           .then((res) => {
             _image = {
               picByte: Buffer.from(res.data, "binary").toString("base64"),
@@ -122,30 +119,5 @@ export const getImagesByRecipeId = (recipeId) => (dispatch) => {
           })
       })
     )
-  })
-}
-
-export const getImagesByName = (images) => (dispatch) => {
-  let _image = {}
-
-  return images.map((image) => {
-    _image = {}
-    LoadService.getImageByName(image.name).then(
-      ({ data }) => {
-        _image = {
-          picByte: Buffer.from(data, "binary").toString("base64"),
-          name: image.name,
-          id: image.id,
-        }
-      },
-      (error) => {
-        const message = extractErrMsg(error)
-
-        dispatch(setMessage(message))
-
-        return Promise.reject(message)
-      }
-    )
-    return Promise.resolve(_image)
   })
 }
