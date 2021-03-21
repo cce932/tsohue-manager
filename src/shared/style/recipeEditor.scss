@@ -13,7 +13,7 @@
   }
 
   & > form > div,
-  & > div {
+  & > div:not(.next) {
     box-shadow: $shadow-lighter;
     border-radius: 5px;
     width: auto;
@@ -127,11 +127,14 @@
     }
   }
 
-  a.next {
-    @include default-btn();
+  div.next {
     margin: 20px 60px;
-    color: white;
-    float: right;
-    background-color: $accent-color;
+
+    a.next {
+      @include default-btn();
+      color: white;
+      float: right;
+      background-color: $accent-color;
+    }
   }
 }

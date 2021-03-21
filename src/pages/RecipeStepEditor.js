@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Player, BigPlayButton, ControlBar } from "video-react"
 import { Link } from "react-router-dom"
+import { IoChevronBackSharp } from "react-icons/io5"
 import "shared/style/recipeStepEditor.scss"
 import _ from "lodash"
 
@@ -9,7 +10,11 @@ import { useDispatch } from "react-redux"
 import { transMSecToMin, insertIndexToArray } from "shared/utility/common"
 import "shared/style/recipeStepEditor.scss"
 import Table from "shared/components/Table"
-import { allPaths, recipeManager } from "shared/constants/pathname"
+import {
+  allPaths,
+  recipeImageEditor,
+  recipeManager,
+} from "shared/constants/pathname"
 import { getRecipeById } from "actions/loadData"
 import { createRecipeStep } from "actions/addData"
 import { deleteRecipeStep } from "actions/deleteData"
@@ -124,9 +129,15 @@ const RecipeStepEditor = (props) => {
           />
         </div>
       </div>
-      <Link className="next" to={allPaths[recipeManager]}>
-        儲存
-      </Link>
+      <div className="next">
+        <Link className="next" to={allPaths[recipeManager]}>
+          儲存
+        </Link>
+        <Link className="next" to={allPaths[recipeImageEditor] + id.toString()}>
+          <IoChevronBackSharp />
+          編輯圖片
+        </Link>
+      </div>
     </ExpandDiv>
   ) : (
     <h1>Loading</h1>

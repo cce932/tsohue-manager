@@ -229,7 +229,10 @@ const RecipeEditor = (props) => {
           </div>
 
           <p className="next">
-            <Button className="save-all ts-default">下一步</Button>
+            <Button className="save-all ts-default">
+              食譜照片
+              <IoChevronForwardSharp />
+            </Button>
             <CheckButton style={{ display: "none" }} ref={checkBtn} />
           </p>
         </Form>
