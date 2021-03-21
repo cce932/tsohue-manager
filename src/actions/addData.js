@@ -48,7 +48,7 @@ export const addIngredient = (
 
 export const createRecipe = (recipeData) => (dispatch, getState) => {
   const recipesLength = getState().recipes.allRecipes
-    ? getState().recipes.allRecipes.lenght
+    ? getState().recipes.allRecipes.length
     : undefined
 
   return AddService.createRecipe(recipeData, recipesLength).then(
