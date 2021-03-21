@@ -5,6 +5,7 @@ import Form from "react-validation/build/form"
 import Input from "react-validation/build/input"
 import Button from "react-validation/build/button"
 import { Form as BSForm } from "react-bootstrap"
+import { IoChevronForwardSharp } from "react-icons/io5"
 import _ from "lodash"
 
 import {
@@ -58,7 +59,7 @@ const RecipeEditor = (props) => {
   const [recipe, setRecipe] = useState({})
   const [enabledVersionOptions, setEnabledVersionOptions] = useState([]) // 雖只需初始化一次，不影響後續畫面，但不能用let，因為render時會多次執行此行，所以在useEffect內的init的值會被洗掉。
   const id = props.match.params.id
-  let recipeIngredients = []
+  const [recipeIngredients, setRecipeIngredients] = useState(undefined) // 不能設成[] 為了要判斷資料載入好後render ingredient-editor-table
 
   useEffect(() => {
     dispatch(getVersionAndRecipeById(id)).then((data) => {
@@ -70,7 +71,7 @@ const RecipeEditor = (props) => {
       setDescription(currentRecipe.description)
       setPrice(currentRecipe.price)
       setLink(currentRecipe.link)
-      recipeIngredients = currentRecipe.recipeIngredients
+      setRecipeIngredients(currentRecipe.recipeIngredients)
 
       const _enabledVersionOptions = _.omit(
         recipeVersionOptions,
@@ -139,13 +140,15 @@ const RecipeEditor = (props) => {
   }
 
   const passIngredientToEditor = (_tableIngredients) => {
-    recipeIngredients = _tableIngredients.map((ingredient) => {
-      return {
-        id: ingredient.recipeIngredientId,
-        ingredient: { id: ingredient.id },
-        quantityRequired: ingredient.quantityRequired,
-      }
-    })
+    setRecipeIngredients(
+      _tableIngredients.map((ingredient) => {
+        return {
+          id: ingredient.recipeIngredientId,
+          ingredient: { id: ingredient.id },
+          quantityRequired: ingredient.quantityRequired,
+        }
+      })
+    )
   }
 
   return isLoggedIn ? (
@@ -236,12 +239,17 @@ const RecipeEditor = (props) => {
             <CheckButton style={{ display: "none" }} ref={checkBtn} />
           </p>
         </Form>
-
-        <IngredientEditor
-          recipeId={id}
-          recipeIngredients={recipe.recipeIngredients}
-          passIngredientToEditor={passIngredientToEditor}
-        />
+        {recipeIngredients ? (
+          <IngredientEditor
+            recipeId={id}
+            recipeIngredients={recipeIngredients}
+            passIngredientToEditor={passIngredientToEditor}
+          />
+        ) : (
+          <div>
+            <p>載入中。。。</p>
+          </div>
+        )}
         <div className="add-version">
           <div className="dropdown">
             <BSForm.Control
