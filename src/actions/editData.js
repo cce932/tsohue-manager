@@ -3,6 +3,7 @@ import {
   CHANGE_MEMBER_ROLE,
   MODIFY_EMPLOYEE_DATA,
   RESET_PWD,
+  UPDATE_RECIPE_SUCCESS,
 } from "shared/constants/types"
 import EditService from "services/edit.service"
 import { getAllEmployees } from "actions/loadData"
@@ -73,13 +74,21 @@ export const resetPwd = (id, newPassword, oldPassword) => (dispatch) => {
 }
 
 export const updateRecipe = (id, recipe) => (dispatch) => {
-  return (
-    EditService.updateRecipe(id, recipe).then(({ data }) => {
+  return EditService.updateRecipe(id, recipe)
+    .then(({ data }) => {
+      dispatch({
+        type: UPDATE_RECIPE_SUCCESS,
+        payload: { id, recipe },
+      })
+
       return Promise.resolve(data.id)
-    }),
-    (error) => {
-      dispatch(setMessage(extractErrMsg(error)))
-      return Promise.reject(error)
-    }
-  )
+    })
+    .catch((error) => {
+      // 不能寫.then(success, error => ...)去接error
+      // 因為這樣只能接到success這部分處理時的錯誤
+      // 而這裡是該接service傳過來的error (此conflict是發生在)
+      const message = extractErrMsg(error)
+      // dispatch(setMessage(message))
+      return Promise.reject(message)
+    })
 }

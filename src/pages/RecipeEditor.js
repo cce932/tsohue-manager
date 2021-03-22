@@ -23,6 +23,8 @@ import IngredientEditor from "shared/components/IngredientEditor"
 import { createRecipe } from "actions/addData"
 import { recipeVersionOptions } from "shared/constants/options"
 import { updateRecipe } from "actions/editData"
+import useDialogContext from "hooks/useDialogContext"
+import { VERSION_DUPLICATED } from "shared/constants/messages"
 
 const required = (value) => {
   if (!value.length) {
@@ -47,9 +49,11 @@ const transRecipeToAddVersionData = (oldRecipe, newVersion) => {
 
 const RecipeEditor = (props) => {
   const dispatch = useDispatch()
+  const addDialog = useDialogContext()
   const form = useRef()
   const checkBtn = useRef()
   const { isLoggedIn } = useSelector((state) => state.auth)
+  const { message } = useSelector((state) => state.messages)
   const [name, setName] = useState("")
   const [version, setVersion] = useState("")
   const [newVersion, setNewVersion] = useState("")
@@ -128,7 +132,14 @@ const RecipeEditor = (props) => {
     delete _recipe["id"] // no difference between deleted it or not, backend doesn't care
 
     dispatch(updateRecipe(id, _recipe))
-    window.location = allPaths[recipeImageEditor] + id.toString()
+      .then((res) => {
+        window.location = allPaths[recipeImageEditor] + id.toString()
+      })
+      .catch((error) => {
+        VERSION_DUPLICATED.test(error.debugMessage)
+          ? addDialog(`${name}: 版本「${version}」已存在`)
+          : alert(`未知錯誤 ${error && error.debugMessage}`)
+      })
   }
 
   const handleAddVersion = () => {
