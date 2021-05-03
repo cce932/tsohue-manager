@@ -142,7 +142,7 @@ const UploadImages = (props) => {
               <img
                 className="d-block w-100"
                 src="/pic/noPhoto.png"
-                alt={"on-photo"}
+                alt="wait-upload"
               />
             </Carousel.Item>
           )}

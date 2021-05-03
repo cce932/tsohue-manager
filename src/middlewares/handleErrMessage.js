@@ -52,6 +52,7 @@ const handleErrMessage = (store) => (next) => (action) => {
             payload: `刪除食材ID:${id}失敗 食譜使用中`
           })
         }
+        break
       case UNAUTHORIZED:
         if (message === LOGIN_FAILURE) {
           return next({
@@ -59,10 +60,12 @@ const handleErrMessage = (store) => (next) => (action) => {
             payload: "帳號或密碼錯誤囉",
           })
         }
+        break
       case FORBIDDEN:
         if (message === NEED_AUTHORIZATION) {
           return window.alert("您的權限不足喔")
         }
+        break
       case CONFLICT:
         if (ACCOUNT_DUPLICATED.test(debugMessage)) {
           return next({
@@ -77,6 +80,7 @@ const handleErrMessage = (store) => (next) => (action) => {
         } else if (INGRIDIENT_DUPLICATED.test(debugMessage)) {
           return window.alert("此食材名稱已經存在囉 請換一個吧")
         }
+        break
       default:
         if (status && message && debugMessage) {
           return window.alert(

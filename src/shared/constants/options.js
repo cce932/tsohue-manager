@@ -1,6 +1,6 @@
 export const ingredientCategoryOptions = {
   VEGETABLE: "VEGETABLE",
-  MEET: "MEET",
+  MEAT: "MEAT",
   SPICE: "SPICE",
   OTHER: "OTHER",
 }
