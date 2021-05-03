@@ -1,6 +1,5 @@
 import {
   FETCH_ALL_MEMBERS,
-  FETCH_ALL_MEMBERS_FAILURE,
   FETCH_ALL_MEMBERS_SUCCESS,
 } from "shared/constants/types"
 

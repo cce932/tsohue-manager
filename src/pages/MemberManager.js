@@ -158,7 +158,6 @@ const MemberManager = () => {
   const handleDeleteMember = () => {
     if (selectedId.length > 0) {
       if (window.confirm(`確定刪除會員ID: ${selectedId.toString()}？`)) {
-        
         dispatch(deleteMember(selectedId))
         setSelectedId([])
       }
