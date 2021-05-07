@@ -7,6 +7,7 @@ import fetchAllMemebers from "middlewares/loadData/fetchAllMembers"
 import fetchAllEmployees from "middlewares/loadData/fetchAllEmployees"
 import deleteMember from "middlewares/deleteData/deleteMember"
 import deleteEmployee from "middlewares/deleteData/deleteEmployee"
+import changeMemberRole from "middlewares/editData/changeMemberRole"
 
 const middlewares = [
   thunk,
@@ -16,6 +17,7 @@ const middlewares = [
   fetchAllEmployees,
   deleteMember,
   deleteEmployee,
+  changeMemberRole
 ]
 
 const store = createStore(rootReducer, applyMiddleware(...middlewares))

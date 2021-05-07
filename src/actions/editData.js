@@ -1,5 +1,6 @@
 import {
   CHANGE_EMPLOYEE_ROLE,
+  CHANGE_MEMBER_ROLE,
   MODIFY_EMPLOYEE_DATA,
   RESET_PWD,
   UPDATE_RECIPE_SUCCESS,
@@ -10,8 +11,10 @@ import { setMessage } from "./message"
 import { extractErrMsg } from "shared/utility/common"
 import { allPaths, profile } from "shared/constants/pathname"
 
-export const changeMemberRole = (id, role) =>
-  EditService.changeMemberRole(id, role)
+export const changeMemberRole = (id, role) => ({
+  type: CHANGE_MEMBER_ROLE,
+  payload: { id, role },
+})
 
 export const changeEmployeeRole = (id, role) => (dispatch) => {
   return EditService.changeEmployeeRole(id, role).then(
