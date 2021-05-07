@@ -30,12 +30,14 @@ const RecipeManager = () => {
   let name_filter = () => null
   let version_filter = () => null
   let likeCount_filter = () => null
+  let price_filter = () => null
 
   const clearFilterHandler = () => {
     id_filter("")
     name_filter("")
     version_filter()
     likeCount_filter("")
+    price_filter("")
   }
 
   const expandRow = {
@@ -118,10 +120,22 @@ const RecipeManager = () => {
     {
       dataField: "version",
       text: "版本",
+      formatter: (cell) => recipeVersionOptions[cell],
       filter: selectFilter({
         options: recipeVersionOptions,
         getFilter: (filter) => {
           name_filter = filter
+        },
+        placeholder: " ",
+      }),
+      sort: true,
+    },
+    {
+      dataField: "price",
+      text: "價格",
+      filter: textFilter({
+        getFilter: (filter) => {
+          price_filter = filter
         },
         placeholder: " ",
       }),
