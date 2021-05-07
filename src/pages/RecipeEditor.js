@@ -36,12 +36,15 @@ const transRecipeToAddVersionData = (oldRecipe, newVersion) => {
   const _oldRecipe = Object.assign({}, oldRecipe)
 
   delete _oldRecipe["id"]
-  _oldRecipe["recipeSteps"].map((step) => {
+
+  _oldRecipe["recipeSteps"].forEach((step) => {
     delete step.id
   })
-  _oldRecipe["recipeIngredients"].map((ingredient) => {
+
+  _oldRecipe["recipeIngredients"].forEach((ingredient) => {
     delete ingredient.id
   })
+
   _oldRecipe["version"] = _.invert(recipeVersionOptions)[newVersion]
 
   return _oldRecipe
@@ -53,7 +56,6 @@ const RecipeEditor = (props) => {
   const form = useRef()
   const checkBtn = useRef()
   const { isLoggedIn } = useSelector((state) => state.auth)
-  const { message } = useSelector((state) => state.messages)
   const [name, setName] = useState("")
   const [version, setVersion] = useState("")
   const [newVersion, setNewVersion] = useState("")
@@ -88,7 +90,7 @@ const RecipeEditor = (props) => {
     return () => {
       setRecipe({})
     }
-  }, [])
+  }, [dispatch, id])
 
   const onNameChange = (e) => {
     setName(e.target.value)
