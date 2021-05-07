@@ -5,7 +5,7 @@ import { Redirect, Link } from "react-router-dom"
 
 import "shared/style/recipeManager.scss"
 import TableWithFilterByCol from "shared/components/TableWithFilterByCol"
-import { getMeunName } from "shared/utility/common"
+import { getMeunName, transMSecToMin } from "shared/utility/common"
 import { allPaths, recipeEditor } from "shared/constants/pathname"
 import { ExpandDiv, PrimaryStrokeBtn } from "shared/components/styled"
 import { getAllRecipes } from "actions/loadData"
@@ -55,7 +55,7 @@ const RecipeManager = () => {
         <tr key={index}>
           <td>第{index + 1}步</td>
           <td>{step.note}</td>
-          <td>{step.startTime}</td>
+          <td>{transMSecToMin(step.startTime)}</td>
         </tr>
       ))
       return (
