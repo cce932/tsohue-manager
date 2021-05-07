@@ -20,7 +20,7 @@ const UploadImages = (props) => {
     dispatch(getImagesByRecipeId(id)).then((res) => {
       setImages(res)
     })
-  }, [])
+  }, [dispatch, id])
 
   const selectFiles = (e) => {
     setSelectedFiles(e.target.files)
@@ -95,11 +95,11 @@ const UploadImages = (props) => {
       <p>上傳圖片</p>
       <div className="content">
         <input type="file" multiple accept="image/*" onChange={selectFiles} />
-        <button className="ts-default right" onClick={remove}>
+        <button className="ts-default right  top-adjust" onClick={remove}>
           刪除
         </button>
         <button
-          className="upload-btn ts-default right"
+          className="upload-btn ts-default right top-adjust"
           disabled={!selectedFiles}
           onClick={upload}
         >

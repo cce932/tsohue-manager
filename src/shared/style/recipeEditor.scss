@@ -13,7 +13,7 @@
   }
 
   & > form > div,
-  & > div:not(.next) {
+  & > div:not(.next, .back) {
     box-shadow: $shadow-lighter;
     border-radius: 5px;
     width: auto;
@@ -67,7 +67,10 @@
 
   button.ts-default {
     @include default-btn();
-    margin-top: -5px;
+
+    &.top-adjust {
+      margin-top: -5px;
+    }
 
     &.right {
       float: right;
@@ -113,28 +116,69 @@
     }
   }
 
+  // adjust icon position
+  svg {
+    padding-bottom: 2px;
+  }
+
   p.next {
     position: absolute;
-    height: 100px;
-    right: 55px;
-    bottom: -100px;
+    height: 90px;
+    padding-right: 55px;
+    padding-left: 40px;
+    bottom: -130px;
+    width: 100%;
 
     button.save-all {
-      margin-top: 40%;
+
       &:not([disabled]) {
         background-color: $accent-color;
       }
     }
+
+    button.this-page {
+      @include stroke();
+    }
+
+    a.back {
+      @include default-btn($secondary-color);
+      color: white;
+      float: left;
+      display: block;
+
+      svg {
+        margin-left: 3px;
+      }
+    }
   }
 
+  // for RecipeImageEditor page
   div.next {
     margin: 20px 60px;
+    float: right;
 
     a.next {
-      @include default-btn();
+      @include default-btn($accent-color);
       color: white;
-      float: right;
-      background-color: $accent-color;
+    }
+
+    button.this-page {
+      @include stroke();
+    }
+  }
+
+  div.back {
+    margin: 30px 0;
+    float: left;
+    height: fit-content;
+
+    a.back {
+      @include default-btn($secondary-color);
+      color: white;
+
+      svg {
+        margin-left: 3px;
+      }
     }
   }
 }

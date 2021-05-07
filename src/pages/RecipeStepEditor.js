@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Player, BigPlayButton, ControlBar } from "video-react"
 import { Link } from "react-router-dom"
-import { IoChevronBackSharp } from "react-icons/io5"
-import "shared/style/recipeStepEditor.scss"
+import {
+  BsChevronLeft,
+  BsFolderCheck,
+  BsChevronDoubleLeft,
+} from "react-icons/bs"
 import _ from "lodash"
 
+import "shared/style/recipeStepEditor.scss"
 import { ExpandDiv } from "shared/components/styled"
 import { useDispatch } from "react-redux"
 import { transMSecToMin, insertIndexToArray } from "shared/utility/common"
@@ -12,6 +16,7 @@ import "shared/style/recipeStepEditor.scss"
 import Table from "shared/components/Table"
 import {
   allPaths,
+  recipeEditor,
   recipeImageEditor,
   recipeManager,
 } from "shared/constants/pathname"
@@ -48,7 +53,7 @@ const RecipeStepEditor = (props) => {
       setRecipe(res)
       setSteps(res.recipeSteps)
     })
-  }, [])
+  }, [dispatch, id])
 
   const handleStateChange = (state) => {
     // copy player state to this component's state
@@ -117,7 +122,10 @@ const RecipeStepEditor = (props) => {
             </div>
             <label className="sub-title">計時 (秒)</label>
             <input value={timer} onChange={timerOnChange} type="number"></input>
-            <button className="ts-default right" onClick={handleAddStep}>
+            <button
+              className="ts-default right top-adjust"
+              onClick={handleAddStep}
+            >
               新增步驟
             </button>
           </div>
@@ -129,14 +137,24 @@ const RecipeStepEditor = (props) => {
           />
         </div>
       </div>
+      <div className="back">
+        <Link className="back" to={allPaths[recipeManager]}>
+          完成
+          <BsFolderCheck />
+        </Link>
+      </div>
       <div className="next">
-        <Link className="next" to={allPaths[recipeManager]}>
-          儲存
+        <Link className="next" to={allPaths[recipeEditor] + id}>
+          <BsChevronDoubleLeft />
+          基本資料
         </Link>
-        <Link className="next" to={allPaths[recipeImageEditor] + id.toString()}>
-          <IoChevronBackSharp />
-          編輯圖片
+        <Link className="next" to={allPaths[recipeImageEditor] + id}>
+          <BsChevronLeft />
+          相片
         </Link>
+        <button disabled className="this-page" to="#">
+          教學步驟
+        </button>
       </div>
     </ExpandDiv>
   ) : (

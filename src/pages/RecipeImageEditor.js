@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom"
-import { IoChevronBackSharp, IoChevronForwardSharp } from "react-icons/io5"
+import { BsChevronLeft, BsChevronRight, BsFolderCheck } from "react-icons/bs"
 import { ExpandDiv } from "shared/components/styled"
 import UploadImages from "shared/components/UploadImages"
 import {
   allPaths,
   recipeEditor,
+  recipeManager,
   recipeStepEditor,
 } from "shared/constants/pathname"
 
@@ -14,14 +15,23 @@ const RecipeImageEditor = (props) => {
   return (
     <ExpandDiv className={`recipe-editor recipe-image-editor`}>
       <UploadImages id={id} />
-      <div className="next">
-        <Link className="next" to={allPaths[recipeStepEditor] + id}>
-          食譜步驟
-          <IoChevronForwardSharp />
+      <div className="back">
+        <Link className="back" to={allPaths[recipeManager]}>
+          完成
+          <BsFolderCheck />
         </Link>
+      </div>
+      <div className="next">
         <Link className="next" to={allPaths[recipeEditor] + id}>
-          <IoChevronBackSharp />
-          基本資訊
+          <BsChevronLeft />
+          基本資料
+        </Link>
+        <button disabled className="this-page" to="#">
+          相片
+        </button>
+        <Link className="next" to={allPaths[recipeStepEditor] + id}>
+          教學步驟
+          <BsChevronRight />
         </Link>
       </div>
     </ExpandDiv>

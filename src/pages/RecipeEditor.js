@@ -1,23 +1,29 @@
 import React, { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Redirect } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
 import Form from "react-validation/build/form"
 import Input from "react-validation/build/input"
 import Button from "react-validation/build/button"
 import { Form as BSForm } from "react-bootstrap"
-import { IoChevronForwardSharp } from "react-icons/io5"
+import {
+  BsChevronDoubleRight,
+  BsChevronRight,
+  BsFolderCheck,
+} from "react-icons/bs"
 import _ from "lodash"
 
 import {
   allPaths,
+  recipeManager,
   recipeEditor,
   recipeImageEditor,
+  recipeStepEditor,
 } from "shared/constants/pathname"
 import { getMeunName } from "shared/utility/common"
 import CheckButton from "react-validation/build/button"
 
 import "shared/style/recipeEditor.scss"
-import { ExpandDiv } from "shared/components/styled"
+import { AlertMsg, ExpandDiv } from "shared/components/styled"
 import { getVersionAndRecipeById } from "actions/loadData"
 import IngredientEditor from "shared/components/IngredientEditor"
 import { createRecipe } from "actions/addData"
@@ -116,7 +122,7 @@ const RecipeEditor = (props) => {
     setNewVersion(e.target.value)
   }
 
-  const handleUpdateRecipe = (e) => {
+  const handleUpdateRecipe = (redirectPath) => (e) => {
     e.preventDefault()
 
     const _recipe = {
@@ -135,7 +141,7 @@ const RecipeEditor = (props) => {
 
     dispatch(updateRecipe(id, _recipe))
       .then((res) => {
-        window.location = allPaths[recipeImageEditor] + id.toString()
+        window.location = redirectPath + id.toString()
       })
       .catch((error) => {
         VERSION_DUPLICATED.test(error.debugMessage)
@@ -167,7 +173,7 @@ const RecipeEditor = (props) => {
   return isLoggedIn ? (
     !_.isEmpty(recipe) ? (
       <ExpandDiv className="recipe-editor">
-        <Form name="all" id="all" onSubmit={handleUpdateRecipe} ref={form}>
+        <Form name="all" id="all" ref={form}>
           <div>
             <p>食譜名稱</p>
             <div className="content">
@@ -245,12 +251,31 @@ const RecipeEditor = (props) => {
           </div>
 
           <p className="next">
-            <Button className="save-all ts-default">
-              食譜照片
-              <IoChevronForwardSharp />
+            <Link className="back" to={allPaths[recipeManager]}>
+              完成
+              <BsFolderCheck />
+            </Link>
+
+            <Button
+              onClick={handleUpdateRecipe(allPaths[recipeStepEditor])}
+              className="save-all ts-default right"
+            >
+              教學步驟
+              <BsChevronDoubleRight />
             </Button>
-            <CheckButton style={{ display: "none" }} ref={checkBtn} />
+            <Button
+              onClick={handleUpdateRecipe(allPaths[recipeImageEditor])}
+              className="save-all ts-default right"
+            >
+              照片
+              <BsChevronRight />
+            </Button>
+            <button disabled className="this-page ts-default right">
+              基本資料
+            </button>
           </p>
+
+          <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
         {recipeIngredients ? (
           <IngredientEditor
@@ -282,11 +307,9 @@ const RecipeEditor = (props) => {
             </BSForm.Control>
           </div>
           <button
-            className={
-              _.isEmpty(enabledVersionOptions)
-                ? "ts-default add-version disable"
-                : "ts-default add-version"
-            }
+            className={`ts-default add-version${
+              _.isEmpty(enabledVersionOptions) ? " disable" : ""
+            }`}
             onClick={handleAddVersion}
           >
             新增版本

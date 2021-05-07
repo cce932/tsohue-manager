@@ -51,7 +51,7 @@ const IngredientEditor = (props) => {
 
     let _tableIngredients = []
 
-    props.recipeIngredients.map((recipeIngredient) => {
+    props.recipeIngredients.forEach((recipeIngredient) => {
       _tableIngredients.push({
         recipeIngredientId: recipeIngredient.id,
         id: recipeIngredient.ingredient.id,
@@ -67,6 +67,7 @@ const IngredientEditor = (props) => {
       setIdExtractedIngredients(undefined)
       setTableIngredients([])
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const idOnChange = (e) => {
@@ -149,7 +150,9 @@ const IngredientEditor = (props) => {
 
   const remove = (rowData, e, data = tableIngredients) => {
     e.preventDefault()
-    const _tableIngredients = data.filter((row) => row.recipeIngredientId !== rowData.recipeIngredientId)
+    const _tableIngredients = data.filter(
+      (row) => row.recipeIngredientId !== rowData.recipeIngredientId
+    )
 
     dispatch(deleteRecipeIngredient(recipeId, rowData.recipeIngredientId))
 
@@ -276,7 +279,7 @@ const IngredientEditor = (props) => {
             validations={[required, isPositive]}
             onChange={quentityOnChange}
           />
-          <Button className={"ts-default right"}>加入</Button>
+          <Button className={"ts-default right  top-adjust"}>加入</Button>
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
 
