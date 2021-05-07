@@ -1,6 +1,11 @@
 @import "global";
 
 div.recipe-manager {
+
+  tbody > tr {
+    cursor: pointer;
+  }
+
   div.detail {
     display: flex;
 

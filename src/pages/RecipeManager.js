@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { selectFilter, textFilter } from "react-bootstrap-table2-filter"
-import { Redirect, Link } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 
 import "shared/style/recipeManager.scss"
+import useDialogContext from "hooks/useDialogContext"
 import TableWithFilterByCol from "shared/components/TableWithFilterByCol"
 import { getMeunName, transMSecToMin } from "shared/utility/common"
 import { allPaths, recipeEditor } from "shared/constants/pathname"
@@ -19,10 +20,14 @@ const RecipeManager = () => {
   const { allRecipes } = useSelector((state) => state.recipes)
   const { isLoggedIn } = useSelector((state) => state.auth)
   const [selectedId, setSelectedId] = useState([])
+  const addDialog = useDialogContext()
 
   useEffect(() => {
     dispatch(getAllRecipes())
-  }, [])
+    setTimeout(() => {
+      addDialog("小幫手：點兩下食譜可編輯喔")
+    }, 1000)
+  }, [addDialog, dispatch])
 
   const keyField = "id"
 
@@ -197,6 +202,7 @@ const RecipeManager = () => {
           selectRow={selectRow}
           expandRow={expandRow}
           rowEvents={rowEvents}
+          hover
         />
       </ExpandDiv>
     ) : (
