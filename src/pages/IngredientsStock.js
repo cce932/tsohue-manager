@@ -11,6 +11,7 @@ import paginationFactory from "react-bootstrap-table2-paginator"
 import filterFactory, { Comparator } from "react-bootstrap-table2-filter"
 
 import "shared/style/ingredient.scss"
+import { SolidSpan } from "shared/components/styled"
 import AddIngredient from "shared/components/addIngredient"
 import SizePerPageRenderer from "shared/components/SizePerPageRenderer"
 import { ExpandDiv, PrimaryStrokeBtn } from "shared/components/styled"
@@ -21,7 +22,41 @@ import { getMeunName } from "shared/utility/common"
 import { allPaths, ingredientDetail } from "shared/constants/pathname"
 import useDialogContext from "hooks/useDialogContext"
 import { FaSortDown, FaSortUp, FaSort } from "react-icons/fa"
-import { ingredientCategoryOptions as categoryOptions } from "shared/constants/options"
+import {
+  CHIngredientCategoryOptions,
+  stockStatusOptions,
+} from "shared/constants/options"
+import color from "shared/style/color"
+
+const stockStatusFormatter = (cell, row) => {
+  if (!row.status) {
+    return (
+      <SolidSpan
+        {...{
+          backgroundColor: color.accent,
+          padding: "3px 10px",
+          margin: "0",
+          fontSize: "0.9rem",
+        }}
+      >
+        {stockStatusOptions[cell]}
+      </SolidSpan>
+    )
+  } else {
+    return (
+      <SolidSpan
+        {...{
+          backgroundColor: color.third,
+          padding: "3px 10px",
+          margin: "0",
+          fontSize: "0.9rem",
+        }}
+      >
+        {stockStatusOptions[cell]}
+      </SolidSpan>
+    )
+  }
+}
 
 const IngredientsStock = () => {
   const dispatch = useDispatch()
@@ -69,6 +104,7 @@ const IngredientsStock = () => {
   let city_filter
   let name_filter
   let price_filter
+  let status_filter
   let safetyStock_filter
   let stock_filter
 
@@ -80,6 +116,7 @@ const IngredientsStock = () => {
     typeof city_filter === "function" && city_filter("")
     typeof name_filter === "function" && name_filter("")
     typeof price_filter === "function" && price_filter("")
+    typeof status_filter === "function" && status_filter("")
     typeof safetyStock_filter === "function" && safetyStock_filter("")
     typeof stock_filter === "function" && stock_filter("")
   }
@@ -111,9 +148,9 @@ const IngredientsStock = () => {
     {
       dataField: "category",
       text: "種類",
-      formatter: (cell) => categoryOptions[cell],
+      formatter: (cell) => CHIngredientCategoryOptions[cell],
       filter: selectFilter({
-        options: categoryOptions,
+        options: CHIngredientCategoryOptions,
         getFilter: (filter) => {
           category_filter = filter
         },
@@ -161,6 +198,19 @@ const IngredientsStock = () => {
       filter: textFilter({
         getFilter: (filter) => {
           city_filter = filter
+        },
+        placeholder: " ",
+      }),
+      sort: true,
+    },
+    {
+      dataField: "status",
+      text: "庫存狀態",
+      formatter: stockStatusFormatter,
+      filter: selectFilter({
+        options: stockStatusOptions,
+        getFilter: (filter) => {
+          status_filter = filter
         },
         placeholder: " ",
       }),
