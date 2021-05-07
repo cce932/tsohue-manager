@@ -291,6 +291,11 @@ const RecipeEditor = (props) => {
           >
             新增版本
           </button>
+          {_.isEmpty(enabledVersionOptions) && (
+            <AlertMsg className="error" margin="10px 0">
+              無法新增烹飪包，所有版本皆已存在囉
+            </AlertMsg>
+          )}
         </div>
       </ExpandDiv>
     ) : (

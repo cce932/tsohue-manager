@@ -6,6 +6,18 @@ export const ExpandDiv = styled.div`
   height: max-content;
 `
 
+export const AlertMsg = styled.div`
+  font-family: sans-serif;
+  font-weight: ${(props) => props.fontWeight || "bold"};
+  font-size: ${(props) => props.fontSize || "0.8rem"};
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  color: ${(props) => props.color || color.accent};
+
+  padding: ${(props) => props.padding || "0"};
+  margin: ${(props) => props.margin || "0"};
+`
+
 export const SolidSpan = styled.span`
   font-family: sans-serif;
   font-weight: normal;
@@ -14,8 +26,7 @@ export const SolidSpan = styled.span`
   letter-spacing: 0.03em;
 
   color: ${(props) => props.color || "white"};
-  background-color: ${(props) =>
-    props.backgroundColor || color.prime};
+  background-color: ${(props) => props.backgroundColor || color.prime};
   border: ${(props) => props.border || "none"};
 
   height: fit-content;
@@ -28,9 +39,7 @@ export const SolidSpan = styled.span`
   &:hover {
     color: ${(props) => props.hoverColor || props.color || "white"};
     background-color: ${(props) =>
-      props.hoverBackgroundColor ||
-      props.backgroundColor ||
-      color.prime};
+      props.hoverBackgroundColor || props.backgroundColor || color.prime};
     border: ${(props) => props.hoverBorder || props.border || "none"};
   }
 `
