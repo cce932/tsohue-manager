@@ -6,6 +6,7 @@ import "shared/style/app.scss"
 
 import { history } from "helpers/history"
 import { clearMessage } from "actions/message"
+import { getCurrentEmployee } from "actions/loadData"
 import { VscThreeBars } from "react-icons/vsc"
 // import Home from "pages/Home"
 import Login from "pages/Login"
@@ -36,11 +37,11 @@ import {
   login,
   recipeStepEditor,
   recipeEditor,
-  recipeImageEditor
+  recipeImageEditor,
 } from "shared/constants/pathname"
 import { getMeunName } from "shared/utility/common"
 
-const App = (props) => {
+const App = () => {
   const { user: currentUser } = useSelector((state) => state.auth)
   const [hidden, setHidden] = useState(false)
   const [locating, setLocating] = useState("")
@@ -50,7 +51,12 @@ const App = (props) => {
     history.listen((location) => {
       dispatch(clearMessage())
     })
-  }, [dispatch]) // 只有dispatch變更的時候 才會再重呼叫一次此useEffect
+
+    // validate wheather the user has loggedin or not when landing the site
+    if (currentUser) {
+      dispatch(getCurrentEmployee(currentUser.token))
+    }
+  }, [currentUser, dispatch])
 
   const toggleSideBar = () => {
     const nowAt = window.location.pathname

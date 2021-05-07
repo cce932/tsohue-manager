@@ -1,5 +1,7 @@
+import loadService from "services/load.service"
 import LoadService from "services/load.service"
 import {
+  FETCH_CURRENT_EMPLOYEE,
   FETCH_ALL_MEMBERS,
   FETCH_ALL_EMPLOYEES,
   FETCH_ALL_INGREDIENTS_SUCCESS,
@@ -7,7 +9,21 @@ import {
   FETCH_RECIPE_BY_ID_SUCCESS,
 } from "shared/constants/types"
 import { extractErrMsg } from "shared/utility/common"
+import { logout } from "./auth"
 import { setMessage } from "./message"
+
+export const getCurrentEmployee = (token) => (dispatch) => {
+  // validate wheather the user has loggedin or not when landing the site
+  loadService
+    .getCurrentEmployee({ Authorization: token })
+    .then(({ data }) => {
+      dispatch({
+        type: FETCH_CURRENT_EMPLOYEE,
+        payload: data,
+      })
+    })
+    .catch(() => dispatch(logout()))
+}
 
 export const getAllMembers = () => {
   return {

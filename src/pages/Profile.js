@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React from "react"
+import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { PrimaryStrokeBtn } from "shared/components/styled"
 import { allPaths, pwdReset } from "shared/constants/pathname"
@@ -7,7 +7,6 @@ import { ExpandDiv } from "shared/components/styled.js"
 import "shared/style/profile.scss"
 
 const Profile = () => {
-  const dispatch = useDispatch()
   const {
     account,
     department,

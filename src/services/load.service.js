@@ -4,7 +4,7 @@ import { TS_API } from "shared/constants/urls"
 
 // 抓取每個頁面所需的資料
 
-const getCurrentMemberData = (token = authHeader()) => {
+const getCurrentEmployee = (token = authHeader()) => {
   return axios.get(TS_API + "/employee/me", { headers: token })
 }
 
@@ -41,7 +41,7 @@ const getImageById = (id) =>
 
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
-  getCurrentMemberData,
+  getCurrentEmployee,
   getAllMembersData,
   getAllEmployeesData,
   getAllIngredientsData,

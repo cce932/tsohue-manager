@@ -41,7 +41,7 @@ const login = (account, password) => {
 
       if (response.data.token) {
         const header = { Authorization: response.data.token } // Authorization 名稱不可改動
-        const memberData = await LoadService.getCurrentMemberData(header) // 如果沒加await 就會直接return 不等getCurrentMemberData
+        const memberData = await LoadService.getCurrentEmployee(header) // 如果沒加await 就會直接return 不等getCurrentMemberData
 
         allResponse = {
           ...allResponse,
