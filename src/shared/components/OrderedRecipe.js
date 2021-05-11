@@ -4,7 +4,7 @@ import styled from "styled-components"
 
 import color from "shared/style/color"
 import { splitToRows } from "shared/utility/common"
-import { StrokeLabel } from "shared/components/styled"
+import { StrokeSpan } from "shared/components/styled"
 import { recipeVersionOptions as versionOptions } from "shared/constants/options"
 // import { allPaths, recipe as recipePath } from "shared/constants/pathName"
 
@@ -100,13 +100,12 @@ const OrderedRecipe = ({
             {/* <a href={`/recipe/${recipe.id}`}> */}
             <StyledFont weight="bold">{recipe.name}</StyledFont>
             {/* </a> */}
-            <StrokeLabel
-              color={recipe.version.toLowerCase() + "Color"}
-              borderColor={recipe.version.toLowerCase() + "Color"}
+            <StrokeSpan
+              color={color[recipe.version.toLowerCase()]}
             >
               {versionOptions[recipe.version]}
-            </StrokeLabel>
-            {isCustomize && <StrokeLabel>客製化</StrokeLabel>}
+            </StrokeSpan>
+            {isCustomize && <StrokeSpan>客製化</StrokeSpan>}
             <FloatRight>
               <StyledFont color={color.accent}>NT. {sum}</StyledFont>
             </FloatRight>
