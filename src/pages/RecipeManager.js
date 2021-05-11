@@ -14,6 +14,7 @@ import { deleteRecipe } from "actions/deleteData"
 import { countSelectedId } from "shared/utility/common"
 import { createRecipe } from "actions/addData"
 import { recipeVersionOptions } from "shared/constants/options"
+import StyledSpinner from "shared/components/StyledSpinner"
 
 const RecipeManager = () => {
   const dispatch = useDispatch()
@@ -206,7 +207,7 @@ const RecipeManager = () => {
         />
       </ExpandDiv>
     ) : (
-      <h1>Loading</h1>
+      <StyledSpinner />
     )
   ) : (
     <>

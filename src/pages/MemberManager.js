@@ -13,6 +13,7 @@ import { deleteMember } from "actions/deleteData"
 import { countSelectedId } from "shared/utility/common"
 import { getMeunName } from "shared/utility/common"
 import { allPaths } from "shared/constants/pathname"
+import StyledSpinner from "shared/components/StyledSpinner"
 
 const MemberManager = () => {
   const dispatch = useDispatch()
@@ -185,7 +186,7 @@ const MemberManager = () => {
         />
       </ExpandDiv>
     ) : (
-      <h1>Loading</h1>
+      <StyledSpinner />
     )
   ) : (
     <>

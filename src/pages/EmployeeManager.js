@@ -23,6 +23,7 @@ import { modifyEmployeeData, changeEmployeeRole } from "actions/editData"
 import { deleteEmployee } from "actions/deleteData"
 import { countSelectedId } from "shared/utility/common"
 import { register } from "actions/auth"
+import StyledSpinner from "shared/components/StyledSpinner"
 
 const required = (value) => {
   if (!value.length) {
@@ -556,7 +557,7 @@ const EmployeeManager = () => {
         </ExpandDiv>
       </>
     ) : (
-      <h1>Loading</h1>
+      <StyledSpinner />
     )
   ) : (
     <>

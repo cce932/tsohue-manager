@@ -23,6 +23,7 @@ import {
 import { getRecipeById } from "actions/loadData"
 import { createRecipeStep } from "actions/addData"
 import { deleteRecipeStep } from "actions/deleteData"
+import StyledSpinner from "shared/components/StyledSpinner"
 
 const transStartTimeToMinInSteps = (steps) =>
   steps.map((step) => ({
@@ -158,7 +159,7 @@ const RecipeStepEditor = (props) => {
       </div>
     </ExpandDiv>
   ) : (
-    <h1>Loading</h1>
+    <StyledSpinner />
   )
 }
 

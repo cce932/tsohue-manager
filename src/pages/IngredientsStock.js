@@ -27,6 +27,7 @@ import {
   stockStatusOptions,
 } from "shared/constants/options"
 import color from "shared/style/color"
+import StyledSpinner from "shared/components/StyledSpinner"
 
 const stockStatusFormatter = (cell, row) => {
   if (!row.status) {
@@ -310,7 +311,7 @@ const IngredientsStock = () => {
         <label className="dataLength">共 {allIngredients.length} 筆</label>
       </ExpandDiv>
     ) : (
-      <h1>Loading</h1>
+      <StyledSpinner />
     )
   ) : (
     <>

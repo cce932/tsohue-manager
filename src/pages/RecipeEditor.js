@@ -31,6 +31,7 @@ import { recipeVersionOptions } from "shared/constants/options"
 import { updateRecipe } from "actions/editData"
 import useDialogContext from "hooks/useDialogContext"
 import { VERSION_DUPLICATED } from "shared/constants/messages"
+import StyledSpinner from "shared/components/StyledSpinner"
 
 const required = (value) => {
   if (!value.length) {
@@ -322,7 +323,7 @@ const RecipeEditor = (props) => {
         </div>
       </ExpandDiv>
     ) : (
-      <h1>Loading</h1>
+      <StyledSpinner />
     )
   ) : (
     <>
