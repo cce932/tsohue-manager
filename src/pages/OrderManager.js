@@ -330,7 +330,7 @@ const OrderManager = () => {
   ]
 
   return isLoggedIn ? (
-    allOrders ? (
+    allOrders.length ? (
       <ExpandDiv className="orders">
         <div className="tools">
           <PrimaryStrokeBtn onClick={clearFilterHandler}>
