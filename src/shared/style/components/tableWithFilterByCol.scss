@@ -13,9 +13,13 @@
     outline: 0;
   }
 
-  th.expand-cell-header:hover {
+  th.expand-cell-header {
+    width: 50px;
+
+    &:hover {
       color: $accent-color;
       transition: $default-trans;
+    }
   }
 
   .filter-label {

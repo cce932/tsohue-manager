@@ -1,10 +1,11 @@
 import BootstrapTable from "react-bootstrap-table-next"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
+
 import "shared/style/components/tableWithFilterByCol.scss"
-import { GrCircleInformation } from "react-icons/gr"
-import { FiMinusCircle } from "react-icons/fi"
+import { FiMinusCircle, FiAlertCircle } from "react-icons/fi"
 import { FaSortUp, FaSortDown, FaSort } from "react-icons/fa"
+import color from "shared/style/color"
 
 // 有頁數 可選擇每頁顯示幾個
 const TableWithFilterByCol = ({
@@ -57,7 +58,7 @@ const TableWithFilterByCol = ({
     Object.keys(expandRow).length !== 0
       ? {
           ...expandRow,
-          expandColumnPosition: "right",
+          expandColumnPosition: "left",
           expandHeaderColumnRenderer: ({ isAnyExpands }) => {
             if (isAnyExpands) {
               return <label>收合</label>
@@ -66,9 +67,19 @@ const TableWithFilterByCol = ({
           },
           expandColumnRenderer: ({ expanded }) => {
             if (expanded) {
-              return <FiMinusCircle stroke="#e76845" />
+              return (
+                <FiMinusCircle
+                  stroke={color.accent}
+                  size="20px"
+                />
+              )
             }
-            return <GrCircleInformation />
+            return (
+              <FiAlertCircle
+                stroke={color.accentLighter2}
+                size="20px"
+              />
+            )
           },
         }
       : {}
