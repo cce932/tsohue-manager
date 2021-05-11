@@ -17,7 +17,7 @@ import { AiTwotoneEdit } from "react-icons/ai"
 
 import "shared/style/orderManager.scss"
 import { SolidSpan } from "shared/components/styled"
-import SizePerPageRenderer from "shared/components/SizePerPageRenderer"
+import sizePerPageRenderer from "shared/components/SizePerPageRenderer"
 import { ExpandDiv, PrimaryStrokeBtn } from "shared/components/styled"
 import { getAllOrders } from "actions/loadData"
 import { getMeunName } from "shared/utility/common"
@@ -351,7 +351,7 @@ const OrderManager = () => {
               { text: "全部", value: allOrders.length },
             ],
             hidePageListOnlyOnePage: true,
-            SizePerPageRenderer,
+            sizePerPageRenderer,
           })}
           filter={filterFactory()}
           sort={sortOption}

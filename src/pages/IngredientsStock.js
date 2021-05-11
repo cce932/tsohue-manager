@@ -13,7 +13,7 @@ import filterFactory, { Comparator } from "react-bootstrap-table2-filter"
 import "shared/style/ingredient.scss"
 import { SolidSpan } from "shared/components/styled"
 import AddIngredient from "shared/components/addIngredient"
-import SizePerPageRenderer from "shared/components/SizePerPageRenderer"
+import sizePerPageRenderer from "shared/components/SizePerPageRenderer"
 import { ExpandDiv, PrimaryStrokeBtn } from "shared/components/styled"
 import { getAllIngredients } from "actions/loadData"
 import { deleteIngredient } from "actions/deleteData"
@@ -305,7 +305,7 @@ const IngredientsStock = () => {
               { text: "全部", value: allIngredients.length },
             ],
             hidePageListOnlyOnePage: true,
-            SizePerPageRenderer,
+            sizePerPageRenderer,
           })}
           filter={filterFactory()}
           sort={sortOption}

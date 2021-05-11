@@ -1,5 +1,4 @@
-
-const SizePerPageRenderer = ({
+const sizePerPageRenderer = ({
   options,
   currSizePerPage,
   onSizePerPageChange,
@@ -21,4 +20,4 @@ const SizePerPageRenderer = ({
   </div>
 )
 
-export default SizePerPageRenderer
+export default sizePerPageRenderer
