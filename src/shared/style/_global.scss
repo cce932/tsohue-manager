@@ -10,6 +10,11 @@ $accent-color: rgb(231, 104, 69); // #e76845
 $accent-lighter-color: rgb(253, 221, 132); // #dd6c4f; // rgb(251, 211, 101)
 $accent-lighter-color-2: rgb(248, 203, 80);
 $accent-deeper-color: rgb(165, 90, 70);
+$normal-color: #9e8568;
+$lowfat-color: #8093b5;
+$meat-color: #f09797;
+$vage-color: #7ca390;
+
 $linear-h: linear-gradient(90deg, $forth-color, $fifth-color);
 $linear-v: linear-gradient(230deg, $forth-color, $accent-color);
 $default-trans: all 0.3s ease 0s;
@@ -41,7 +46,7 @@ $shadow-bottom: 0 7px 5px -4px rgba($fifth-color, 1);
 
 @mixin default-btn($color: $secondary-color) {
   @include text(normal, 1rem, white);
-  
+
   width: fit-content;
   height: fit-content;
   background-color: $color;
@@ -58,7 +63,7 @@ $shadow-bottom: 0 7px 5px -4px rgba($fifth-color, 1);
 
 @mixin stroke($color: $accent-color, $padding: 5px 15px, $margin: 5px) {
   @include text(normal, 1rem, $color);
-  
+
   width: fit-content;
   height: fit-content;
   background-color: white;
