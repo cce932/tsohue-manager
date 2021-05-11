@@ -2,7 +2,7 @@
 
 .react-bootstrap-table {
   @include text(normal, 0.9rem, $accent-color);
-  padding: 20px 20px 20px 0;
+  margin: 20px 20px 20px 0;
 
   .sr-only {
     display: none; // 連位置也不會留

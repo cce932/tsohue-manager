@@ -23,7 +23,7 @@ const MemberManager = () => {
 
   useEffect(() => {
     dispatch(getAllMembers())
-  }, [])
+  }, [dispatch])
 
   const keyField = "id"
   const selectOptions = {

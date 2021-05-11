@@ -26,7 +26,7 @@ const RecipeManager = () => {
   useEffect(() => {
     dispatch(getAllRecipes())
     setTimeout(() => {
-      addDialog("小幫手：點兩下食譜可編輯喔")
+      addDialog("[食譜管理] 點兩下食譜可編輯喔")
     }, 1000)
   }, [addDialog, dispatch])
 

@@ -69,7 +69,11 @@ const IngredientsStock = () => {
 
   useEffect(() => {
     dispatch(getAllIngredients())
-  }, [])
+  }, [dispatch])
+
+  useEffect(() => {
+    message && addDialog(message)
+  }, [addDialog, message])
 
   const keyField = "id"
 
@@ -268,7 +272,6 @@ const IngredientsStock = () => {
   return isLoggedIn ? (
     allIngredients ? (
       <ExpandDiv className="ingredients-stock">
-        {message && addDialog(message)}
         <div className="tools">
           <PrimaryStrokeBtn
             data-bs-toggle="collapse"
