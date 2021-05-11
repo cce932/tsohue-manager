@@ -49,7 +49,7 @@ const handleErrMessage = (store) => (next) => (action) => {
           const { id } = payload
           return next({
             ...action,
-            payload: `刪除食材ID:${id}失敗 食譜使用中`
+            payload: `刪除食材ID:${id}失敗 尚有烹飪包需要此食材`
           })
         }
         break
