@@ -1,6 +1,5 @@
 import {
   REGISTER_SUCCESS,
-  REGISTER_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
@@ -13,60 +12,47 @@ import { setMessage } from "./message"
 import { getAllEmployees } from "./loadData"
 
 // dispatch(action) 一定要回傳action 內容是type屬性和可省略的payload
-export const register = (
-  department,
-  title,
-  account,
-  username,
-  email,
-  phone,
-  role
-) => (dispatch) => {
-  const password = generatePwd()
-  return AuthService.register(
-    department,
-    title,
-    account,
-    username,
-    email,
-    phone,
-    role,
-    encrypt(password, account)
-  ).then(
-    ({ data }) => {
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: null,
-      })
-
-      dispatch(getAllEmployees())
-
-      sendPwdMail(email, username, account, password).catch((error) =>
-        dispatch(setMessage("註冊郵件寄送錯誤，請重新註冊。"))
-      )
-
-      return Promise.resolve(data)
-    },
-    (error) => {
-      const message = extractErrMsg(error)
-
-      dispatch({
-        type: REGISTER_FAIL,
-        payload: null,
-      })
-
-      dispatch(
-        setMessage({
-          status: message.status || null,
-          message: message.message || null,
-          debugMessage: message.debugMessage || null,
+export const register =
+  (department, title, account, username, email, phone, role) => (dispatch) => {
+    const password = generatePwd()
+    return AuthService.register(
+      department,
+      title,
+      account,
+      username,
+      email,
+      phone,
+      role,
+      encrypt(password, account)
+    ).then(
+      ({ data }) => {
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: { name: data.name, id: data.id },
         })
-      )
 
-      return Promise.reject(error)
-    }
-  )
-}
+        dispatch(getAllEmployees())
+
+        sendPwdMail(email, username, account, password).catch((error) =>
+          dispatch(setMessage("註冊郵件寄送錯誤，請重新註冊。"))
+        )
+
+        return Promise.resolve(data)
+      },
+      (error) => {
+        const message = extractErrMsg(error)
+        dispatch(
+          setMessage({
+            status: message.status || null,
+            message: message.message || null,
+            debugMessage: message.debugMessage || null,
+          })
+        )
+
+        return Promise.reject(error)
+      }
+    )
+  }
 
 export const login = (account, password) => (dispatch) => {
   return AuthService.login(account, password).then(

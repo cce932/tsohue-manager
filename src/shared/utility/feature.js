@@ -17,6 +17,5 @@ export const sendPwdMail = (email, username, account, pwd) => {
 }
 
 export const encrypt = (info, key = ";r∂ewƒ∂øß]") => {
-  console.log("pass", crypto.createHmac("sha256", key).update(info).digest("hex"))
   return crypto.createHmac("sha256", key).update(info).digest("hex")
 }
