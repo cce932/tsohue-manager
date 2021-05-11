@@ -11,9 +11,9 @@ import paginationFactory from "react-bootstrap-table2-paginator"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import filterFactory, { Comparator } from "react-bootstrap-table2-filter"
 import moment from "moment"
-import { GrCircleInformation } from "react-icons/gr"
-import { FiMinusCircle } from "react-icons/fi"
+import { FiMinusCircle, FiAlertCircle } from "react-icons/fi"
 import { FaSortDown, FaSortUp, FaSort } from "react-icons/fa"
+import { AiTwotoneEdit } from "react-icons/ai"
 
 import "shared/style/orderManager.scss"
 import { SolidSpan } from "shared/components/styled"
@@ -34,6 +34,7 @@ import {
 import color from "shared/style/color"
 import StyledSpinner from "shared/components/StyledSpinner"
 import OrderedRecipe from "shared/components/OrderedRecipe"
+import { updateOrderStatus } from "actions/editData"
 
 const statusFormatter = (cell, row) => {
   const style = {
@@ -107,9 +108,9 @@ const expandRow = {
   },
   expandColumnRenderer: ({ expanded }) => {
     if (expanded) {
-      return <FiMinusCircle stroke="#e76845" />
+      return <FiMinusCircle stroke={color.accent} size="20px" />
     }
-    return <GrCircleInformation />
+    return <FiAlertCircle stroke={color.accentLighter2} size="20px" />
   },
 }
 
@@ -176,15 +177,15 @@ const OrderManager = () => {
     typeof discount_filter === "function" && discount_filter("")
   }
 
-  // const cellEdit = cellEditFactory({
-  //   mode: "dbclick",
-  //   blurToSave: true,
-  //   afterSaveCell: (oldValue, newValue, row, col) => {
-  //     if (oldValue !== newValue) {
-  //       dispatch(changeMemberRole(row.id, newValue))
-  //     }
-  //   },
-  // })
+  const cellEdit = cellEditFactory({
+    mode: "click",
+    blurToSave: true,
+    afterSaveCell: (oldValue, newValue, row, col) => {
+      if (oldValue !== newValue) {
+        dispatch(updateOrderStatus(row.id, newValue))
+      }
+    },
+  })
 
   const columns = [
     {
@@ -197,6 +198,7 @@ const OrderManager = () => {
         placeholder: " ",
       }),
       sort: true,
+      editable: false,
     },
     {
       dataField: "member.id",
@@ -208,6 +210,7 @@ const OrderManager = () => {
         placeholder: " ",
       }),
       sort: true,
+      editable: false,
     },
     {
       dataField: "orderNumber",
@@ -219,6 +222,7 @@ const OrderManager = () => {
         placeholder: " ",
       }),
       sort: true,
+      editable: false,
     },
     {
       dataField: "orderTime",
@@ -231,6 +235,7 @@ const OrderManager = () => {
         placeholder: " ",
       }),
       sort: true,
+      editable: false,
     },
     {
       dataField: "payWay",
@@ -244,6 +249,7 @@ const OrderManager = () => {
         placeholder: " ",
       }),
       sort: true,
+      editable: false,
     },
     {
       dataField: "serviceWay",
@@ -257,10 +263,16 @@ const OrderManager = () => {
         placeholder: " ",
       }),
       sort: true,
+      editable: false,
     },
     {
       dataField: "status",
-      text: "狀態",
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 狀態"}
+        </>
+      ),
       formatter: statusFormatter,
       filter: selectFilter({
         options: orderStatusOptions,
@@ -270,6 +282,13 @@ const OrderManager = () => {
         placeholder: " ",
       }),
       sort: true,
+      editor: {
+        type: Type.SELECT,
+        options: Object.keys(orderStatusOptions).map((key) => ({
+          value: key,
+          label: orderStatusOptions[key],
+        })),
+      },
     },
     {
       dataField: "sum",
@@ -282,6 +301,7 @@ const OrderManager = () => {
       }),
       sort: true,
       defaultValue: { comparator: Comparator.EQ },
+      editable: false,
     },
     {
       dataField: "transportFee",
@@ -293,6 +313,7 @@ const OrderManager = () => {
         placeholder: "NTD",
       }),
       sort: true,
+      editable: false,
     },
     {
       dataField: "discount",
@@ -304,6 +325,7 @@ const OrderManager = () => {
         placeholder: "NTD",
       }),
       sort: true,
+      editable: false,
     },
   ]
 
@@ -334,6 +356,7 @@ const OrderManager = () => {
           filter={filterFactory()}
           sort={sortOption}
           expandRow={expandRow}
+          cellEdit={cellEdit}
         />
         <label className="dataLength">共 {allOrders.length} 筆</label>
       </ExpandDiv>

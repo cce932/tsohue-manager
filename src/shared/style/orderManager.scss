@@ -5,10 +5,13 @@
 
   label[for="text-filter-column-id"],
   label[for="text-filter-column-member.id"],
-  label[for="select-filter-column-status"],
   label[for="text-filter-column-transportFee"],
   label[for="text-filter-column-discount"] {
     width: 80px;
+  }
+
+  label[for="select-filter-column-status"] {
+    width: 100px;
   }
 
   div.number-filter {
@@ -36,8 +39,20 @@
   }
 
   div.detail {
-    background-color: $sixth-color;
+    border-radius: 10px;
+    background-color: rgb(246, 247, 248);
     padding: 10px;
     margin: 0;
+  }
+
+  // hover styled for editable status rows
+  tr > td:nth-child(8) {
+    text-align: center;
+    vertical-align: middle;
+    transition: $default-trans;
+
+    &:hover {
+      background-color: $fifth-color;
+    }
   }
 }

@@ -49,6 +49,14 @@ const updateRecipe = (id, recipe, token = authHeader()) => {
   )
 }
 
+const updateOrderStatus = (id, status, token = authHeader()) => {
+  return axios.patch(
+    TS_API + "/order/update/employee/" + id,
+    { status },
+    { headers: token }
+  )
+}
+
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   changeMemberRole,
@@ -56,4 +64,5 @@ export default {
   modifyEmployeeData,
   resetPwd,
   updateRecipe,
+  updateOrderStatus,
 }

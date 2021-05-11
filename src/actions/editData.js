@@ -92,3 +92,20 @@ export const updateRecipe = (id, recipe) => (dispatch) => {
       return Promise.reject(message)
     })
 }
+
+export const updateOrderStatus = (id, status) => (dispatch) => {
+  return EditService.updateOrderStatus(id, status)
+    .then(({ data }) => {
+      dispatch({
+        type: UPDATE_RECIPE_SUCCESS,
+        payload: { id, status },
+      })
+
+      return Promise.resolve(data.id)
+    })
+    .catch((error) => {
+      const message = extractErrMsg(error)
+      dispatch(message)
+      return Promise.reject(message)
+    })
+}
