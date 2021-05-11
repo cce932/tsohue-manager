@@ -50,9 +50,17 @@
     text-align: center;
     vertical-align: middle;
     transition: $default-trans;
+    cursor: pointer;
 
     &:hover {
       background-color: $fifth-color;
     }
+  }
+
+  // expand column
+  tr > td:first-child,
+  tr > th:first-child,
+  tr > th:first-child > label {
+    cursor: pointer;
   }
 }

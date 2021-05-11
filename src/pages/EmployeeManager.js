@@ -6,6 +6,7 @@ import Form from "react-validation/build/form"
 import Input from "react-validation/build/input"
 import CheckButton from "react-validation/build/button"
 import { isEmail, isNumeric } from "validator"
+import { AiTwotoneEdit } from "react-icons/ai"
 
 import "shared/style/employeeManager.scss"
 import {
@@ -24,6 +25,12 @@ import { deleteEmployee } from "actions/deleteData"
 import { countSelectedId } from "shared/utility/common"
 import { register } from "actions/auth"
 import StyledSpinner from "shared/components/StyledSpinner"
+import color from "shared/style/color"
+import {
+  departmentOptions,
+  titleOptions,
+  VIPRoleOptions,
+} from "shared/constants/options"
 
 const required = (value) => {
   if (!value.length) {
@@ -44,44 +51,44 @@ const validPhone = (value) => {
 }
 
 const validDpt = (value) => {
-  if (!(value in departmentSelect)) {
+  if (!(value in departmentOptions)) {
     return <div className="note">非有效值</div>
   }
 }
 
 const validTitle = (value) => {
-  if (!(value in titleSelect)) {
+  if (!(value in titleOptions)) {
     return <div className="note">非有效值</div>
   }
 }
 
 const validRole = (value) => {
-  if (!(value in roleSelect)) {
+  if (!(value in VIPRoleOptions)) {
     return <div className="note">非有效值</div>
   }
 }
 
-const departmentSelect = {
-  FoodManagement: "FoodManagement",
-  Sales: "Sales",
-  Transport: "Transport",
-  CustomerService: "CustomerService",
-  CentralKitchen: "CentralKitchen",
-  EmployeeManagement: "EmployeeManagement",
-}
+// const departmentSelect = {
+//   FoodManagement: "FoodManagement",
+//   Sales: "Sales",
+//   Transport: "Transport",
+//   CustomerService: "CustomerService",
+//   CentralKitchen: "CentralKitchen",
+//   EmployeeManagement: "EmployeeManagement",
+// }
 
-const titleSelect = {
-  銷售經理: "銷售經理",
-  執行長: "執行長",
-  主管: "主管",
-  員工: "員工",
-}
+// const titleSelect = {
+//   銷售經理: "銷售經理",
+//   執行長: "執行長",
+//   主管: "主管",
+//   員工: "員工",
+// }
 
-const roleSelect = {
-  ADMIN: "ADMIN",
-  EMPLOYEE: "EMPLOYEE",
-  MANAGER: "MANAGER",
-}
+// const roleSelect = {
+//   ADMIN: "ADMIN",
+//   EMPLOYEE: "EMPLOYEE",
+//   MANAGER: "MANAGER",
+// }
 
 const EmployeeManager = () => {
   const dispatch = useDispatch()
@@ -92,7 +99,7 @@ const EmployeeManager = () => {
 
   useEffect(() => {
     dispatch(getAllEmployees())
-  }, [])
+  }, [dispatch])
 
   const keyField = "id"
 
@@ -152,10 +159,15 @@ const EmployeeManager = () => {
     },
     {
       dataField: "department",
-      text: "部門",
-      formatter: (cell) => departmentSelect[cell],
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 部門"}
+        </>
+      ),
+      formatter: (cell) => departmentOptions[cell],
       filter: selectFilter({
-        options: departmentSelect,
+        options: departmentOptions,
         getFilter: (filter) => {
           department_filter = filter
         },
@@ -164,40 +176,23 @@ const EmployeeManager = () => {
       sort: true,
       editor: {
         type: Type.SELECT,
-        options: [
-          {
-            value: "FoodManagement",
-            label: "食材管理",
-          },
-          {
-            value: "Transport",
-            label: "物流管理",
-          },
-          {
-            value: "Sales",
-            label: "業務",
-          },
-          {
-            value: "CustomerService",
-            label: "客服",
-          },
-          {
-            value: "CentralKitchen",
-            label: "中央廚房管理(暫不可選)",
-          },
-          {
-            value: "EmployeeManagement",
-            label: "員工管理(暫不可選)",
-          },
-        ],
+        options: Object.keys(departmentOptions).map((key) => ({
+          value: key,
+          label: departmentOptions[key],
+        })),
       },
     },
     {
       dataField: "title",
-      text: "職稱",
-      formatter: (cell) => titleSelect[cell],
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 職稱"}
+        </>
+      ),
+      formatter: (cell) => titleOptions[cell],
       filter: selectFilter({
-        options: titleSelect,
+        options: titleOptions,
         getFilter: (filter) => {
           title_filter = filter
         },
@@ -206,20 +201,10 @@ const EmployeeManager = () => {
       sort: true,
       editor: {
         type: Type.SELECT,
-        options: [
-          {
-            value: "執行長",
-            label: "執行長",
-          },
-          {
-            value: "主管",
-            label: "主管",
-          },
-          {
-            value: "員工",
-            label: "員工",
-          },
-        ],
+        options: Object.keys(titleOptions).map((key) => ({
+          value: key,
+          label: titleOptions[key],
+        })),
       },
     },
     {
@@ -271,10 +256,15 @@ const EmployeeManager = () => {
     },
     {
       dataField: "role",
-      text: "角色",
-      formatter: (cell) => roleSelect[cell],
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 角色"}
+        </>
+      ),
+      formatter: (cell) => VIPRoleOptions[cell],
       filter: selectFilter({
-        options: roleSelect,
+        options: VIPRoleOptions,
         getFilter: (filter) => {
           role_filter = filter
         },
@@ -282,20 +272,10 @@ const EmployeeManager = () => {
       }),
       editor: {
         type: Type.SELECT,
-        options: [
-          {
-            value: "ADMIN",
-            label: "ADMIN",
-          },
-          {
-            value: "MANAGER",
-            label: "MANAGER(暫不可選)",
-          },
-          {
-            value: "EMPLOYEE",
-            label: "EMPLOYEE",
-          },
-        ],
+        options: Object.keys(VIPRoleOptions).map((key) => ({
+          value: key,
+          label: VIPRoleOptions[key],
+        })),
       },
     },
   ]

@@ -1,3 +1,29 @@
+export const memberRoleOptions = {
+  MEMBER: "MEMBER",
+  VIP: "VIP",
+}
+
+export const departmentOptions = {
+  FoodManagement: "食材管理",
+  Transport: "物流管理",
+  Sales: "業務",
+  CustomerService: "客服",
+  CentralKitchen: "中央廚房管理(暫不可選)",
+  EmployeeManagement: "員工管理(暫不可選)",
+}
+
+export const titleOptions = {
+  CEO: "執行長",
+  manager: "主管",
+  staff: "員工",
+}
+
+export const VIPRoleOptions = {
+  ADMIN: "ADMIN",
+  MANAGER: "MANAGER",
+  EMPLOYEE: "EMPLOYEE",
+}
+
 export const ingredientCategoryOptions = {
   VEGETABLE: "VEGETABLE",
   MEAT: "MEAT",

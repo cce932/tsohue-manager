@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { textFilter, selectFilter } from "react-bootstrap-table2-filter"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import { Redirect } from "react-router-dom"
+import { AiTwotoneEdit } from "react-icons/ai"
 
 import "shared/style/memberManager.scss"
 import TableWithFilterByCol from "shared/components/TableWithFilterByCol"
@@ -14,6 +15,8 @@ import { countSelectedId } from "shared/utility/common"
 import { getMeunName } from "shared/utility/common"
 import { allPaths } from "shared/constants/pathname"
 import StyledSpinner from "shared/components/StyledSpinner"
+import { memberRoleOptions } from "shared/constants/options"
+import color from "shared/style/color"
 
 const MemberManager = () => {
   const dispatch = useDispatch()
@@ -131,7 +134,12 @@ const MemberManager = () => {
     },
     {
       dataField: "role",
-      text: "資格",
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 資格"}
+        </>
+      ),
       formatter: (cell) => selectOptions[cell],
       filter: selectFilter({
         options: selectOptions,
@@ -142,16 +150,10 @@ const MemberManager = () => {
       }),
       editor: {
         type: Type.SELECT,
-        options: [
-          {
-            value: "MEMBER",
-            label: "MEMBER",
-          },
-          {
-            value: "VIP",
-            label: "VIP",
-          },
-        ],
+        options: Object.keys(memberRoleOptions).map((key) => ({
+          value: key,
+          label: memberRoleOptions[key],
+        })),
       },
     },
   ]
@@ -167,7 +169,7 @@ const MemberManager = () => {
 
   return isLoggedIn ? (
     allMembers ? (
-      <ExpandDiv>
+      <ExpandDiv className="member-manager">
         <div className="tools">
           <PrimaryStrokeBtn onClick={handleDeleteMember}>
             刪除會員

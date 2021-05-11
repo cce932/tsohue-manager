@@ -178,7 +178,7 @@ const OrderManager = () => {
   }
 
   const cellEdit = cellEditFactory({
-    mode: "click",
+    mode: "dbclick",
     blurToSave: true,
     afterSaveCell: (oldValue, newValue, row, col) => {
       if (oldValue !== newValue) {

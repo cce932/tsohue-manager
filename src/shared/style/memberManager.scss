@@ -1,2 +1,13 @@
 @import "global";
 
+.member-manager {
+  // hover styled for editable rows fo role
+  tr > td:nth-child(7) {
+    transition: $default-trans;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $fifth-color;
+    }
+  }
+}

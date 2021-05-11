@@ -86,4 +86,14 @@ div.tools {
       vertical-align: baseline;
     }
   }
+
+  // hover styled for editable rows of role
+  tr > td:last-child {
+    transition: $default-trans;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $fifth-color;
+    }
+  }
 }
