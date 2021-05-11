@@ -7,6 +7,7 @@ import Input from "react-validation/build/input"
 import CheckButton from "react-validation/build/button"
 import { isEmail, isNumeric } from "validator"
 import { AiTwotoneEdit } from "react-icons/ai"
+import { Col, Row } from "react-bootstrap"
 
 import "shared/style/employeeManager.scss"
 import {
@@ -94,12 +95,18 @@ const EmployeeManager = () => {
   const dispatch = useDispatch()
   const { isLoggedIn, user } = useSelector((state) => state.auth)
   const { allEmployees } = useSelector((state) => state.employees)
+  const { message } = useSelector((state) => state.messages)
   const [selectedId, setSelectedId] = useState([])
   const isAdmin = () => user.role === "ADMIN"
+  const addDialog = useDialogContext()
 
   useEffect(() => {
     dispatch(getAllEmployees())
   }, [dispatch])
+
+  useEffect(() => {
+    message && addDialog(message)
+  }, [addDialog, message])
 
   const keyField = "id"
 
@@ -292,9 +299,6 @@ const EmployeeManager = () => {
 
   const form = useRef()
   const checkBtn = useRef()
-  const { message } = useSelector((state) => {
-    return state.messages
-  })
 
   const [account, setAccount] = useState("")
   const [username, setUsername] = useState("")
@@ -303,8 +307,6 @@ const EmployeeManager = () => {
   const [department, setDepartment] = useState("")
   const [title, setTitle] = useState("")
   const [role, setRole] = useState("")
-
-  const addDialog = useDialogContext()
 
   const handleRegister = (e) => {
     e.preventDefault()
@@ -394,46 +396,38 @@ const EmployeeManager = () => {
             </PrimaryStrokeBtn>
             <div className="collapse" id="collapseExample">
               <Form id="registerForm" onSubmit={handleRegister} ref={form}>
-                <div className={`row form`}>
-                  <div className={`col-11 input`}>
+                <Row className="input">
+                  <Col sm="5">
                     <div>
                       <label>部門</label>
-                      <Input
+                      <select
                         id="department"
                         type="text"
                         name="department"
                         onChange={onChangeDepartment}
                         value={department}
-                        list="dptList"
                         validations={[required, validDpt]}
-                      />
-                      <datalist id="dptList">
-                        <option value="FoodManagement" />
-                        <option value="CustomerService" />
-                        <option value="Transport" />
-                        <option vlaue="Sales" />
-                        <option value="訂單(暫不可選)" />
-                        <option value="央廚(暫不可選)" />
-                        <option value="食譜(暫不可選)" />
-                      </datalist>
+                      >
+                        {Object.keys(departmentOptions).map((key) => (
+                          <option value={key}>{departmentOptions[key]}</option>
+                        ))}
+                      </select>
                     </div>
 
                     <div>
                       <label>職稱</label>
-                      <Input
+                      <select
                         id="title"
                         type="text"
                         name="title"
                         onChange={onChangeTitle}
                         value={title}
-                        list="titleList"
                         validations={[required, validTitle]}
-                      />
-                      <datalist id="titleList">
-                        <option value="執行長" />
-                        <option value="主管" />
-                        <option value="員工" />
-                      </datalist>
+                      >
+                        {Object.keys(titleOptions).map((key) => (
+                          <option value={key}>{titleOptions[key]}</option>
+                        ))}
+                      </select>
                     </div>
 
                     <div>
@@ -458,6 +452,8 @@ const EmployeeManager = () => {
                         validations={[required]}
                       />
                     </div>
+                  </Col>
+                  <Col sm="5">
                     <div>
                       <label>信箱</label>
                       <Input
@@ -482,35 +478,25 @@ const EmployeeManager = () => {
                     </div>
                     <div>
                       <label>角色</label>
-                      <Input
+                      <select
                         id="role"
                         type="text"
                         name="role"
                         onChange={onChangeRole}
                         value={role}
-                        list="roleList"
                         validations={[required, validRole]}
-                      />
-                      <datalist id="roleList">
-                        <option value="ADMIN" />
-                        <option value="EMPLOYEE" />
-                        <option value="MANAGER(暫不可選)" />
-                      </datalist>
+                      >
+                        {Object.keys(VIPRoleOptions).map((key) => (
+                          <option value={key}>{VIPRoleOptions[key]}</option>
+                        ))}
+                      </select>
                     </div>
-
-                    {message &&
-                      (/沒有權限/.test(message) ? (
-                        addDialog(message)
-                      ) : (
-                        <div className="message">{message}</div>
-                      ))}
-                  </div>
-
-                  <div className={`col-1 button`}>
+                  </Col>
+                  <Col sm="2">
                     <SecondaryBtn>確定</SecondaryBtn>
                     <CheckButton style={{ display: "none" }} ref={checkBtn} />
-                  </div>
-                </div>
+                  </Col>
+                </Row>
               </Form>
             </div>
           </div>
