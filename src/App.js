@@ -226,7 +226,6 @@ const App = () => {
         {/* 展開sidebar的按鈕 */}
         <div id="content">
           <nav className="navbar navbar-expand-lg navbar-light">
-            <div className="container-fluid">
               <button
                 type="button"
                 id="sidebarCollapse"
@@ -235,7 +234,6 @@ const App = () => {
                 <VscThreeBars />
                 {locating && <div>{locating}</div>}
               </button>
-            </div>
           </nav>
         </div>
       </div>

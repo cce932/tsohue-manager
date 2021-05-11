@@ -11,8 +11,8 @@ import { ThemeProvider, css } from "styled-components"
 
 const theme = {
   primeColor: "rgb(52, 58, 64)",
-  secondaryColor: "rgb(86, 90, 95)",
-  thirdColor: "rgb(123, 127, 131)",
+  secondaryColor: "rgb(107, 113, 119)",
+  thirdColor: "rgb(117, 127, 136)",
   forthColor: "rgb(161, 163, 165)",
   fifthColor: "rgb(232, 235, 240)",
   sixthColor: "rgb(249, 250, 252)",

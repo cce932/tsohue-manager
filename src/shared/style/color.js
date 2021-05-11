@@ -1,7 +1,7 @@
 const color = {
   prime: "rgb(52, 58, 64)",
-  secondary: "rgb(86, 90, 95)",
-  third: "rgb(123, 127, 131)",
+  secondary: "rgb(107, 113, 119)",
+  third: "rgb(117, 127, 136)",
   forth: "rgb(161, 163, 165)",
   fifth: "rgb(232, 235, 240)",
   sixth: "rgb(249, 250, 252)",
