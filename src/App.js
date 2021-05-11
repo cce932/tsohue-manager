@@ -41,6 +41,7 @@ import {
   recipeImageEditor,
 } from "shared/constants/pathname"
 import { getMeunName } from "shared/utility/common"
+import NotFound from "pages/NotFound"
 
 const App = () => {
   const { user: currentUser } = useSelector((state) => state.auth)
@@ -226,14 +227,14 @@ const App = () => {
         {/* 展開sidebar的按鈕 */}
         <div id="content">
           <nav className="navbar navbar-expand-lg navbar-light">
-              <button
-                type="button"
-                id="sidebarCollapse"
-                onClick={toggleSideBar} // 如果是直接寫togglesideBar() 那就會在render時直接call 就會出現Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.
-              >
-                <VscThreeBars />
-                {locating && <div>{locating}</div>}
-              </button>
+            <button
+              type="button"
+              id="sidebarCollapse"
+              onClick={toggleSideBar} // 如果是直接寫togglesideBar() 那就會在render時直接call 就會出現Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.
+            >
+              <VscThreeBars />
+              {locating && <div>{locating}</div>}
+            </button>
           </nav>
         </div>
       </div>
@@ -287,6 +288,10 @@ const App = () => {
             exact
             path={`${allPaths[recipeImageEditor]}:id`}
             component={RecipeImageEditor}
+          />
+          <Route
+            path=""
+            render={() => <NotFound message="敬請期待 新功能即將上線" />}
           />
         </Switch>
       </div>
