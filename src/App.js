@@ -14,6 +14,7 @@ import ResetPwd from "pages/ResetPwd"
 import MemberManager from "pages/MemberManager"
 import EmployeeManager from "pages/EmployeeManager"
 import Profile from "pages/Profile"
+import OrderManager from "pages/OrderManager"
 import IngredientsStock from "pages/IngredientsStock"
 import IngredientDetail from "pages/IngredientDetail"
 import RecipeManager from "pages/RecipeManager"
@@ -253,6 +254,11 @@ const App = () => {
             exact
             path={`${allPaths[allEmployee]}`}
             component={EmployeeManager}
+          />
+          <Route
+            exact
+            path={`${allPaths[orderManager]}`}
+            component={OrderManager}
           />
           <Route
             exact

@@ -16,6 +16,10 @@ const getAllEmployeesData = (token = authHeader()) => {
   return axios.get(TS_API + "/employee/allEmployees", { headers: token })
 }
 
+const getAllOrdersData = (token = authHeader()) => {
+  return axios.get(TS_API + "/order/employee/all", { headers: token })
+}
+
 const getAllIngredientsData = (token = authHeader()) => {
   return axios.get(TS_API + "/ingredient/all", { headers: token })
 }
@@ -44,10 +48,11 @@ export default {
   getCurrentEmployee,
   getAllMembersData,
   getAllEmployeesData,
+  getAllOrdersData,
   getAllIngredientsData,
   getAllRecipesData,
   getRecipeById,
   getVersionAndRecipeById,
   getImagesByRecipeId,
-  getImageById: getImageById,
+  getImageById,
 }

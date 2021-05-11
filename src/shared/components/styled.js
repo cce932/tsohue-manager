@@ -44,6 +44,22 @@ export const SolidSpan = styled.span`
   }
 `
 
+export const StrokeLabel = styled.span`
+  font-family: sans-serif;
+  font-weight: normal;
+  font-size: ${(props) => props.size || "0.8rem"};
+  color: ${(props) => props.theme[props.color] || props.theme.primeColor};
+  text-decoration: none;
+  letter-spacing: 0.03em;
+
+  border: ${(props) => props.theme[props.borderColor] || props.theme.primeColor}
+    solid 1px;
+  border-radius: 25px;
+  padding: 2px 8px;
+  margin-left: 15px;
+  transition: all 0.3s ease 0s;
+`
+
 export const PrimaryBtn = styled.button`
   font-family: sans-serif;
   font-weight: normal;

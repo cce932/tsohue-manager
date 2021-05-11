@@ -7,6 +7,7 @@ import {
   FETCH_ALL_INGREDIENTS_SUCCESS,
   FETCH_ALL_RECIPES_SUCCESS,
   FETCH_RECIPE_BY_ID_SUCCESS,
+  FETCH_ALL_ORDERS_SUCCESS,
 } from "shared/constants/types"
 import { extractErrMsg } from "shared/utility/common"
 import { logout } from "./auth"
@@ -38,6 +39,27 @@ export const getAllEmployees = () => {
     payload: null,
   }
 }
+
+export const getAllOrders = () => (dispatch) => {
+  return LoadService.getAllOrdersData().then(
+    ({ data }) => {
+      dispatch({
+        type: FETCH_ALL_ORDERS_SUCCESS,
+        payload: data,
+      })
+
+      return Promise.resolve(data)
+    },
+    (error) => {
+      const message = extractErrMsg(error)
+
+      dispatch(setMessage(message))
+
+      return Promise.reject(message)
+    }
+  )
+}
+
 
 export const getAllIngredients = () => (dispatch) => {
   return LoadService.getAllIngredientsData().then(

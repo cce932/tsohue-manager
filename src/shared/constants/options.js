@@ -12,7 +12,6 @@ export const CHIngredientCategoryOptions = {
   OTHER: "其他",
 }
 
-
 export const recipeVersionOptions = {
   NORMAL: "正常版本",
   LOWFAT: "低脂版本",
@@ -22,5 +21,30 @@ export const recipeVersionOptions = {
 
 export const stockStatusOptions = {
   false: "缺貨",
-  true: "有貨"
+  true: "有貨",
 }
+
+export const payWayOptions = {
+  cashOnDelivery: "貨到付款",
+  // transfer: "銀行轉帳",
+  // creditcard: "信用卡",
+  // payOnline: "電子支付",
+}
+
+export const serviceWayOptions = {
+  homeDelivery: "宅配",
+  family: "全家",
+  seven: "7-11",
+}
+
+export const orderStatusOptions = {
+  toConfirm: "待確認",
+  toDeliver: "待運送",
+  finish: "已完成",
+  canceled: "已取消",
+}
+
+export const TO_CONFIRM = "toConfirm"
+export const TO_DELIEVER = "toDeliver"
+export const FINISH = "finish"
+export const CANCELED = "cnaceled"

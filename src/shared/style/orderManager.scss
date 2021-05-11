@@ -1,0 +1,43 @@
+@import "global";
+
+.orders {
+  @include text(normal, 1rem, $secondary-color);
+
+  label[for="text-filter-column-id"],
+  label[for="text-filter-column-member.id"],
+  label[for="select-filter-column-status"],
+  label[for="text-filter-column-transportFee"],
+  label[for="text-filter-column-discount"] {
+    width: 80px;
+  }
+
+  div.number-filter {
+    width: 150px;
+
+    label.filter-label {
+      display: inline-block;
+      width: auto;
+      margin-right: 10px;
+
+      #number-filter-comparator-sum {
+        width: 70px;
+      }
+    }
+
+    label:nth-child(2) {
+      display: inline-block;
+      width: auto;
+
+      #number-filter-column-sum {
+        width: 70px;
+        font-size: 12px;
+      }
+    }
+  }
+
+  div.detail {
+    background-color: $sixth-color;
+    padding: 10px;
+    margin: 0;
+  }
+}
