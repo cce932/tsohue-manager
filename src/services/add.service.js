@@ -34,7 +34,7 @@ const addIngredient = (
 
 const createRecipe = (recipeData = {}, recipesLength, token = authHeader()) => {
   const emptyRecipe = {
-    name: `食譜 - ${recipesLength}`,
+    name: `烹飪包 - ${recipesLength}`,
     version: "NORMAL",
     link: "",
     description: "",

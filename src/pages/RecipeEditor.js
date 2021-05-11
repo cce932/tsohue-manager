@@ -176,7 +176,7 @@ const RecipeEditor = (props) => {
       <ExpandDiv className="recipe-editor">
         <Form name="all" id="all" ref={form}>
           <div>
-            <p>食譜名稱</p>
+            <p>烹飪包名稱</p>
             <div className="content">
               <Input
                 id="name"

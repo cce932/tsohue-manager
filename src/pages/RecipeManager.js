@@ -26,7 +26,7 @@ const RecipeManager = () => {
   useEffect(() => {
     dispatch(getAllRecipes())
     setTimeout(() => {
-      addDialog("[食譜管理] 點兩下食譜可編輯喔")
+      addDialog("[烹飪包管理] 雙擊任一列，即可編輯喔")
     }, 1000)
   }, [addDialog, dispatch])
 
@@ -186,10 +186,10 @@ const RecipeManager = () => {
       <ExpandDiv className="recipe-manager">
         <div className="tools">
           <PrimaryStrokeBtn onClick={handleCreateRecipe}>
-            新增食譜
+            新增烹飪包
           </PrimaryStrokeBtn>
           <PrimaryStrokeBtn onClick={handleDeleteRecipe}>
-            刪除食譜
+            刪除烹飪包
           </PrimaryStrokeBtn>
           <PrimaryStrokeBtn onClick={clearFilterHandler}>
             清除搜尋

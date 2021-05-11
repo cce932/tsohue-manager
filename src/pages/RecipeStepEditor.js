@@ -101,7 +101,7 @@ const RecipeStepEditor = (props) => {
   return steps && recipe ? (
     <ExpandDiv className={`recipe-editor recipe-step-editor`}>
       <div>
-        <p>標注食譜步驟</p>
+        <p>標注料理步驟</p>
         <div className="content">
           <Player src={recipe.link} fluid={false} ref={videoRef} width={700}>
             <BigPlayButton position="center" />
