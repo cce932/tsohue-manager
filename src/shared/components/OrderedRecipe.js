@@ -26,7 +26,7 @@ const ItmeImg = styled.img`
 const BottomLine = styled.div`
   padding-bottom: 10px;
   margin-bottom: 8px;
-  border-bottom: solid ${(props) => props.theme.fifthColor} 1px;
+  border-bottom: solid ${(props) => props.theme.fifthColor} 2px;
 `
 
 const FloatRight = styled.div`
@@ -40,7 +40,7 @@ const IngredientsTable = styled.table`
 
 const IngredientTd = styled.td`
   ${(props) => props.theme.font}
-  color: ${(props) => props.theme.thirdColor};
+  color: ${(props) => props.theme.secondaryColor};
   font-size: 0.9rem;
   padding: 4px 0 !important;
 
@@ -87,7 +87,7 @@ const OrderedRecipe = ({
         <Col sm="2">
           {/* <a href={allPaths[recipePath] + recipe.id}> */}
           <ItmeImg
-            src={recipeImage ? recipeImage : "pic/noImage.jpg"} // 目前後端沒塞好image
+            src={recipeImage ? recipeImage : "pic/noImage.jpg"} // TODO: 目前後端沒塞好image
             onError={(e) => {
               e.target.onerror = null
               e.target.src = "pic/noImage.jpg"
