@@ -297,6 +297,7 @@ const App = () => {
       </div>
     </Router>
   )
+
 }
 
 export default App
