@@ -23,6 +23,8 @@
   // hover style for editable
   tbody > tr > td {
     transition: $default-trans;
+    cursor: pointer;
+
     &:nth-child(3),
     &:nth-child(4),
     &:nth-child(5),
