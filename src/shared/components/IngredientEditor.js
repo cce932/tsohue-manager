@@ -35,6 +35,7 @@ const IngredientEditor = (props) => {
   const [quantityRequired, setQuantityRequired] = useState("")
   const [tableIngredients, setTableIngredients] = useState([])
   const [cost, setCost] = useState([])
+  const [unit, setUnit] = useState([])
   const [idExtractedIngredients, setIdExtractedIngredients] =
     useState(undefined)
   const passIngredientToEditor = props.passIngredientToEditor // 傳最新的tableIngredients至recipeEditor，以供更新
@@ -86,6 +87,7 @@ const IngredientEditor = (props) => {
           setId(_id.toString())
           setCategory(idExtractedIngredients[_id].category) // extracting id is more convenient to find id in ingredients
           setName(idExtractedIngredients[_id].name)
+          setUnit(idExtractedIngredients[_id].unit)
         } else {
           window.alert("無此ID")
         }
@@ -126,6 +128,7 @@ const IngredientEditor = (props) => {
           setName(_name)
           setId(target.id.toString()) // need `toString` otherwise validator would show "can not empty"
           setCategory(target.category)
+          setUnit(target.unit)
         } else {
           window.alert("無此名稱")
         }
@@ -227,7 +230,7 @@ const IngredientEditor = (props) => {
 
   return idExtractedIngredients ? (
     <div>
-      <label className="ingredient-cost">目前成本: {cost}</label>
+      <label className="ingredient-cost">目前成本: NT.{cost}</label>
       <p>食材</p>
       <div className="content">
         <Form
@@ -299,6 +302,7 @@ const IngredientEditor = (props) => {
             validations={[required, isPositive]}
             onChange={quentityOnChange}
           />
+          <label className="quantity">{unit}</label>
           <Button className={"ts-default right  top-adjust"}>加入</Button>
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
