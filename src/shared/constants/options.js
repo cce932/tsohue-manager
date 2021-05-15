@@ -20,7 +20,6 @@ export const titleOptions = {
 
 export const VIPRoleOptions = {
   ADMIN: "ADMIN",
-  MANAGER: "MANAGER",
   EMPLOYEE: "EMPLOYEE",
 }
 

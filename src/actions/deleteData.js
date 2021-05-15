@@ -20,9 +20,9 @@ export const deleteEmployee = (id) => ({
 
 export const deleteIngredient = (ids) => (dispatch) => {
   new Promise((resolve, reject) => {
-    ids.map((id, index) => {
+    ids.forEach((id) => {
       DeleteService.deleteIngredient(id).then(
-        (res) => {
+        () => {
           dispatch({ type: DELETE_INGREDIENT_SUCCESS, payload: { id } })
         },
         (message) => {
@@ -39,9 +39,9 @@ export const deleteIngredient = (ids) => (dispatch) => {
 
 export const deleteRecipe = (ids) => (dispatch) => {
   new Promise((resolve, reject) => {
-    ids.map((id, index) => {
+    ids.forEach((id) => {
       DeleteService.deleteRecipe(id).then(
-        (res) => {
+        () => {
           dispatch({ type: DELETE_RECIPES_SUCCESS, payload: { id } })
         },
         (message) => {
@@ -56,22 +56,21 @@ export const deleteRecipe = (ids) => (dispatch) => {
   })
 }
 
-export const deleteRecipeIngredient = (recipeId, recipeIngredientId) => (
-  dispatch
-) => {
-  return DeleteService.deleteRecipeIngredient(
-    recipeId,
-    recipeIngredientId
-  ).then(
-    ({ data }) => Promise.resolve(data),
-    (error) => {
-      const message = extractErrMsg(error)
+export const deleteRecipeIngredient =
+  (recipeId, recipeIngredientId) => (dispatch) => {
+    return DeleteService.deleteRecipeIngredient(
+      recipeId,
+      recipeIngredientId
+    ).then(
+      ({ data }) => Promise.resolve(data),
+      (error) => {
+        const message = extractErrMsg(error)
 
-      dispatch(setMessage({ ...message }))
-      return Promise.reject()
-    }
-  )
-}
+        dispatch(setMessage({ ...message }))
+        return Promise.reject()
+      }
+    )
+  }
 
 export const deleteRecipeImage = (id) => (dispatch) => {
   return DeleteService.deleteRecipeImage(id).catch((error) => {
