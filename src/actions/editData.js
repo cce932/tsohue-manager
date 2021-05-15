@@ -2,6 +2,7 @@ import {
   CHANGE_EMPLOYEE_ROLE,
   CHANGE_MEMBER_ROLE,
   MODIFY_EMPLOYEE_DATA,
+  MODIFY_INGREDIENT_DATA,
   RESET_PWD,
   UPDATE_RECIPE_SUCCESS,
 } from "shared/constants/types"
@@ -124,4 +125,24 @@ export const updateOrderStatus = (id, status) => (dispatch) => {
       dispatch(message)
       return Promise.reject(message)
     })
+}
+
+export const modifyIngredientData = (id, colName, newValue) => (dispatch) => {
+  return EditService.modifyIngredientData(id, colName, newValue).then(
+    ({ data }) => {
+      dispatch({
+        type: MODIFY_INGREDIENT_DATA,
+        payload: { id, colName, newValue },
+      })
+
+      return Promise.resolve(data)
+    },
+    (error) => {
+      const message = extractErrMsg(error)
+
+      dispatch(setMessage({ ...message, id, colName }))
+
+      return Promise.reject(message)
+    }
+  )
 }

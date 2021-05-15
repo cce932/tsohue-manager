@@ -9,7 +9,9 @@ import { Redirect } from "react-router-dom"
 import BootstrapTable from "react-bootstrap-table-next"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import filterFactory, { Comparator } from "react-bootstrap-table2-filter"
+import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import { FaSortDown, FaSortUp, FaSort } from "react-icons/fa"
+import { AiTwotoneEdit } from "react-icons/ai"
 
 import "shared/style/ingredient.scss"
 import { SolidSpan } from "shared/components/styled"
@@ -22,13 +24,14 @@ import { deleteIngredient } from "actions/deleteData"
 import { countSelectedId } from "shared/utility/common"
 import { getMeunName } from "shared/utility/common"
 import useDialogContext from "hooks/useDialogContext"
-import { allPaths, ingredientDetail } from "shared/constants/pathname"
+import { allPaths } from "shared/constants/pathname"
 import {
   CHIngredientCategoryOptions,
   stockStatusOptions,
 } from "shared/constants/options"
 import { USED_INGREDIENT_DELETE_ERROR } from "shared/constants/messages"
 import color from "shared/style/color"
+import { modifyIngredientData } from "actions/editData"
 
 const stockStatusFormatter = (cell, row) => {
   if (!row.status) {
@@ -131,6 +134,7 @@ const IngredientsStock = () => {
     mode: "checkbox",
     bgColor: "rgb(248, 249, 252)",
     clickToSelect: true,
+    clickToEdit: true,
     onSelect: (row, isSelect, rowIndex, e) => {
       setSelectedId(countSelectedId([row], isSelect, selectedId))
     },
@@ -138,6 +142,20 @@ const IngredientsStock = () => {
       setSelectedId(countSelectedId(rows, isSelect, selectedId))
     },
   }
+
+  const cellEdit = cellEditFactory({
+    mode: "dbclick",
+    blurToSave: true,
+    afterSaveCell: (oldValue, newValue, row, col) => {
+      if (oldValue !== newValue) {
+        dispatch(modifyIngredientData(row.id, col.dataField, newValue))
+          .then(() => addDialog(`更新食材ID: ${row.id}成功`, color.success))
+          .catch(() =>
+            addDialog(`更新食材ID: ${row.id}失敗 請再試一次`, color.accent)
+          )
+      }
+    },
+  })
 
   const columns = [
     {
@@ -153,7 +171,12 @@ const IngredientsStock = () => {
     },
     {
       dataField: "category",
-      text: "種類",
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 種類"}
+        </>
+      ),
       formatter: (cell) => CHIngredientCategoryOptions[cell],
       filter: selectFilter({
         options: CHIngredientCategoryOptions,
@@ -163,10 +186,22 @@ const IngredientsStock = () => {
         placeholder: " ",
       }),
       sort: true,
+      editor: {
+        type: Type.SELECT,
+        options: Object.keys(CHIngredientCategoryOptions).map((key) => ({
+          value: key,
+          label: CHIngredientCategoryOptions[key],
+        })),
+      },
     },
     {
       dataField: "name",
-      text: "名稱",
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 名稱"}
+        </>
+      ),
       filter: textFilter({
         getFilter: (filter) => {
           name_filter = filter
@@ -174,10 +209,18 @@ const IngredientsStock = () => {
         placeholder: " ",
       }),
       sort: true,
+      editor: {
+        type: Type.TEXTAREA,
+      },
     },
     {
       dataField: "price",
-      text: "價格",
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 價格"}
+        </>
+      ),
       filter: numberFilter({
         getFilter: (filter) => {
           price_filter = filter
@@ -186,10 +229,26 @@ const IngredientsStock = () => {
         defaultValue: { comparator: Comparator.EQ },
       }),
       sort: true,
+      editor: {
+        type: Type.TEXTAREA,
+      },
+      validator: (newValue, row, column) => {
+        if (isNaN(newValue)) {
+          return {
+            valid: false,
+            message: "須為數字",
+          }
+        }
+      },
     },
     {
       dataField: "country",
-      text: "產地國",
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 產地國"}
+        </>
+      ),
       filter: textFilter({
         getFilter: (filter) => {
           country_filter = filter
@@ -197,10 +256,18 @@ const IngredientsStock = () => {
         placeholder: " ",
       }),
       sort: true,
+      editor: {
+        type: Type.TEXTAREA,
+      },
     },
     {
       dataField: "city",
-      text: "產地區",
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 產地區"}
+        </>
+      ),
       filter: textFilter({
         getFilter: (filter) => {
           city_filter = filter
@@ -208,6 +275,9 @@ const IngredientsStock = () => {
         placeholder: " ",
       }),
       sort: true,
+      editor: {
+        type: Type.TEXTAREA,
+      },
     },
     {
       dataField: "status",
@@ -221,10 +291,16 @@ const IngredientsStock = () => {
         placeholder: " ",
       }),
       sort: true,
+      editable: false,
     },
     {
       dataField: "stock",
-      text: "庫存",
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 庫存"}
+        </>
+      ),
       filter: textFilter({
         getFilter: (filter) => {
           stock_filter = filter
@@ -232,10 +308,26 @@ const IngredientsStock = () => {
         placeholder: " ",
       }),
       sort: true,
+      editor: {
+        type: Type.TEXTAREA,
+      },
+      validator: (newValue, row, column) => {
+        if (isNaN(newValue)) {
+          return {
+            valid: false,
+            message: "須為數字",
+          }
+        }
+      },
     },
     {
       dataField: "safetyStock",
-      text: "安全存量",
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 安全存量"}
+        </>
+      ),
       filter: textFilter({
         getFilter: (filter) => {
           safetyStock_filter = filter
@@ -243,15 +335,50 @@ const IngredientsStock = () => {
         placeholder: " ",
       }),
       sort: true,
+      editor: {
+        type: Type.TEXTAREA,
+      },
+      validator: (newValue, row, column) => {
+        if (isNaN(newValue)) {
+          return {
+            valid: false,
+            message: "須為數字",
+          }
+        }
+      },
     },
     {
       dataField: "unit",
-      text: "單位",
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 單位"}
+        </>
+      ),
+      editor: {
+        type: Type.TEXTAREA,
+      },
     },
     {
       dataField: "kcal",
-      text: "熱量",
+      text: (
+        <>
+          <AiTwotoneEdit fill={color.accent} size="18px" />
+          {" 熱量"}
+        </>
+      ),
       sort: true,
+      editor: {
+        type: Type.TEXTAREA,
+      },
+      validator: (newValue, row, column) => {
+        if (isNaN(newValue)) {
+          return {
+            valid: false,
+            message: "須為數字",
+          }
+        }
+      },
     },
   ]
 
@@ -275,11 +402,11 @@ const IngredientsStock = () => {
     }
   }
 
-  const rowEvents = {
-    onDoubleClick: (e, row, rowIndex) => {
-      window.location = `${allPaths[ingredientDetail]}${row.id}`
-    },
-  }
+  // const rowEvents = {
+  //   onDoubleClick: (e, row, rowIndex) => {
+  //     window.location = `${allPaths[ingredientDetail]}${row.id}`
+  //   },
+  // }
 
   return isLoggedIn ? (
     allIngredients ? (
@@ -321,7 +448,8 @@ const IngredientsStock = () => {
           })}
           filter={filterFactory()}
           sort={sortOption}
-          rowEvents={rowEvents}
+          // rowEvents={rowEvents}
+          cellEdit={cellEdit}
         />
         <label className="dataLength">共 {allIngredients.length} 筆</label>
       </ExpandDiv>

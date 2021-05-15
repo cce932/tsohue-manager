@@ -5,10 +5,37 @@
 
   label[for="text-filter-column-id"],
   label[for="text-filter-column-stock"] {
-    width: 80px;
-  }
-  label[for="text-filter-column-safetyStock"] {
     width: 100px;
+  }
+
+  label[for="text-filter-column-safetyStock"],
+  thead > tr > th:last-child {
+    min-width: 130px;
+  }
+
+  // 熱量 沒有的話sort會折行
+  th:nth-last-child(2),
+  th:last-child {
+    vertical-align: text-top;
+    min-width: 100px;
+  }
+
+  // hover style for editable
+  tbody > tr > td {
+    transition: $default-trans;
+    &:nth-child(3),
+    &:nth-child(4),
+    &:nth-child(5),
+    &:nth-child(6),
+    &:nth-child(7),
+    &:nth-child(9),
+    &:nth-child(10),
+    &:nth-child(11),
+    &:nth-child(12) {
+      &:hover {
+        background-color: $fifth-color;
+      }
+    }
   }
 
   div.number-filter {
@@ -33,11 +60,5 @@
         font-size: 12px;
       }
     }
-  }
-
-  // 熱量 沒有的話sort會折行
-  th:nth-child(10), th:nth-child(11) {
-    vertical-align: text-top;
-    min-width: 100px;
   }
 }
