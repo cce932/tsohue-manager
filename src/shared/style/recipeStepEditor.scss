@@ -19,5 +19,11 @@ div.recipe-step-editor {
         vertical-align: top;
       }
     }
+
+    input[type="radio"] {
+      width: 30px;
+      vertical-align: top;
+      margin-top: 8px;
+    }
   }
 }

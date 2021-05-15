@@ -40,6 +40,7 @@ const RecipeStepEditor = (props) => {
   const [timer, setTimer] = useState(0)
   const [player, setPlayer] = useState(undefined)
   const [recipe, setRecipe] = useState({})
+  const [stepRadio, setStepRadio] = useState("true")
   const id = props.match.params.id
   const tableColumns = {
     index: "順序",
@@ -112,23 +113,50 @@ const RecipeStepEditor = (props) => {
             <label className="sub-title">第{steps.length + 1}步驟時間</label>
             {player && transMSecToMin(_.floor(player.currentTime, 3) * 1000)}
 
-            <div className="step-note">
-              <label className="sub-title">步驟說明</label>
-              <textarea
-                cols="50"
-                rows="3"
-                value={note}
-                onChange={noteOnChange}
+            <fieldset id="radio-group">
+              <div className="step-note">
+                <input
+                  type="radio"
+                  id="step-radio"
+                  name="radio-group"
+                  checked={stepRadio}
+                  onClick={(e) => setStepRadio(e.target.checked)}
+                />
+                <label className="sub-title" for="step-radio">
+                  步驟說明
+                </label>
+                <textarea
+                  cols="50"
+                  rows="3"
+                  value={note}
+                  onChange={noteOnChange}
+                  disabled={!stepRadio}
+                />
+              </div>
+
+              <input
+                type="radio"
+                id="timer-radio"
+                name="radio-group"
+                checked={!stepRadio}
+                onClick={(e) => setStepRadio(!e.target.checked)}
               />
-            </div>
-            <label className="sub-title">計時 (秒)</label>
-            <input value={timer} onChange={timerOnChange} type="number"></input>
-            <button
-              className="ts-default right top-adjust"
-              onClick={handleAddStep}
-            >
-              新增步驟
-            </button>
+              <label className="sub-title" for="timer-radio">
+                計時 (秒)
+              </label>
+              <input
+                value={timer}
+                onChange={timerOnChange}
+                type="number"
+                disabled={stepRadio}
+              ></input>
+              <button
+                className="ts-default right top-adjust"
+                onClick={handleAddStep}
+              >
+                新增步驟
+              </button>
+            </fieldset>
           </div>
 
           <Table
