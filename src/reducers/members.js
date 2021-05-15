@@ -1,4 +1,5 @@
 import {
+  DELETE_MEMBER,
   FETCH_ALL_MEMBERS,
   FETCH_ALL_MEMBERS_SUCCESS,
 } from "shared/constants/types"
@@ -19,6 +20,13 @@ const members = (state = initialState, action) => {
       return {
         ...state,
         allMembers: payload,
+      }
+    case DELETE_MEMBER:
+      const { id } = payload
+
+      return {
+        ...state,
+        allMembers: state.allMembers.filter((member) => member.id !== id),
       }
     default:
       return state

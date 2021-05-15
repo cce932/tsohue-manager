@@ -8,53 +8,41 @@ import {
 import { extractErrMsg } from "shared/utility/common"
 import { setMessage } from "actions/message"
 
-export const deleteMember = (id) => ({
-  type: DELETE_MEMBER,
-  payload: { id },
-})
-
-export const deleteEmployee = (id) => ({
-  type: DELETE_EMPLOYEE,
-  payload: { id },
-})
-
-export const deleteIngredient = (ids) => (dispatch) => {
-  new Promise((resolve, reject) => {
-    ids.forEach((id) => {
-      DeleteService.deleteIngredient(id).then(
-        () => {
-          dispatch({ type: DELETE_INGREDIENT_SUCCESS, payload: { id } })
-        },
-        (message) => {
-          reject({ message, id })
-        }
+export const deleteMember = (ids) => (dispatch) =>
+  Promise.all(
+    ids.map((id) =>
+      DeleteService.deleteMember(id).then(({ data }) =>
+        dispatch({ type: DELETE_MEMBER, payload: { id: data.id } })
       )
-    })
-  }).catch((error) => {
-    const message = extractErrMsg(error.message)
+    )
+  )
 
-    dispatch(setMessage({ ...message, id: error.id }))
-  })
-}
-
-export const deleteRecipe = (ids) => (dispatch) => {
-  new Promise((resolve, reject) => {
-    ids.forEach((id) => {
-      DeleteService.deleteRecipe(id).then(
-        () => {
-          dispatch({ type: DELETE_RECIPES_SUCCESS, payload: { id } })
-        },
-        (message) => {
-          reject({ message, id })
-        }
+export const deleteEmployee = (ids) => (dispatch) =>
+  Promise.all(
+    ids.map((id) =>
+      DeleteService.deleteEmployee(id).then(({ data }) =>
+        dispatch({ type: DELETE_EMPLOYEE, payload: { id: data.id } })
       )
-    })
-  }).catch((error) => {
-    const message = extractErrMsg(error.message)
+    )
+  )
 
-    dispatch(setMessage({ ...message, id: error.id }))
-  })
-}
+export const deleteIngredient = (ids) => (dispatch) =>
+  Promise.all(
+    ids.map((id) =>
+      DeleteService.deleteIngredient(id).then(({ data }) =>
+        dispatch({ type: DELETE_INGREDIENT_SUCCESS, payload: { id: data.id } })
+      )
+    )
+  ).catch((error) => Promise.reject(extractErrMsg(error)))
+
+export const deleteRecipe = (ids) => (dispatch) =>
+  Promise.all(
+    ids.map((id) =>
+      DeleteService.deleteRecipe(id).then(({ data }) =>
+        dispatch({ type: DELETE_RECIPES_SUCCESS, payload: { id: data.id } })
+      )
+    )
+  )
 
 export const deleteRecipeIngredient =
   (recipeId, recipeIngredientId) => (dispatch) => {

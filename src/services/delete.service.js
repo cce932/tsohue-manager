@@ -22,9 +22,12 @@ const deleteRecipeIngredient = (
   recipeIngredientId,
   token = authHeader()
 ) =>
-  axios.delete(TS_API + `/recipe/${recipeId}/ingredient/delete/${recipeIngredientId}`, {
-    headers: token,
-  })
+  axios.delete(
+    TS_API + `/recipe/${recipeId}/ingredient/delete/${recipeIngredientId}`,
+    {
+      headers: token,
+    }
+  )
 
 const deleteRecipeStep = (recipeId, recipeStepId, token = authHeader()) =>
   axios.delete(TS_API + `/recipe/${recipeId}/step/delete/${recipeStepId}`, {

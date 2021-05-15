@@ -1,6 +1,6 @@
 import {
+  DELETE_EMPLOYEE,
   FETCH_ALL_EMPLOYEES,
-  FETCH_ALL_EMPLOYEES_FAILURE,
   FETCH_ALL_EMPLOYEES_SUCCESS,
 } from "shared/constants/types"
 
@@ -20,6 +20,15 @@ const employees = (state = initialState, action) => {
       return {
         ...state,
         allEmployees: payload,
+      }
+    case DELETE_EMPLOYEE:
+      const { id } = payload
+
+      return {
+        ...state,
+        allEmployees: state.allEmployees.filter(
+          (employee) => employee.id !== id
+        ),
       }
     default:
       return state

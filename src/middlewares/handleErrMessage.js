@@ -13,7 +13,6 @@ import {
   ACCOUNT_DUPLICATED,
   EMAIL_DUPLICATED,
   RESET_PWD_INCORRECT,
-  USED_INGREDIENT_DELETE_ERROR,
   INGRIDIENT_DUPLICATED,
 } from "shared/constants/messages"
 import { logout } from "actions/auth"
@@ -53,16 +52,6 @@ const handleErrMessage = (store) => (next) => (action) => {
           return next({
             ...action,
             payload: `舊密碼錯誤囉`,
-          })
-        } else if (USED_INGREDIENT_DELETE_ERROR.test(message)) {
-          const { id } = payload
-          return next({
-            ...action,
-            payload: {
-              // for global dialog
-              message: `刪除食材ID:${id}失敗，尚有烹飪包需要此食材`,
-              color: color.accent,
-            },
           })
         }
         break

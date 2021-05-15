@@ -6,15 +6,31 @@ import {
   UPDATE_RECIPE_SUCCESS,
 } from "shared/constants/types"
 import EditService from "services/edit.service"
-import { getAllEmployees } from "actions/loadData"
+import { getAllEmployees, getAllMembers } from "actions/loadData"
 import { setMessage } from "./message"
 import { extractErrMsg } from "shared/utility/common"
 import { allPaths, profile } from "shared/constants/pathname"
 
-export const changeMemberRole = (id, role) => ({
-  type: CHANGE_MEMBER_ROLE,
-  payload: { id, role },
-})
+export const changeMemberRole = (id, role) => (dispatch) => {
+  return EditService.changeMemberRole(id, role).then(
+    ({ data }) => {
+      dispatch({
+        type: CHANGE_MEMBER_ROLE,
+        payload: null,
+      })
+      dispatch(getAllMembers())
+
+      return Promise.resolve(data)
+    },
+    (error) => {
+      const message = extractErrMsg(error)
+
+      dispatch(setMessage({ ...message, id }))
+
+      return Promise.reject(message)
+    }
+  )
+}
 
 export const changeEmployeeRole = (id, role) => (dispatch) => {
   return EditService.changeEmployeeRole(id, role).then(
@@ -32,7 +48,7 @@ export const changeEmployeeRole = (id, role) => (dispatch) => {
 
       dispatch(setMessage({ ...message, id }))
 
-      return Promise.reject(error)
+      return Promise.reject(message)
     }
   )
 }
@@ -53,7 +69,7 @@ export const modifyEmployeeData = (id, colName, newValue) => (dispatch) => {
 
       dispatch(setMessage({ ...message, id, colName }))
 
-      return Promise.reject(error)
+      return Promise.reject(message)
     }
   )
 }
