@@ -253,10 +253,13 @@ const RecipeEditor = (props) => {
           </div>
 
           <p className="next">
-            <Link className="back" to={allPaths[recipeManager]}>
+            <Button
+              onClick={handleUpdateRecipe(allPaths[recipeManager])}
+              className="ts-default back"
+            >
               完成
               <BsFolderCheck />
-            </Link>
+            </Button>
 
             <Button
               onClick={handleUpdateRecipe(allPaths[recipeStepEditor])}

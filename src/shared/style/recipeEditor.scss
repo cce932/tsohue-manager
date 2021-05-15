@@ -137,7 +137,6 @@
     width: 100%;
 
     button.save-all {
-
       &:not([disabled]) {
         background-color: $accent-color;
       }
@@ -147,19 +146,20 @@
       @include stroke();
     }
 
-    a.back {
-      @include default-btn($secondary-color);
+    button.back {
+      background-color: $secondary-color;
       color: white;
       float: left;
-      display: block;
 
       svg {
         margin-left: 3px;
       }
     }
   }
+}
 
-  // for RecipeImageEditor page
+.recipe-step-editor,
+.recipe-image-editor {
   div.next {
     margin: 20px 60px;
     float: right;
