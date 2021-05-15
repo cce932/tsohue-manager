@@ -292,8 +292,11 @@ const EmployeeManager = () => {
     if (selectedId.length > 0) {
       if (window.confirm(`確定刪除員工ID: ${selectedId.toString()}？`)) {
         dispatch(deleteEmployee(selectedId))
+          .then(() =>
+            addDialog(`成功刪除員工ID: ${selectedId.toString()}`, color.success)
+          )
+          .catch(() => addDialog("刪除員工失敗，請再試一次", color.accent))
         setSelectedId([])
-        // window.location.reload() // 不能在這寫 要在middleware寫 不然這邊不會等所有程序跑完就會重整 這樣會沒刪到
       }
     }
   }

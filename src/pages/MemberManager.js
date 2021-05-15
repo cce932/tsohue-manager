@@ -17,12 +17,14 @@ import { allPaths } from "shared/constants/pathname"
 import StyledSpinner from "shared/components/StyledSpinner"
 import { memberRoleOptions } from "shared/constants/options"
 import color from "shared/style/color"
+import useDialogContext from "hooks/useDialogContext"
 
 const MemberManager = () => {
   const dispatch = useDispatch()
   const { allMembers } = useSelector((state) => state.members)
   const { isLoggedIn } = useSelector((state) => state.auth)
   const [selectedId, setSelectedId] = useState([])
+  const addDialog = useDialogContext()
 
   useEffect(() => {
     dispatch(getAllMembers())
@@ -56,6 +58,10 @@ const MemberManager = () => {
     afterSaveCell: (oldValue, newValue, row, col) => {
       if (oldValue !== newValue) {
         dispatch(changeMemberRole(row.id, newValue))
+          .then(() => addDialog(`更新會員ID: ${row.id}成功`, color.success))
+          .catch(() =>
+            addDialog(`更新會員ID: ${row.id}失敗 請再試一次`, color.accent)
+          )
       }
     },
   })
@@ -162,6 +168,10 @@ const MemberManager = () => {
     if (selectedId.length > 0) {
       if (window.confirm(`確定刪除會員ID: ${selectedId.toString()}？`)) {
         dispatch(deleteMember(selectedId))
+          .then(() =>
+            addDialog(`成功刪除會員ID: ${selectedId.toString()}`, color.success)
+          )
+          .catch(() => addDialog("刪除會員失敗，請再試一次", color.accent))
         setSelectedId([])
       }
     }

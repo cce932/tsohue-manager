@@ -9,25 +9,26 @@ import { Redirect } from "react-router-dom"
 import BootstrapTable from "react-bootstrap-table-next"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import filterFactory, { Comparator } from "react-bootstrap-table2-filter"
+import { FaSortDown, FaSortUp, FaSort } from "react-icons/fa"
 
 import "shared/style/ingredient.scss"
 import { SolidSpan } from "shared/components/styled"
 import AddIngredient from "shared/components/addIngredient"
 import sizePerPageRenderer from "shared/components/SizePerPageRenderer"
+import StyledSpinner from "shared/components/StyledSpinner"
 import { ExpandDiv, PrimaryStrokeBtn } from "shared/components/styled"
 import { getAllIngredients } from "actions/loadData"
 import { deleteIngredient } from "actions/deleteData"
 import { countSelectedId } from "shared/utility/common"
 import { getMeunName } from "shared/utility/common"
-import { allPaths, ingredientDetail } from "shared/constants/pathname"
 import useDialogContext from "hooks/useDialogContext"
-import { FaSortDown, FaSortUp, FaSort } from "react-icons/fa"
+import { allPaths, ingredientDetail } from "shared/constants/pathname"
 import {
   CHIngredientCategoryOptions,
   stockStatusOptions,
 } from "shared/constants/options"
+import { USED_INGREDIENT_DELETE_ERROR } from "shared/constants/messages"
 import color from "shared/style/color"
-import StyledSpinner from "shared/components/StyledSpinner"
 
 const stockStatusFormatter = (cell, row) => {
   if (!row.status) {
@@ -258,6 +259,17 @@ const IngredientsStock = () => {
     if (selectedId.length > 0) {
       if (window.confirm(`確定刪除食材ID: ${selectedId.toString()}？`)) {
         dispatch(deleteIngredient(selectedId))
+          .then(() =>
+            addDialog(`刪除食材ID: ${selectedId.toString()}成功`, color.success)
+          )
+          .catch((error) =>
+            addDialog(
+              USED_INGREDIENT_DELETE_ERROR.test(error.message)
+                ? `刪除食材ID:${selectedId.toString()}失敗，尚有烹飪包需要此食材`
+                : `刪除食材失敗，請再試一次`,
+              color.accent
+            )
+          )
         setSelectedId([])
       }
     }

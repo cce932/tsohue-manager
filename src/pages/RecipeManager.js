@@ -15,6 +15,7 @@ import { countSelectedId } from "shared/utility/common"
 import { createRecipe } from "actions/addData"
 import { recipeVersionOptions } from "shared/constants/options"
 import StyledSpinner from "shared/components/StyledSpinner"
+import color from "shared/style/color"
 
 const RecipeManager = () => {
   const dispatch = useDispatch()
@@ -26,7 +27,7 @@ const RecipeManager = () => {
   useEffect(() => {
     dispatch(getAllRecipes())
     addDialog("[烹飪包管理] 雙擊任一列，即可編輯喔")
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch])
 
   const keyField = "id"
@@ -161,8 +162,15 @@ const RecipeManager = () => {
 
   const handleDeleteRecipe = () => {
     if (selectedId.length > 0) {
-      if (window.confirm(`確定刪除會員ID: ${selectedId.toString()}？`)) {
+      if (window.confirm(`確定刪除烹飪包ID: ${selectedId.toString()}？`)) {
         dispatch(deleteRecipe(selectedId))
+          .then(() =>
+            addDialog(
+              `刪除烹飪包ID: ${selectedId.toString()}成功`,
+              color.success
+            )
+          )
+          .catch(() => addDialog(`刪除烹飪包失敗，請再試一次`, color.accent))
         setSelectedId([])
       }
     }
