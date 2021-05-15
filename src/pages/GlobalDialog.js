@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { IoClose } from "react-icons/io5"
 
 import { clearMessage } from "actions/message"
+import { CLEAR_DIALOG } from "shared/constants/types"
 import colorOptions from "shared/style/color"
 
 const DialogContext = createContext()
@@ -55,6 +56,11 @@ export const GlobalDialog = ({ children }) => {
 
   const addDialog = useCallback(
     function (message, color = colorOptions.accentLighter2) {
+      if (message === CLEAR_DIALOG) {
+        setDialogs([])
+        return
+      }
+
       setDialogs((dialogs) => [...dialogs, { message, color }])
       dispatch(clearMessage())
     },

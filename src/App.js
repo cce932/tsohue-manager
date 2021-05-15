@@ -16,7 +16,7 @@ import EmployeeManager from "pages/EmployeeManager"
 import Profile from "pages/Profile"
 import OrderManager from "pages/OrderManager"
 import IngredientsStock from "pages/IngredientsStock"
-import IngredientDetail from "pages/IngredientDetail"
+// import IngredientDetail from "pages/IngredientDetail"
 import RecipeManager from "pages/RecipeManager"
 import RecipeEditor from "pages/RecipeEditor"
 import RecipeImageEditor from "pages/RecipeImageEditor"
@@ -30,7 +30,6 @@ import {
   allRequest,
   wapperStop,
   ingredientsStock,
-  ingredientDetail,
   ingredientPurchase,
   recipeManager,
   profile,
@@ -42,23 +41,27 @@ import {
 } from "shared/constants/pathname"
 import { getMeunName } from "shared/utility/common"
 import NotFound from "pages/NotFound"
+import useDialogContext from "hooks/useDialogContext"
+import { CLEAR_DIALOG } from "shared/constants/types"
 
 const App = () => {
   const { user: currentUser } = useSelector((state) => state.auth)
   const [hidden, setHidden] = useState(false)
   const [locating, setLocating] = useState("")
   const dispatch = useDispatch()
+  const addDialog = useDialogContext()
 
   useEffect(() => {
     history.listen((location) => {
       dispatch(clearMessage())
+      addDialog(CLEAR_DIALOG)
     })
 
     // validate wheather the user has loggedin or not when landing the site
     if (currentUser) {
       dispatch(getCurrentEmployee(currentUser.token))
     }
-  }, [currentUser, dispatch])
+  }, [addDialog, currentUser, dispatch])
 
   const toggleSideBar = () => {
     const nowAt = window.location.pathname
@@ -264,11 +267,11 @@ const App = () => {
             path={`${allPaths[ingredientsStock]}`}
             component={IngredientsStock}
           />
-          <Route
+          {/* <Route
             exact
             path={`${allPaths[ingredientDetail]}:id`}
             component={IngredientDetail}
-          />
+          /> */}
           <Route
             exact
             path={`${allPaths[recipeManager]}`}
@@ -290,14 +293,13 @@ const App = () => {
             component={RecipeImageEditor}
           />
           <Route
-            path=""
+            path="/"
             render={() => <NotFound message="敬請期待 新功能即將上線" />}
           />
         </Switch>
       </div>
     </Router>
   )
-
 }
 
 export default App
