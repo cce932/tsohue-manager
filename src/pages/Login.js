@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Redirect } from "react-router-dom"
 
 import "shared/style/login.scss"
 import Form from "react-validation/build/form"
@@ -91,12 +90,7 @@ const Login = (props) => {
         {message && <label className="message">{message}</label>}
 
         <button disabled={loading}>
-          {loading ? ( // 如果正在loading的話 那就不能按此button
-            // <span className='spinner-border spinner-border-sm'></span> // boostrape的寫法 顯示loading icon
-            <span>登入中</span>
-          ) : (
-            <span>確定</span>
-          )}
+          {loading ? <span>登入中</span> : <span>確定</span>}
         </button>
 
         {/* 用來控制validation的 */}
