@@ -72,12 +72,18 @@ const handleErrMessage = (store) => (next) => (action) => {
         if (ACCOUNT_DUPLICATED.test(debugMessage)) {
           return next({
             ...action,
-            payload: "換個帳號吧 和別人重複囉",
+            payload: {
+              message: "換個帳號吧 和別人重複囉",
+              color: color.accent,
+            },
           })
         } else if (EMAIL_DUPLICATED.test(debugMessage)) {
           return next({
             ...action,
-            payload: "換一個信箱吧 此信箱已註冊過",
+            payload: {
+              message: "換一個信箱吧 此信箱已註冊過",
+              color: color.accent,
+            },
           })
         } else if (INGRIDIENT_DUPLICATED.test(debugMessage)) {
           return window.alert("此食材名稱已經存在囉 請換一個吧")
