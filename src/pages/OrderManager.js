@@ -32,9 +32,9 @@ import {
   TO_DELIEVER,
 } from "shared/constants/options"
 import color from "shared/style/color"
-import StyledSpinner from "shared/components/StyledSpinner"
 import OrderedRecipe from "shared/components/OrderedRecipe"
 import { updateOrderStatus } from "actions/editData"
+import useDialogContext from "hooks/useDialogContext"
 
 const statusFormatter = (cell, row) => {
   const style = {
@@ -118,7 +118,7 @@ const OrderManager = () => {
   const dispatch = useDispatch()
   const { allOrders } = useSelector((state) => state.orders)
   const { isLoggedIn } = useSelector((state) => state.auth)
-  // const addDialog = useDialogContext()
+  const addDialog = useDialogContext()
 
   useEffect(() => {
     dispatch(getAllOrders())
@@ -183,6 +183,8 @@ const OrderManager = () => {
     afterSaveCell: (oldValue, newValue, row, col) => {
       if (oldValue !== newValue) {
         dispatch(updateOrderStatus(row.id, newValue))
+          .then(() => addDialog(`更新狀態成功`, color.success))
+          .catch(() => addDialog(`更新狀態失敗 請再試一次`, color.prime))
       }
     },
   })
@@ -330,39 +332,35 @@ const OrderManager = () => {
   ]
 
   return isLoggedIn ? (
-    allOrders.length ? (
-      <ExpandDiv className="orders">
-        <div className="tools">
-          <PrimaryStrokeBtn onClick={clearFilterHandler}>
-            清除搜尋
-          </PrimaryStrokeBtn>
-        </div>
+    <ExpandDiv className="orders">
+      <div className="tools">
+        <PrimaryStrokeBtn onClick={clearFilterHandler}>
+          清除搜尋
+        </PrimaryStrokeBtn>
+      </div>
 
-        <BootstrapTable
-          keyField={keyField}
-          data={allOrders}
-          columns={columns}
-          bordered={false}
-          noDataIndication="空空如也 ~"
-          pagination={paginationFactory({
-            sizePerPageList: [
-              { text: "少", value: 12 },
-              { text: "多", value: 18 },
-              { text: "全部", value: allOrders.length },
-            ],
-            hidePageListOnlyOnePage: true,
-            sizePerPageRenderer,
-          })}
-          filter={filterFactory()}
-          sort={sortOption}
-          expandRow={expandRow}
-          cellEdit={cellEdit}
-        />
-        <label className="dataLength">共 {allOrders.length} 筆</label>
-      </ExpandDiv>
-    ) : (
-      <StyledSpinner />
-    )
+      <BootstrapTable
+        keyField={keyField}
+        data={allOrders}
+        columns={columns}
+        bordered={false}
+        noDataIndication="空空如也 ~"
+        pagination={paginationFactory({
+          sizePerPageList: [
+            { text: "少", value: 12 },
+            { text: "多", value: 18 },
+            { text: "全部", value: allOrders.length },
+          ],
+          hidePageListOnlyOnePage: true,
+          sizePerPageRenderer,
+        })}
+        filter={filterFactory()}
+        sort={sortOption}
+        expandRow={expandRow}
+        cellEdit={cellEdit}
+      />
+      <label className="dataLength">共 {allOrders.length} 筆</label>
+    </ExpandDiv>
   ) : (
     <>
       {window.alert(

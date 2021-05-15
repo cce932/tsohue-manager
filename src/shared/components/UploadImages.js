@@ -6,6 +6,7 @@ import { getImagesByRecipeId } from "actions/loadData"
 import { uploadRecipeImage } from "actions/addData"
 import { deleteRecipeImage } from "actions/deleteData"
 import "shared/style/components/uploadImages.scss"
+import color from "shared/style/color"
 
 const UploadImages = (props) => {
   const dispatch = useDispatch()
@@ -41,12 +42,12 @@ const UploadImages = (props) => {
         })
       )
         .then((data) => {
-          addDialog(`新增照片「${data.name}」成功`)
+          addDialog(`新增照片「${data.name}」成功`, color.success)
         })
         .catch(() => {
           _progressInfos[i].percentage = 0
           setProgress(_progressInfos)
-          addDialog(`新增照片「${selectedFiles[i].name}」失敗`)
+          addDialog(`新增照片「${selectedFiles[i].name}」失敗`, color.accent)
         })
         .then(() => {
           if (i === selectedFiles.length - 1) {
@@ -73,14 +74,14 @@ const UploadImages = (props) => {
         .then(({ data }) => {
           images.length > 1 &&
             setIndex(index - 1 > 0 ? index - 1 : images.length - 2)
-          addDialog(`成功刪除「${data.id} :${data.name}」`)
+          addDialog(`成功刪除「${data.id} :${data.name}」`, color.success)
           dispatch(getImagesByRecipeId(id)).then((res) => {
             setImages(res)
           })
         })
         .catch(() => {
           addDialog(
-            `刪除相片失敗「${images[index].id}: ${images[index].name}」`
+            `刪除相片失敗「${images[index].id}: ${images[index].name}」`, color.accent
           )
         })
     }

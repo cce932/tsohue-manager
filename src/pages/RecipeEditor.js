@@ -32,6 +32,7 @@ import { updateRecipe } from "actions/editData"
 import useDialogContext from "hooks/useDialogContext"
 import { VERSION_DUPLICATED } from "shared/constants/messages"
 import StyledSpinner from "shared/components/StyledSpinner"
+import color from "shared/style/color"
 
 const required = (value) => {
   if (!value.length) {
@@ -146,8 +147,8 @@ const RecipeEditor = (props) => {
       })
       .catch((error) => {
         VERSION_DUPLICATED.test(error.debugMessage)
-          ? addDialog(`${name}: 版本「${version}」已存在`)
-          : alert(`未知錯誤 ${error && error.debugMessage}`)
+          ? addDialog(`${name}: 版本「${version}」已存在`, color.accent)
+          : alert(`錯誤：${error && error.debugMessage}`)
       })
   }
 

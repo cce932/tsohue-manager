@@ -25,10 +25,9 @@ const RecipeManager = () => {
 
   useEffect(() => {
     dispatch(getAllRecipes())
-    setTimeout(() => {
-      addDialog("[烹飪包管理] 雙擊任一列，即可編輯喔")
-    }, 1000)
-  }, [addDialog, dispatch])
+    addDialog("[烹飪包管理] 雙擊任一列，即可編輯喔")
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch])
 
   const keyField = "id"
 

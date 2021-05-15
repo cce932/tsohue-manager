@@ -9,10 +9,7 @@ const color = {
   accentLighter: "rgb(253, 221, 132)",
   accentLighter2: "rgb(248, 203, 80)",
   accentDeeper: "rgb(165, 90, 70)",
-  normal: "#9e8568",
-  lowfat: "#8093b5",
-  meat: "#f09797",
-  vage: "#7ca390",
+  success: "#64d69f",
 }
 
 export default color

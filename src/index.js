@@ -20,10 +20,7 @@ const theme = {
   accentLighterColor: "rgb(253, 221, 132)",
   accentLighter2Color: "rgb(248, 203, 80)",
   accentDeeperColor: "rgb(165, 90, 70)",
-  normalColor: "#9e8568",
-  lowfatColor: "#8093b5",
-  meatColor: "#f09797",
-  vageColor: "#7ca390",
+  successColor: "#64d69f",
   font: css`
     font-family: sans-serif;
     text-decoration: none;

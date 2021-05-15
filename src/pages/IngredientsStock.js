@@ -72,7 +72,7 @@ const IngredientsStock = () => {
   }, [dispatch])
 
   useEffect(() => {
-    message && addDialog(message)
+    message && addDialog(message?.message || message, message?.color)
   }, [addDialog, message])
 
   const keyField = "id"

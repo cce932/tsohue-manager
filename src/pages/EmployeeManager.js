@@ -105,7 +105,7 @@ const EmployeeManager = () => {
   }, [dispatch])
 
   useEffect(() => {
-    message && addDialog(message)
+    message && addDialog(message?.message || message, message?.color) // show the error of unauthorized
   }, [addDialog, message])
 
   const keyField = "id"
@@ -136,16 +136,17 @@ const EmployeeManager = () => {
     afterSaveCell: (oldValue, newValue, row, col) => {
       if (oldValue !== newValue) {
         if (col.dataField === "role") {
-          dispatch(changeEmployeeRole(row.id, newValue)).then(
-            (res) => addDialog(`已更新ID: ${res.id}的角色為${res.role}`),
-            (err) => null
+          dispatch(changeEmployeeRole(row.id, newValue)).then((res) =>
+            addDialog(`已更新ID: ${res.id}的角色為${res.role}`, color.success)
           )
         } else {
           // 限dept或title
           dispatch(modifyEmployeeData(row.id, col.dataField, newValue)).then(
             (res) =>
-              addDialog(`已更新ID: ${res.id}的${col.dataField}為${res.role}`),
-            (err) => null
+              addDialog(
+                `已更新ID: ${res.id}的${col.dataField}為${res.role}`,
+                color.success
+              )
           )
         }
       }
@@ -318,7 +319,7 @@ const EmployeeManager = () => {
       ).then(
         (res) => {
           clearRegisterInput()
-          addDialog(`註冊「${res.username}」成功`)
+          addDialog(`註冊「${res.username}」成功`, color.success)
         },
         (error) => null
       )

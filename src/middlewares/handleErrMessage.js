@@ -17,6 +17,12 @@ import {
   INGRIDIENT_DUPLICATED,
 } from "shared/constants/messages"
 import { logout } from "actions/auth"
+import color from "shared/style/color"
+
+const employeeColName = {
+  title: "職稱",
+  department: "部門",
+}
 
 const handleErrMessage = (store) => (next) => (action) => {
   if (action.type === SET_MESSAGE) {
@@ -36,9 +42,12 @@ const handleErrMessage = (store) => (next) => (action) => {
         } else if (EDIT_EMPLOYEE_DENIED.test(message)) {
           return next({
             ...action,
-            payload: `您沒有權限更新ID:${payload.id}的${
-              payload.colName ? payload.colName : "角色"
-            }`,
+            payload: {
+              message: `您沒有權限更新ID:${payload.id}的${
+                payload.colName ? employeeColName[payload.colName] : "角色"
+              }`,
+              color: color.accent,
+            },
           })
         } else if (RESET_PWD_INCORRECT.test(message)) {
           return next({
@@ -49,7 +58,11 @@ const handleErrMessage = (store) => (next) => (action) => {
           const { id } = payload
           return next({
             ...action,
-            payload: `刪除食材ID:${id}失敗 尚有烹飪包需要此食材`
+            payload: {
+              // for global dialog
+              message: `刪除食材ID:${id}失敗，尚有烹飪包需要此食材`,
+              color: color.accent,
+            },
           })
         }
         break

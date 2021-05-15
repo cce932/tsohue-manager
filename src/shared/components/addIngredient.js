@@ -9,6 +9,7 @@ import "shared/style/addIngredient.scss"
 import { SecondaryBtn } from "shared/components/styled"
 import { addIngredient } from "actions/addData"
 import { ingredientCategoryOptions as categoryOptions } from "shared/constants/options"
+import color from "shared/style/color"
 
 const required = (value) => {
   if (!value.length) {
@@ -83,12 +84,24 @@ const AddIngredient = () => {
     form.current.validateAll()
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(addIngredient(category, name, price, country.toUpperCase(), city.toUpperCase(), stock, safetyStock, unit, kcal)).then(
+      dispatch(
+        addIngredient(
+          category,
+          name,
+          price,
+          country.toUpperCase(),
+          city.toUpperCase(),
+          stock,
+          safetyStock,
+          unit,
+          kcal
+        )
+      ).then(
         (res) => {
           clearInputs()
-          addDialog(`新增「${res.name}」成功`)
+          addDialog(`新增「${res.name}」成功`, color.success)
         },
-        (error) => null
+        () => addDialog(`新增失敗，食材已存在`, color.accent)
       )
     }
   }
@@ -110,7 +123,9 @@ const AddIngredient = () => {
                 validations={[required, validCategory]}
               />
               <datalist id="categoryList">
-                {Object.keys(categoryOptions).map((opt, index) => <option key={index} value={opt} />)}
+                {Object.keys(categoryOptions).map((opt, index) => (
+                  <option key={index} value={opt} />
+                ))}
               </datalist>
 
               <label>名稱</label>
