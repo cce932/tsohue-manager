@@ -34,9 +34,9 @@ const IngredientEditor = (props) => {
   const [name, setName] = useState("") // 需是controlled field
   const [quantityRequired, setQuantityRequired] = useState("")
   const [tableIngredients, setTableIngredients] = useState([])
-  const [idExtractedIngredients, setIdExtractedIngredients] = useState(
-    undefined
-  )
+  const [cost, setCost] = useState([])
+  const [idExtractedIngredients, setIdExtractedIngredients] =
+    useState(undefined)
   const passIngredientToEditor = props.passIngredientToEditor // 傳最新的tableIngredients至recipeEditor，以供更新
   const recipeId = props.recipeId
 
@@ -50,6 +50,7 @@ const IngredientEditor = (props) => {
     dispatch(getAllIngredients())
 
     let _tableIngredients = []
+    let _cost = 0
 
     props.recipeIngredients.forEach((recipeIngredient) => {
       _tableIngredients.push({
@@ -58,16 +59,22 @@ const IngredientEditor = (props) => {
         category: recipeIngredient.ingredient.category,
         name: recipeIngredient.ingredient.name,
         quantityRequired: recipeIngredient.quantityRequired,
+        price: recipeIngredient.ingredient.price,
+        unit: recipeIngredient.ingredient.unit,
       })
+      _cost +=
+        parseInt(recipeIngredient.quantityRequired) *
+        parseInt(recipeIngredient.ingredient.price)
     })
 
+    setCost(_cost)
     setTableIngredients(_tableIngredients)
 
     return () => {
       setIdExtractedIngredients(undefined)
       setTableIngredients([])
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const idOnChange = (e) => {
@@ -156,6 +163,7 @@ const IngredientEditor = (props) => {
 
     dispatch(deleteRecipeIngredient(recipeId, rowData.recipeIngredientId))
 
+    setCost(cost - parseInt(quantityRequired) * parseInt(rowData.price))
     setTableIngredients(_tableIngredients)
     passIngredientToEditor(_tableIngredients)
   }
@@ -164,7 +172,9 @@ const IngredientEditor = (props) => {
     id: "ID",
     category: "種類",
     name: "名稱",
+    price: "價格",
     quantityRequired: "數量",
+    unit: "單位",
   }
 
   const handleAddIngredient = (e) => {
@@ -180,6 +190,10 @@ const IngredientEditor = (props) => {
           _tableIngredients[index].quantityRequired =
             parseInt(_tableIngredients[index].quantityRequired) +
             parseInt(quantityRequired)
+
+          setCost(
+            cost + parseInt(quantityRequired) * parseInt(ingredient.price)
+          )
           break
         }
       }
@@ -195,9 +209,14 @@ const IngredientEditor = (props) => {
               id: res.ingredient.id,
               category: res.ingredient.category,
               name: res.ingredient.name,
+              price: res.ingredient.price,
               quantityRequired: res.quantityRequired,
+              unit: res.ingredient.unit,
             })
 
+            setCost(
+              cost + parseInt(quantityRequired) * parseInt(res.ingredient.price)
+            )
             setTableIngredients(_tableIngredients)
             passIngredientToEditor(_tableIngredients)
           }
@@ -208,6 +227,7 @@ const IngredientEditor = (props) => {
 
   return idExtractedIngredients ? (
     <div>
+      <label className="ingredient-cost">目前成本: {cost}</label>
       <p>食材</p>
       <div className="content">
         <Form

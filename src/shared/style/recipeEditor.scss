@@ -29,6 +29,13 @@
       margin-bottom: 15px;
     }
 
+    label.ingredient-cost {
+      float: right;
+      font-weight: bold;
+      color: $accent-color;
+      margin-right: 5px;
+    }
+
     label.sub-title {
       width: 120px;
       font-weight: bold;
