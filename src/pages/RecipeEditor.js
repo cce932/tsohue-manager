@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Link, Redirect } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import Form from "react-validation/build/form"
 import Input from "react-validation/build/input"
 import Button from "react-validation/build/button"
@@ -125,7 +125,7 @@ const RecipeEditor = (props) => {
   }
 
   const handleUpdateRecipe = (redirectPath) => (e) => {
-    e.preventDefault()
+    e?.preventDefault()
 
     const _recipe = {
       ...recipe,
