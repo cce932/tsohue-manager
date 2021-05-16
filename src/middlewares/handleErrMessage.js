@@ -36,6 +36,7 @@ const handleErrMessage = (store) => (next) => (action) => {
             EMPTY_TOKEN.test(debugMessage)
           ) {
             store.dispatch(logout())
+            window.location = "/login"
             return
           }
         } else if (EDIT_EMPLOYEE_DENIED.test(message)) {
