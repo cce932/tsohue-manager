@@ -146,3 +146,13 @@ export const modifyIngredientData = (id, colName, newValue) => (dispatch) => {
     }
   )
 }
+
+export const editRecipeStep = (id, stepData) => (dispatch) => {
+  return EditService.editRecipeStep(id, stepData)
+    .then(() => Promise.resolve()) // no need to dispatch into reducer, step data is controlled by useState
+    .catch((error) => {
+      const message = extractErrMsg(error)
+      dispatch(setMessage(message))
+      return Promise.reject(message)
+    })
+}

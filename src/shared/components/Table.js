@@ -1,24 +1,39 @@
-import { AiOutlineDelete } from "react-icons/ai"
+import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"
 import "shared/style/components/table.scss"
 
-export const Row = ({ rowData, columns, remove }) => {
-  // console.log("row data", rowData, columns, remove)
+export const Row = ({ rowData, columns, remove, editable, edit }) => {
+  // console.log("row data", rowData, columns, remove, edit)
   return (
     <tr>
       {Object.keys(columns).map((col, index) => {
         return <td key={index}>{rowData[col]}</td>
       })}
+      {editable && (
+        <td className="edit">
+          <button onClick={(e) => edit(rowData, e)}>
+            &ensp;
+            <AiOutlineEdit fill="#64d69f" size="20px" />
+          </button>
+        </td>
+      )}
       <td className="remove">
-        <a href="#" onClick={(e) => remove(rowData, e)}>
+        <button onClick={(e) => remove(rowData, e)}>
           &ensp;
-          <AiOutlineDelete fill="rgb(231, 104, 69)" />
-        </a>
+          <AiOutlineDelete fill="rgb(231, 104, 69)" size="20px" />
+        </button>
       </td>
     </tr>
   )
 }
 
-const Table = ({ data, columns, sortBy = () => null, remove }) => {
+const Table = ({
+  data,
+  columns,
+  sortBy = () => null,
+  remove,
+  editable = false,
+  edit,
+}) => {
   return (
     <table className="table">
       <thead>
@@ -30,6 +45,7 @@ const Table = ({ data, columns, sortBy = () => null, remove }) => {
               </th>
             )
           })}
+          {editable && <th className="edit">編輯</th>}
           <th className="remove">刪除</th>
         </tr>
       </thead>
@@ -41,6 +57,8 @@ const Table = ({ data, columns, sortBy = () => null, remove }) => {
               rowData={rowData}
               columns={columns}
               remove={remove}
+              editable={editable}
+              edit={editable ? edit : () => null}
             />
           ))
         ) : (

@@ -1,4 +1,5 @@
 import _ from "lodash"
+import moment from "moment"
 
 export const getMeunName = (allPaths, nowAt) => {
   return Object.keys(allPaths).find((path) => allPaths[path] === nowAt)
@@ -18,7 +19,7 @@ export const extractErrMsg = (error) => {
 // { 213: { name: "dena" }, 10: { name: "jerry" } }
 export const extractKeyFromArray = (array, key = "id") => {
   const newObject = {}
-  array.map((item) => {
+  array.foreach((item) => {
     newObject[item[key]] = { ...item }
     delete newObject[item[key]][key]
   })
@@ -34,7 +35,7 @@ export const insertIndexToArray = (array) => {
 
 export const countSelectedId = (rows, isSelect, selectedList) => {
   let processedList = selectedList
-  rows.map((row) => {
+  rows.foreach((row) => {
     processedList = isSelect
       ? processedList.concat(row.id)
       : processedList.filter((selected) => selected !== row.id)
@@ -51,16 +52,12 @@ export const generatePwd = (length = 8) => {
   return temp
 }
 
-const addPrefix = (string, pad, length) => {
-  return (new Array(length + 1).join(pad) + string).slice(-length)
-}
+export const transMSecToMin = (totalMSec) =>
+  moment(totalMSec, "x").format("mm:ss")
 
-export const transMSecToMin = (totalMSec) => {
-  const totalSec = _.floor(totalMSec / 1000)
-  const minutes = _.floor(totalSec / 60)
-  const seconds = totalSec - minutes * 60
-  return addPrefix(minutes, "0", 2) + ":" + addPrefix(seconds, "0", 2)
-}
+// time = "01:00" transform to "60000"
+export const transMinToMSec = (time) =>
+  moment(time, "mm:ss").valueOf() - moment("00:00", "mm:ss").valueOf()
 
 // 把array以maxRow為限制 分為多維陣列
 export const splitToRows = (array, maxRow) => {

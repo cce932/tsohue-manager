@@ -159,7 +159,7 @@ const IngredientEditor = (props) => {
   }
 
   const remove = (rowData, e, data = tableIngredients) => {
-    e.preventDefault()
+    e?.preventDefault()
     const _tableIngredients = data.filter(
       (row) => row.recipeIngredientId !== rowData.recipeIngredientId
     )
@@ -312,6 +312,7 @@ const IngredientEditor = (props) => {
           columns={tableColumns}
           sortBy={tableSortBy}
           remove={remove}
+          editable={false}
         />
       </div>
     </div>

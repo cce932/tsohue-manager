@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
+import { useDispatch } from "react-redux"
 import { Player, BigPlayButton, ControlBar } from "video-react"
 import { Link } from "react-router-dom"
 import {
@@ -9,11 +10,11 @@ import {
 import _ from "lodash"
 
 import "shared/style/recipeStepEditor.scss"
-import { ExpandDiv } from "shared/components/styled"
-import { useDispatch } from "react-redux"
-import { transMSecToMin, insertIndexToArray } from "shared/utility/common"
-import "shared/style/recipeStepEditor.scss"
+import RecipeStepItemEditor from "shared/components/RecipeStepItemEditor"
 import Table from "shared/components/Table"
+import StyledSpinner from "shared/components/StyledSpinner"
+import { ExpandDiv } from "shared/components/styled"
+import { transMSecToMin, insertIndexToArray } from "shared/utility/common"
 import {
   allPaths,
   recipeEditor,
@@ -23,7 +24,6 @@ import {
 import { getRecipeById } from "actions/loadData"
 import { createRecipeStep } from "actions/addData"
 import { deleteRecipeStep } from "actions/deleteData"
-import StyledSpinner from "shared/components/StyledSpinner"
 
 const transStartTimeToMinInSteps = (steps) =>
   steps.map((step) => ({
@@ -41,6 +41,8 @@ const RecipeStepEditor = (props) => {
   const [player, setPlayer] = useState(undefined)
   const [recipe, setRecipe] = useState({})
   const [stepRadio, setStepRadio] = useState("true")
+  const [modalShow, setModalShow] = useState(false)
+  const [rowDataForEdit, setRowDataForEdit] = useState({})
   const id = props.match.params.id
   const tableColumns = {
     index: "順序",
@@ -90,13 +92,32 @@ const RecipeStepEditor = (props) => {
     setTimer(e.target.value)
   }
 
-  const removeTableItem = (rowData, e, data = steps) => {
-    e.preventDefault()
-
+  const removeTableItemOnClick = (rowData) => {
     dispatch(deleteRecipeStep(id, rowData.id)).then((data) => {
       setRecipe(data)
       setSteps(data.recipeSteps)
     })
+  }
+
+  const editTableItemOnClick = (rowData) => {
+    const { startTime, note, timer, id } = rowData
+
+    setRowDataForEdit({ startTime, note, timer, stepId: id })
+    setModalShow(true)
+  }
+
+  const editedTableItemOnClick = (itemData) => {
+    const { id, note, timer, startTime } = itemData
+    console.log("itemData", itemData)
+
+    setSteps(
+      steps.map((step) => {
+        if (step.id === id) {
+          return { id, note, timer, startTime }
+        }
+        return step
+      })
+    )
   }
 
   return steps && recipe ? (
@@ -162,7 +183,24 @@ const RecipeStepEditor = (props) => {
           <Table
             data={insertIndexToArray(transStartTimeToMinInSteps(steps))}
             columns={tableColumns}
-            remove={removeTableItem}
+            remove={removeTableItemOnClick}
+            editable={true}
+            edit={editTableItemOnClick}
+          />
+
+          <RecipeStepItemEditor
+            show={modalShow}
+            onHide={(e) => {
+              e?.preventDefault()
+              setModalShow(false)
+            }}
+            {...{
+              id: recipe.id,
+              name: recipe.name,
+              version: recipe.version,
+              ...rowDataForEdit,
+              updateTableItem: editedTableItemOnClick,
+            }}
           />
         </div>
       </div>

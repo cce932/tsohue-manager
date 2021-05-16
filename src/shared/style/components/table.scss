@@ -1,7 +1,9 @@
 @import "../_global";
 
-a {
+button {
   text-decoration: none;
+  background-color: transparent;
+  border: none;
 
   &:hover {
     text-decoration: none;

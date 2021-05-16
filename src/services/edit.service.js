@@ -67,6 +67,14 @@ const modifyIngredientData = (id, colName, newValue, token = authHeader()) => {
   )
 }
 
+const editRecipeStep = (id, stepData, token = authHeader()) => {
+  return axios.patch(
+    TS_API + "/recipe/update/" + id,
+    { ...stepData },
+    { headers: token }
+  )
+}
+
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   changeMemberRole,
@@ -74,6 +82,7 @@ export default {
   modifyEmployeeData,
   resetPwd,
   updateRecipe,
+  editRecipeStep,
   updateOrderStatus,
   modifyIngredientData,
 }

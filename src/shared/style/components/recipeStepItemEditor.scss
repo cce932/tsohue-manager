@@ -1,0 +1,39 @@
+@import "../_global";
+
+.recipe-step-item-editor {
+  background-color: rgba($prime-color, 0.5); // for modal
+
+  .modal-body {
+    margin: 10px;
+    margin-bottom: 50px;
+
+    .title {
+      @include text(bold, 1.1rem, $secondary-color);
+    }
+
+    .block {
+      margin: 0 10px;
+
+      label {
+        width: 100px;
+        margin-bottom: 20px;
+      }
+
+      input {
+        @include default-input($width: 150px);
+      }
+    }
+
+    .right {
+      float: right;
+
+      button {
+        @include default-btn();
+      }
+
+      button[type="submit"] {
+        background-color: $accent-lighter-color-2;
+      }
+    }
+  }
+}
