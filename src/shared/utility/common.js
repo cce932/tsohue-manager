@@ -19,7 +19,8 @@ export const extractErrMsg = (error) => {
 // { 213: { name: "dena" }, 10: { name: "jerry" } }
 export const extractKeyFromArray = (array, key = "id") => {
   const newObject = {}
-  array.foreach((item) => {
+
+  array.forEach((item) => {
     newObject[item[key]] = { ...item }
     delete newObject[item[key]][key]
   })
@@ -27,15 +28,13 @@ export const extractKeyFromArray = (array, key = "id") => {
   return newObject
 }
 
-export const insertIndexToArray = (array) => {
-  return array.map((item, index) => {
-    return { index: index + 1, ...item }
-  })
-}
+export const insertIndexToArray = (array) =>
+  array.map((item, index) => ({ index: index + 1, ...item }))
 
 export const countSelectedId = (rows, isSelect, selectedList) => {
   let processedList = selectedList
-  rows.foreach((row) => {
+
+  rows.forEach((row) => {
     processedList = isSelect
       ? processedList.concat(row.id)
       : processedList.filter((selected) => selected !== row.id)
