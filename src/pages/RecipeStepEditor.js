@@ -40,13 +40,13 @@ const RecipeStepEditor = (props) => {
   const [timer, setTimer] = useState(0)
   const [player, setPlayer] = useState(undefined)
   const [recipe, setRecipe] = useState({})
-  const [stepRadio, setStepRadio] = useState("true")
+  const [noteRadio, setNoteRadio] = useState("true")
   const [modalShow, setModalShow] = useState(false)
   const [rowDataForEdit, setRowDataForEdit] = useState({})
   const id = props.match.params.id
   const tableColumns = {
     index: "順序",
-    startTime: "起始時間",
+    startTime: "步驟結束時間",
     note: "說明",
     timer: "計時 (秒)",
   }
@@ -65,19 +65,16 @@ const RecipeStepEditor = (props) => {
   }
 
   const handleAddStep = () => {
-    const startTime = timer > 0 ? null : _.floor(player.currentTime, 3) * 1000 // pass millisecond to back-end
+    const startTime = _.floor(player.currentTime, 3) * 1000 // pass millisecond to back-end
 
     dispatch(createRecipeStep(id, startTime, timer * 1000, note)).then(
       (res) => {
-        setSteps([
-          ...steps,
-          {
-            id: res.id,
-            startTime: res.startTime,
-            timer: res.timer,
-            note: res.note,
-          },
-        ])
+        const { id, startTime, timer, note } = res
+        const sortedSteps = [...steps, { id, startTime, timer, note }].sort(
+          (a, b) => a.startTime - b.startTime
+        )
+
+        setSteps(sortedSteps)
       }
     )
 
@@ -106,19 +103,7 @@ const RecipeStepEditor = (props) => {
     setModalShow(true)
   }
 
-  const editedTableItemOnClick = (itemData) => {
-    const { id, note, timer, startTime } = itemData
-    console.log("itemData", itemData)
-
-    setSteps(
-      steps.map((step) => {
-        if (step.id === id) {
-          return { id, note, timer, startTime }
-        }
-        return step
-      })
-    )
-  }
+  const editedTableItemOnClick = (updatedSteps) => setSteps(updatedSteps)
 
   return steps && recipe ? (
     <ExpandDiv className={`recipe-editor recipe-step-editor`}>
@@ -138,12 +123,15 @@ const RecipeStepEditor = (props) => {
               <div className="step-note">
                 <input
                   type="radio"
-                  id="step-radio"
+                  id="note-radio"
                   name="radio-group"
-                  checked={stepRadio}
-                  onClick={(e) => setStepRadio(e.target.checked)}
+                  checked={noteRadio}
+                  onClick={(e) => {
+                    setTimer(0)
+                    setNoteRadio(e.target.checked)
+                  }}
                 />
-                <label className="sub-title" for="step-radio">
+                <label className="sub-title" for="note-radio">
                   步驟說明
                 </label>
                 <textarea
@@ -151,7 +139,7 @@ const RecipeStepEditor = (props) => {
                   rows="3"
                   value={note}
                   onChange={noteOnChange}
-                  disabled={!stepRadio}
+                  disabled={!noteRadio}
                 />
               </div>
 
@@ -159,8 +147,11 @@ const RecipeStepEditor = (props) => {
                 type="radio"
                 id="timer-radio"
                 name="radio-group"
-                checked={!stepRadio}
-                onClick={(e) => setStepRadio(!e.target.checked)}
+                checked={!noteRadio}
+                onClick={(e) => {
+                  setNote("")
+                  setNoteRadio(!e.target.checked)
+                }}
               />
               <label className="sub-title" for="timer-radio">
                 計時 (秒)
@@ -169,7 +160,7 @@ const RecipeStepEditor = (props) => {
                 value={timer}
                 onChange={timerOnChange}
                 type="number"
-                disabled={stepRadio}
+                disabled={noteRadio}
               ></input>
               <button
                 className="ts-default right top-adjust"

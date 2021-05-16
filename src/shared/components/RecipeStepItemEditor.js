@@ -39,8 +39,8 @@ const RecipeStepItemEditor = ({
     }
 
     dispatch(editRecipeStep(id, stepData))
-      .then(() => {
-        updateTableItem({ ...stepData.recipeSteps[0] })
+      .then((data) => {
+        updateTableItem(data.recipeSteps)
         addDialog("成功更新食譜步驟", color.success)
       })
       .catch(() =>
