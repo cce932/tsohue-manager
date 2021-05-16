@@ -21,7 +21,7 @@
       }
 
       input {
-        @include default-input($width: 150px);
+        @include default-input(320px);
       }
     }
 

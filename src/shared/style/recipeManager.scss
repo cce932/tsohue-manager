@@ -1,9 +1,18 @@
 @import "global";
 
 div.recipe-manager {
-
   tbody > tr {
     cursor: pointer;
+  }
+
+  .reset-expansion-style {
+    &:hover {
+      background-color: white !important;
+    }
+
+    .detail {
+      pointer-events: none;
+    }
   }
 
   div.detail {
@@ -13,7 +22,7 @@ div.recipe-manager {
       flex: 2 1 auto; // flex-grow shink basis
 
       tr > td:nth-child(1) {
-        width: 100px;
+        width: 110px;
       }
     }
 
