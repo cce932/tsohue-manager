@@ -148,7 +148,7 @@ const IngredientsStock = () => {
     blurToSave: true,
     afterSaveCell: (oldValue, newValue, row, col) => {
       if (oldValue !== newValue) {
-        dispatch(modifyIngredientData(row.id, col.dataField, newValue))
+        dispatch(modifyIngredientData(row.id, row)) // post all cols to api because of null int field problem in backend
           .then(() => addDialog(`更新食材ID: ${row.id}成功`, color.success))
           .catch(() =>
             addDialog(`更新食材ID: ${row.id}失敗 請再試一次`, color.accent)

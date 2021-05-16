@@ -127,12 +127,13 @@ export const updateOrderStatus = (id, status) => (dispatch) => {
     })
 }
 
-export const modifyIngredientData = (id, colName, newValue) => (dispatch) => {
-  return EditService.modifyIngredientData(id, colName, newValue).then(
+export const modifyIngredientData = (id, data) => (dispatch) => {
+  // post all columns to api because of null int field problem in backend
+  return EditService.modifyIngredientData(id, data).then(
     ({ data }) => {
       dispatch({
         type: MODIFY_INGREDIENT_DATA,
-        payload: { id, colName, newValue },
+        payload: { id, data },
       })
 
       return Promise.resolve(data)
@@ -140,7 +141,7 @@ export const modifyIngredientData = (id, colName, newValue) => (dispatch) => {
     (error) => {
       const message = extractErrMsg(error)
 
-      dispatch(setMessage({ ...message, id, colName }))
+      dispatch(setMessage({ ...message, id, data }))
 
       return Promise.reject(message)
     }

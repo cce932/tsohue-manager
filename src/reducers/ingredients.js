@@ -30,13 +30,13 @@ const ingredients = (state = initialState, action) => {
         allIngredients: state.allIngredients.concat(payload),
       }
     case MODIFY_INGREDIENT_DATA:
-      const { id: ingredientId, colName, newValue } = payload
+      const { id: ingredientId, data } = payload
 
       return {
         ...state,
         allIngredients: state.allIngredients.map((ingredient) => {
           if (ingredient.id === ingredientId) {
-            return { ...ingredient, [colName]: newValue }
+            return { ...data }
           }
           return ingredient
         }),

@@ -57,12 +57,10 @@ const updateOrderStatus = (id, status, token = authHeader()) => {
   )
 }
 
-const modifyIngredientData = (id, colName, newValue, token = authHeader()) => {
-  let body = { [colName]: newValue }
-
+const modifyIngredientData = (id, data, token = authHeader()) => {
   return axios.patch(
     TS_API + "/ingredient/update/" + id,
-    { ...body },
+    { ...data },
     { headers: token }
   )
 }
