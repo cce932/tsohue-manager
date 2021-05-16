@@ -2,6 +2,7 @@
 
 .recipe-step-item-editor {
   background-color: rgba($prime-color, 0.5); // for modal
+  z-index: 9999999;
 
   .modal-body {
     margin: 10px;
