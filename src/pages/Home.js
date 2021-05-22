@@ -4,6 +4,9 @@ import CountUp from "react-countup"
 
 import "shared/style/home.scss"
 import color from "shared/style/color"
+import { useSelector } from "react-redux"
+import { allPaths, login } from "shared/constants/pathname"
+import StyledSpinner from "shared/components/StyledSpinner"
 
 const newsContent = [
   {
@@ -77,35 +80,45 @@ const genData = () => ({
 
 const data = genData()
 
-const Home = () => (
-  <div className="home">
-    <div className="news-block left">
-      <div className="subject">最新消息</div>
-      {newsContent.map((item) => (
-        <Item {...{ ...item }} />
-      ))}
-    </div>
+const Home = () => {
+  const user = useSelector((state) => state.auth.user)
 
-    <div className="right">
-      <div>
-        <div className="subject">營收統計</div>
-        <Bar data={data} />
+  if (!user) {
+    window.location = allPaths[login]
+  }
+
+  return user ? (
+    <div className="home">
+      <div className="news-block left">
+        <div className="subject">最新消息</div>
+        {newsContent.map((item) => (
+          <Item {...{ ...item }} />
+        ))}
       </div>
 
-      <div className="order-count-block">
-        <div className="subject">累計訂單數</div>
-        <CountUp
-          start={0}
-          end={20623}
-          duration={2}
-          separator=","
-          decimals={0}
-          decimal="."
-          prefix="# "
-        />
+      <div className="right">
+        <div>
+          <div className="subject">營收統計</div>
+          <Bar data={data} />
+        </div>
+
+        <div className="order-count-block">
+          <div className="subject">累計訂單數</div>
+          <CountUp
+            start={0}
+            end={20623}
+            duration={2}
+            separator=","
+            decimals={0}
+            decimal="."
+            prefix="# "
+          />
+        </div>
       </div>
     </div>
-  </div>
-)
+  ) : (
+    <StyledSpinner />
+  )
+}
 
 export default Home
