@@ -8,7 +8,7 @@ import { history } from "helpers/history"
 import { clearMessage } from "actions/message"
 import { getCurrentEmployee } from "actions/loadData"
 import { VscThreeBars } from "react-icons/vsc"
-// import Home from "pages/Home"
+import Home from "pages/Home"
 import Login from "pages/Login"
 import ResetPwd from "pages/ResetPwd"
 import MemberManager from "pages/MemberManager"
@@ -243,7 +243,7 @@ const App = () => {
       </div>
       <div className={hidden ? "page switcher" : "page"}>
         <Switch>
-          {/* <Route exact path={["/", "/home"]} component={Home} /> */}
+          <Route exact path={["/", "/home"]} component={Home} />
           <Route exact path={`${allPaths[login]}`} component={Login} />
           <Route exact path={`${allPaths[profile]}`} component={Profile} />
           <Route exact path={`${allPaths[pwdReset]}`} component={ResetPwd} />

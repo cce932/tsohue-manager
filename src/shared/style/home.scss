@@ -1,0 +1,52 @@
+@import "global";
+
+.home {
+  margin: 50px 0;
+  width: 100%;
+  display: flex;
+
+  div.subject {
+    @include text(bold, 1.5rem, $accent-lighter-color-2);
+    border-bottom: 3px solid $fifth-color;
+    width: fit-content;
+    margin: 30px 20px;
+  }
+
+  div.left,
+  div.right {
+    padding-right: 50px;
+    flex: 1 1 50%;
+  }
+
+  div.news-block {
+    div.item {
+      margin: 15px;
+      padding: 15px;
+      box-shadow: $default-shadow;
+      border-radius: 10px;
+
+      .title {
+        @include text(normal, 1rem, $prime-color);
+      }
+      .date,
+      .department {
+        @include text(normal, 1rem, $prime-color);
+        float: right;
+        margin-left: 10px;
+      }
+
+      .body {
+        @include text(normal, 1rem, $third-color);
+        margin-top: 10px;
+      }
+    }
+  }
+
+  div.order-count-block {
+    text-align: center;
+
+    span {
+      @include text(normal, 3rem, $third-color);
+    }
+  }
+}
