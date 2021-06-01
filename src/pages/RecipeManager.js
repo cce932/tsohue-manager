@@ -161,19 +161,24 @@ const RecipeManager = () => {
   ]
 
   const handleDeleteRecipe = () => {
-    if (selectedId.length > 0) {
-      if (window.confirm(`確定刪除烹飪包ID: ${selectedId.toString()}？`)) {
-        dispatch(deleteRecipe(selectedId))
-          .then(() =>
-            addDialog(
-              `刪除烹飪包ID: ${selectedId.toString()}成功`,
-              color.success
-            )
-          )
-          .catch(() => addDialog(`刪除烹飪包失敗，請再試一次`, color.accent))
-        setSelectedId([])
-      }
-    }
+    window.alert(
+      "[告知測試的同學與師長] 目前不開放測試此刪除功能，避免影響到消費者平台"
+    )
+    return
+
+    // if (selectedId.length > 0) {
+    //   if (window.confirm(`確定刪除烹飪包ID: ${selectedId.toString()}？`)) {
+    //     dispatch(deleteRecipe(selectedId))
+    //       .then(() =>
+    //         addDialog(
+    //           `刪除烹飪包ID: ${selectedId.toString()}成功`,
+    //           color.success
+    //         )
+    //       )
+    //       .catch(() => addDialog(`刪除烹飪包失敗，請再試一次`, color.accent))
+    //     setSelectedId([])
+    //   }
+    // }
   }
 
   const handleCreateRecipe = () => {

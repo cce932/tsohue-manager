@@ -67,18 +67,6 @@ const AddIngredient = () => {
     setUnit(e.target.value)
   }
 
-  const clearInputs = () => {
-    document.getElementById("category").value = ""
-    document.getElementById("name").value = ""
-    document.getElementById("price").value = ""
-    document.getElementById("country").value = ""
-    document.getElementById("city").value = ""
-    document.getElementById("stock").value = ""
-    document.getElementById("safetyStock").value = ""
-    document.getElementById("unit").value = ""
-    document.getElementById("kcal").value = ""
-  }
-
   const handleAddIngredient = (e) => {
     e.preventDefault()
     form.current.validateAll()
@@ -98,7 +86,6 @@ const AddIngredient = () => {
         )
       ).then(
         (res) => {
-          clearInputs()
           addDialog(`新增「${res.name}」成功`, color.success)
         },
         () => addDialog(`新增失敗，食材已存在`, color.accent)

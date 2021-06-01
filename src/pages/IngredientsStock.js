@@ -383,23 +383,28 @@ const IngredientsStock = () => {
   ]
 
   const handleDeleteIngredient = () => {
-    if (selectedId.length > 0) {
-      if (window.confirm(`確定刪除食材ID: ${selectedId.toString()}？`)) {
-        dispatch(deleteIngredient(selectedId))
-          .then(() =>
-            addDialog(`刪除食材ID: ${selectedId.toString()}成功`, color.success)
-          )
-          .catch((error) =>
-            addDialog(
-              USED_INGREDIENT_DELETE_ERROR.test(error.message)
-                ? `刪除食材ID:${selectedId.toString()}失敗，尚有烹飪包需要此食材`
-                : `刪除食材失敗，請再試一次`,
-              color.accent
-            )
-          )
-        setSelectedId([])
-      }
-    }
+    window.alert(
+      "[告知測試的同學與師長] 目前不開放測試此刪除功能，避免影響到消費者平台"
+    )
+    return
+
+    // if (selectedId.length > 0) {
+    //   if (window.confirm(`確定刪除食材ID: ${selectedId.toString()}？`)) {
+    //     dispatch(deleteIngredient(selectedId))
+    //       .then(() =>
+    //         addDialog(`刪除食材ID: ${selectedId.toString()}成功`, color.success)
+    //       )
+    //       .catch((error) =>
+    //         addDialog(
+    //           USED_INGREDIENT_DELETE_ERROR.test(error.message)
+    //             ? `刪除食材ID:${selectedId.toString()}失敗，尚有烹飪包需要此食材`
+    //             : `刪除食材失敗，請再試一次`,
+    //           color.accent
+    //         )
+    //       )
+    //     setSelectedId([])
+    //   }
+    // }
   }
 
   // const rowEvents = {
