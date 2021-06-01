@@ -79,7 +79,7 @@ const Login = (props) => {
 
         <label htmlFor="password">密碼</label>
         <Input
-          type="text"
+          type="password"
           name="password"
           value={password}
           onChange={onChangePassword}

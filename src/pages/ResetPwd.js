@@ -20,8 +20,9 @@ const required = (value) => {
 }
 
 const validPassword = (value) => {
-  if (value.length < 8 || value.length > 20) {
-    return <div className="note">字數請介於8~20</div>
+  // if (value.length < 8 || value.length > 20) {
+  if (value.length > 20) {
+    return <div className="note">字數請小於20</div>
   }
 }
 
@@ -96,7 +97,7 @@ const ResetPwd = () => {
           <div className="form">
             <label>舊密碼</label>
             <Input
-              type="text"
+              type="password"
               name="oldPassword"
               onChange={onChangeOldPassword}
               value={oldPassword}
@@ -106,7 +107,7 @@ const ResetPwd = () => {
             <br />
             <label>新密碼</label>
             <Input
-              type="text"
+              type="password"
               name="newPassword"
               onChange={onChangeNewPassword}
               value={newPassword}
@@ -116,7 +117,7 @@ const ResetPwd = () => {
             <br />
             <label>密碼確認</label>
             <Input
-              type="text"
+              type="password"
               name="passwordCheck"
               onChange={onChangePasswordCheck}
               value={passwordCheck}

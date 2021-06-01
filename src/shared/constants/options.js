@@ -8,8 +8,8 @@ export const departmentOptions = {
   Transport: "物流管理",
   Sales: "業務",
   CustomerService: "客服",
-  CentralKitchen: "中央廚房管理(暫不可選)",
-  EmployeeManagement: "員工管理(暫不可選)",
+  // CentralKitchen: "中央廚房管理(暫不可選)",
+  // EmployeeManagement: "員工管理(暫不可選)",
 }
 
 export const titleOptions = {
@@ -19,7 +19,7 @@ export const titleOptions = {
 }
 
 export const VIPRoleOptions = {
-  ADMIN: "ADMIN",
+  // ADMIN: "ADMIN",
   EMPLOYEE: "EMPLOYEE",
 }
 
