@@ -143,7 +143,7 @@ const RecipeEditor = (props) => {
 
     dispatch(updateRecipe(id, _recipe))
       .then((res) => {
-        window.location = redirectPath + id.toString()
+        window.location = redirectPath
       })
       .catch((error) => {
         VERSION_DUPLICATED.test(error.debugMessage)
@@ -262,14 +262,14 @@ const RecipeEditor = (props) => {
             </Button>
 
             <Button
-              onClick={handleUpdateRecipe(allPaths[recipeStepEditor])}
+              onClick={handleUpdateRecipe(allPaths[recipeStepEditor] + id.toString())}
               className="save-all ts-default right"
             >
               教學步驟
               <BsChevronDoubleRight />
             </Button>
             <Button
-              onClick={handleUpdateRecipe(allPaths[recipeImageEditor])}
+              onClick={handleUpdateRecipe(allPaths[recipeImageEditor] + id.toString())}
               className="save-all ts-default right"
             >
               照片
