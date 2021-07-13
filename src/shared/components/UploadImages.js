@@ -29,42 +29,42 @@ const UploadImages = (props) => {
   }
 
   const upload = () => {
-    window.alert("[告知測試的同學與師長] 目前不開放測試此上傳功能，因金費限制而無法開通雲端同步服務。")
-    return
+    // window.alert("[告知測試的同學與師長] 目前不開放測試此上傳功能，因金費限制而無法開通雲端同步服務。")
+    // return
 
-    // let _progressInfos = []
+    let _progressInfos = []
 
-    // for (let i = 0; i < selectedFiles.length; i++) {
-    //   _progressInfos.push({ percentage: 0 })
+    for (let i = 0; i < selectedFiles.length; i++) {
+      _progressInfos.push({ percentage: 0 })
 
-    //   // In fact, progress-bar not working except the first one
-    //   dispatch(
-    //     uploadRecipeImage(selectedFiles[i], id, (e) => {
-    //       _progressInfos[i].percentage = Math.round((100 * e.loaded) / e.total)
-    //       setProgress(_progressInfos)
-    //     })
-    //   )
-    //     .then((data) => {
-    //       addDialog(`新增照片「${data.name}」成功`, color.success)
-    //     })
-    //     .catch(() => {
-    //       _progressInfos[i].percentage = 0
-    //       setProgress(_progressInfos)
-    //       addDialog(`新增照片「${selectedFiles[i].name}」失敗`, color.accent)
-    //     })
-    //     .then(() => {
-    //       if (i === selectedFiles.length - 1) {
-    //         setTimeout(() => {
-    //           dispatch(getImagesByRecipeId(id)).then((res) => {
-    //             const _previewLength = images.length
-    //             setImages(res)
-    //             setIndex(_previewLength + selectFiles.length - 1)
-    //             setSelectedFiles(undefined)
-    //           })
-    //         }, 1000) // getImages after waiting 1 sec because of the time of uploading
-    //       }
-    //     })
-    // }
+      // In fact, progress-bar not working except the first one
+      dispatch(
+        uploadRecipeImage(selectedFiles[i], id, (e) => {
+          _progressInfos[i].percentage = Math.round((100 * e.loaded) / e.total)
+          setProgress(_progressInfos)
+        })
+      )
+        .then((data) => {
+          addDialog(`新增照片「${data.name}」成功`, color.success)
+        })
+        .catch(() => {
+          _progressInfos[i].percentage = 0
+          setProgress(_progressInfos)
+          addDialog(`新增照片「${selectedFiles[i].name}」失敗`, color.accent)
+        })
+        .then(() => {
+          if (i === selectedFiles.length - 1) {
+            setTimeout(() => {
+              dispatch(getImagesByRecipeId(id)).then((res) => {
+                const _previewLength = images.length
+                setImages(res)
+                setIndex(_previewLength + selectFiles.length - 1)
+                setSelectedFiles(undefined)
+              })
+            }, 1000) // getImages after waiting 1 sec because of the time of uploading
+          }
+        })
+    }
   }
 
   const remove = () => {
