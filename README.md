@@ -25,9 +25,7 @@ Independently implement this front-end project, mainly including the following p
 4. ingredient management
 5. recipe management
 
-<p align="center">
-  <img alt="feature" src="https://user-images.githubusercontent.com/49086173/132608568-d7a33fec-31f4-4061-a63f-2a87b385aaf7.jpg">
-</p>
+![back stage_compress](https://user-images.githubusercontent.com/49086173/160806363-5e58728c-87b7-4104-a358-43438cbd4025.png)
 
 ## Running locally
 
